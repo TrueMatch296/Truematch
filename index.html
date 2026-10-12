@@ -55,10 +55,10 @@ function authView(){$("nv").style.display="none";$("m").innerHTML=head()+`<div c
 <p style="text-align:center"><button onclick="forgot()" style="border:0;background:none;font-size:14px;color:var(--co)">Olvidé mi contraseña</button></p></div>`}
 async function login(){const{error}=await sb.auth.signInWithPassword({email:$("em").value.trim(),password:$("pw").value});if(error)err(error)}
 async function signup(){const pw=$("pw").value;if(pw.length<8)return alert("La contraseña debe tener al menos 8 caracteres.");
- const{data,error}=await sb.auth.signUp({email:$("em").value.trim(),password:pw});if(error)return err(error);
+ const{data,error}=await sb.auth.signUp({email:$("em").value.trim(),password:pw,options:{emailRedirectTo:location.origin+location.pathname}});if(error)return err(error);
  if(!data.session)alert("Revisa tu correo y confirma tu cuenta. Luego vuelve y entra.")}
 async function forgot(){const e=$("em").value.trim();if(!e)return alert("Escribe tu correo arriba primero.");
- const{error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.href.split("#")[0]});error?err(error):alert("Si el correo existe, recibirás un enlace para cambiar tu contraseña.")}
+ const{error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.origin+location.pathname});error?err(error):alert("Si el correo existe, recibirás un enlace para cambiar tu contraseña.")}
 sb.auth.onAuthStateChange((ev,s)=>{U=s?s.user:null;setTimeout(()=>onAuth(ev),0)});
 async function onAuth(ev){if(ev==="PASSWORD_RECOVERY"){const p=prompt("Escribe tu nueva contraseña (mínimo 8 caracteres):");if(p&&p.length>=8){const{error}=await sb.auth.updateUser({password:p});error?err(error):alert("Contraseña cambiada.")}}
  clearInterval(poll);if(!U){ME=null;authView();return}
