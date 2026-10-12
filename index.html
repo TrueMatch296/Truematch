@@ -29,6 +29,7 @@ nav button{flex:1;border:0;background:none;font-size:11px;color:var(--mu);paddin
 .msg small{display:block;font-size:10px;opacity:.7;margin-top:2px}
 .li{display:flex;gap:12px;align-items:center;cursor:pointer}.mini{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:#ffe3c2;color:var(--co);flex:none}
 .note{font-size:13px;color:var(--mu);border:1px dashed var(--ln);padding:10px;border-radius:12px;margin:8px 0}
+.av,.mini{overflow:hidden}.av img,.mini img{width:100%;height:100%;object-fit:cover}
 </style></head><body><div id="app"><main id="m"><p class="mu s">Cargando…</p></main><nav id="nv" style="display:none"></nav></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
@@ -44,6 +45,10 @@ const age=d=>{const b=new Date(d),n=new Date();let a=n.getFullYear()-b.getFullYe
 const passes=()=>{try{return JSON.parse(localStorage.getItem("tm_pass_"+U.id)||"[]")}catch(e){return[]}};
 const addPass=id=>{try{localStorage.setItem("tm_pass_"+U.id,JSON.stringify([...passes(),id]))}catch(e){}};
 const tags=(a,b)=>(a||[]).map(x=>`<span class="tag ${b&&b.includes(x)?"on":""}">${esc(x)}</span>`).join("");
+const C={};
+async function urls(ps){const need=[...new Set(ps.filter(p=>p&&p.photo_path&&!C[p.photo_path]).map(p=>p.photo_path))];
+ if(need.length){const{data}=await sb.storage.from("avatars").createSignedUrls(need,3600);(data||[]).forEach(d=>{if(d.signedUrl)C[d.path]=d.signedUrl})}}
+const pic=p=>{const u=p.photo_path&&C[p.photo_path];return u?`<img src="${u}" alt="">`:esc(p.name[0])};
 const err=e=>alert("Error: "+(e&&e.message?e.message:e));
 function score(p){const A=ME.interests||[],B=p.interests||[],sh=A.filter(x=>B.includes(x)).length,un=new Set([...A,...B]).size||1;
  return Math.round(sh/un*70+(ME.goal===p.goal?30:(ME.goal==="Aún no lo sé"||p.goal==="Aún no lo sé")?12:0))}
@@ -83,7 +88,7 @@ async function disc(){
  const[{data:ps,error:e1},{data:ls}]=await Promise.all([sb.from("profiles").select("*").neq("id",U.id).limit(60),sb.from("likes").select("to_user").eq("from_user",U.id)]);
  if(e1)throw e1;const seen=new Set([...(ls||[]).map(x=>x.to_user),...passes()]);const q=(ps||[]).filter(p=>!seen.has(p.id));pend=q;const p=q[0];
  if(!p)return `<h2>Descubrir</h2><div class="card s"><h3>No hay más perfiles por ahora</h3><p class="mu">TrueMatch solo muestra personas que se registraron de verdad. Cuando se una más gente, aparecerán aquí.</p></div>`;
- const sc=score(p);return `<h2>Descubrir</h2><div class="card s"><div class="av">${esc(p.name[0])}</div>
+ await urls([p]);const sc=score(p);return `<h2>Descubrir</h2><div class="card s"><div class="av">${pic(p)}</div>
  <span class="badge ${p.verified?"v":""}">${p.verified?"Verificado":"Sin verificar"}</span><h2 style="margin-top:8px">${esc(p.name)}${ageTxt(p)}</h2><p class="mu">${esc(p.bio)}</p><p class="mu">Busca: ${esc(p.goal)}</p>${tags(p.interests,ME.interests)}
  <p style="font-size:14px;margin:10px 0 0">Compatibilidad estimada: <b>${sc}%</b></p><div class="bar"><i style="width:${sc}%"></i></div><p class="mu" style="font-size:12px">Estimación simple por intereses y objetivo. No es una garantía.</p></div>
  <div class="row act s"><button onclick="pass('${p.id}')">✕</button><button onclick="like('${p.id}',true)" style="color:#2d8cff">★</button><button onclick="like('${p.id}',false)" style="color:var(--co)">♥</button></div>
@@ -96,25 +101,30 @@ async function rep(id){const r=prompt("¿Por qué reportas este perfil? (spam, p
 async function blk(id){if(!confirm("¿Bloquear a esta persona?"))return;const{error}=await sb.from("blocks").insert({blocker:U.id,blocked:id});error?err(error):draw()}
 async function likes(){const{data}=await sb.from("likes").select("to_user,is_super").eq("from_user",U.id).order("created_at",{ascending:false});
  const ids=(data||[]).map(x=>x.to_user);if(!ids.length)return `<h2>Me gusta</h2><p class="mu s">Aún no has dado Me gusta.</p>`;
- const{data:ps}=await sb.from("profiles").select("id,name,birth_date,hide_age").in("id",ids);const m=Object.fromEntries((ps||[]).map(p=>[p.id,p]));
- return `<h2>Me gusta</h2>`+(data||[]).filter(x=>m[x.to_user]).map(x=>`<div class="card li s"><div class="mini">${esc(m[x.to_user].name[0])}</div><div><b>${esc(m[x.to_user].name)}${ageTxt(m[x.to_user])}</b> ${x.is_super?"★":""}<div class="mu">Enviado</div></div></div>`).join("")}
+ const{data:ps}=await sb.from("profiles").select("id,name,birth_date,hide_age,photo_path").in("id",ids);await urls(ps||[]);const m=Object.fromEntries((ps||[]).map(p=>[p.id,p]));
+ return `<h2>Me gusta</h2>`+(data||[]).filter(x=>m[x.to_user]).map(x=>`<div class="card li s"><div class="mini">${pic(m[x.to_user])}</div><div><b>${esc(m[x.to_user].name)}${ageTxt(m[x.to_user])}</b> ${x.is_super?"★":""}<div class="mu">Enviado</div></div></div>`).join("")}
 async function myMatches(){const{data}=await sb.from("matches").select("*").order("created_at",{ascending:false});const o=(data||[]).map(m=>({id:m.id,o:m.user_a===U.id?m.user_b:m.user_a}));
- if(!o.length)return[];const{data:ps}=await sb.from("profiles").select("*").in("id",o.map(x=>x.o));const pm=Object.fromEntries((ps||[]).map(p=>[p.id,p]));return o.filter(x=>pm[x.o]).map(x=>({id:x.id,p:pm[x.o]}))}
-async function matches(){const l=await myMatches();return `<h2>Matches</h2><p class="mu s">Solo hay match cuando ambas personas se dan Me gusta.</p>`+(l.length?l.map(x=>`<div class="card li s" onclick="tab='c';chatM=${x.id};draw()"><div class="mini">${esc(x.p.name[0])}</div><div><b>${esc(x.p.name)}${ageTxt(x.p)}</b><div class="mu">${score(x.p)}% compatible (estimado)</div></div></div>`).join(""):`<p class="mu s">Aún no tienes matches.</p>`)}
+ if(!o.length)return[];const{data:ps}=await sb.from("profiles").select("*").in("id",o.map(x=>x.o));await urls(ps||[]);const pm=Object.fromEntries((ps||[]).map(p=>[p.id,p]));return o.filter(x=>pm[x.o]).map(x=>({id:x.id,p:pm[x.o]}))}
+async function matches(){const l=await myMatches();return `<h2>Matches</h2><p class="mu s">Solo hay match cuando ambas personas se dan Me gusta.</p>`+(l.length?l.map(x=>`<div class="card li s" onclick="tab='c';chatM=${x.id};draw()"><div class="mini">${pic(x.p)}</div><div><b>${esc(x.p.name)}${ageTxt(x.p)}</b><div class="mu">${score(x.p)}% compatible (estimado)</div></div></div>`).join(""):`<p class="mu s">Aún no tienes matches.</p>`)}
 async function chat(){
  if(chatM){const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}
   return `<button class="s" onclick="chatM=null;draw()">← Chats</button><h3 style="margin-top:10px">${esc(x.p.name)}</h3><div class="note s">Los mensajes se guardan en el servidor de TrueMatch (Supabase) y solo los ven ustedes dos. No están cifrados de extremo a extremo.</div>
   <div id="ms" class="s"></div><div class="row s" style="margin-top:10px"><input id="mi" placeholder="Escribe un mensaje" maxlength="2000" style="margin:0;flex:3"><button class="p" onclick="send()">Enviar</button></div>`+`<img src="data:," style="display:none" onerror="refreshMsgs()">`}
- const l=await myMatches();return `<h2>Chat</h2>`+(l.length?l.map(x=>`<div class="card li s" onclick="chatM=${x.id};draw()"><div class="mini">${esc(x.p.name[0])}</div><b>${esc(x.p.name)}</b></div>`).join(""):`<p class="mu s">Cuando tengas un match podrás chatear aquí.</p>`)}
+ const l=await myMatches();return `<h2>Chat</h2>`+(l.length?l.map(x=>`<div class="card li s" onclick="chatM=${x.id};draw()"><div class="mini">${pic(x.p)}</div><b>${esc(x.p.name)}</b></div>`).join(""):`<p class="mu s">Cuando tengas un match podrás chatear aquí.</p>`)}
 async function refreshMsgs(){const el=$("ms");if(!el||!chatM)return;const{data,error}=await sb.from("messages").select("*").eq("match_id",chatM).order("created_at");if(error)return;
  el.innerHTML=(data||[]).map(x=>`<div class="msg ${x.sender===U.id?"me":"ot"}">${esc(x.body)}<small>${new Date(x.created_at).toLocaleString("es")}</small></div>`).join("")}
 async function send(){const v=$("mi").value.trim();if(!v)return;const{error}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:v});if(error)return err(error);$("mi").value="";refreshMsgs()}
-async function prof(){return `<h2>Perfil</h2><div class="card s"><b>${esc(ME.name)}, ${age(ME.birth_date)}</b> <span class="badge ${ME.verified?"v":""}">${ME.verified?"Verificado":"Sin verificar"}</span>
+async function prof(){await urls([ME]);return `<h2>Perfil</h2><div class="card s"><div class="av" style="height:170px">${pic(ME)}</div><label style="display:block;margin-bottom:8px">Foto de perfil (se reduce y se le quitan los datos de ubicación)</label><input type="file" accept="image/*" onchange="upPhoto(this)"><b>${esc(ME.name)}, ${age(ME.birth_date)}</b> <span class="badge ${ME.verified?"v":""}">${ME.verified?"Verificado":"Sin verificar"}</span>
 <p class="mu">${esc(ME.bio)||"Sin biografía"}</p><p class="mu">Busca: ${esc(ME.goal)}</p>${tags(ME.interests)}
 <label style="display:block;margin-top:12px"><input type="checkbox" style="width:auto;margin-right:8px" ${ME.hide_age?"checked":""} onchange="hideAge(this.checked)">Ocultar mi edad a otros</label>
 <p class="mu" style="font-size:12px">La insignia de verificado solo aparece si un administrador verifica tu cuenta manualmente. Hoy no hay verificación automática.</p></div>
 <div class="card s"><h3>Normas de la comunidad</h3><p class="mu">Sé respetuoso/a, usa datos reales, no pidas dinero, no acoses. Reporta perfiles sospechosos.</p><h3>Privacidad</h3><p class="mu">Guardamos tu correo, perfil, Me gusta, matches y mensajes. Sin reconocimiento facial ni biométricos. La compatibilidad es una fórmula simple, sin IA externa.</p></div>
 <div class="card s"><button onclick="sb.auth.signOut()">Cerrar sesión</button><button style="margin-top:8px;color:#d33" onclick="del()">Eliminar mi perfil y datos</button></div>`}
+async function upPhoto(inp){const f=inp.files[0];if(!f)return;if(!f.type.startsWith("image/"))return alert("Elige una imagen.");
+ try{const bm=await createImageBitmap(f);const k=Math.min(1,720/Math.max(bm.width,bm.height));const c=document.createElement("canvas");c.width=Math.round(bm.width*k);c.height=Math.round(bm.height*k);c.getContext("2d").drawImage(bm,0,0,c.width,c.height);
+ const blob=await new Promise(r=>c.toBlob(r,"image/jpeg",0.85));const path=U.id+"/main.jpg";
+ const{error}=await sb.storage.from("avatars").upload(path,blob,{upsert:true,contentType:"image/jpeg"});if(error)return err(error);
+ const{error:e2}=await sb.from("profiles").update({photo_path:path}).eq("id",U.id);if(e2)return err(e2);ME.photo_path=path;delete C[path];draw()}catch(e){err(e)}}
 async function hideAge(v){const{error}=await sb.from("profiles").update({hide_age:v}).eq("id",U.id);error?err(error):ME.hide_age=v}
 async function del(){if(!confirm("Se borrará tu perfil, Me gusta, matches y mensajes. ¿Seguro?"))return;const{error}=await sb.from("profiles").delete().eq("id",U.id);if(error)return err(error);alert("Perfil y datos borrados. Tu correo de acceso sigue existiendo hasta que el administrador lo elimine.");sb.auth.signOut()}
 </script></body></html>
