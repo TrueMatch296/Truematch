@@ -54,12 +54,51 @@ function score(p){const A=ME.interests||[],B=p.interests||[],sh=A.filter(x=>B.in
  return Math.round(sh/un*70+(ME.goal===p.goal?30:(ME.goal==="Aún no lo sé"||p.goal==="Aún no lo sé")?12:0))}
 const ageTxt=p=>p.hide_age?"":", "+age(p.birth_date);
 function head(){return `<h1><span class="logo">TrueMatch</span></h1><p class="mu">Conexiones reales. Personas auténticas.</p>`}
+const CONTACTO="(correo de contacto por definir)";
+const NOTA='<p class="mu">Última actualización: 12 de octubre de 2026. Documento preparado con asistencia de IA a partir de normas públicas; no sustituye el consejo de un abogado.</p>';
+const LEGAL={
+t:`<h2>Términos de uso</h2>${NOTA}
+<h3>1. Qué es TrueMatch</h3><p>TrueMatch es un servicio para conocer personas con intereses y objetivos afines. Hoy es gratuito. Al crear una cuenta aceptas estos Términos, la Política de Privacidad y las Normas de la comunidad.</p>
+<h3>2. Edad mínima</h3><p>Solo pueden usar TrueMatch personas de 18 años o más. Si detectamos una cuenta de una persona menor de edad, la eliminamos. Si conoces un caso, repórtalo.</p>
+<h3>3. Tu cuenta</h3><p>Debes dar datos verdaderos, tener una sola cuenta, no hacerte pasar por otra persona y cuidar tu contraseña.</p>
+<h3>4. Conducta y moderación</h3><p>Debes cumplir las Normas de la comunidad. Los reportes se revisan manualmente. Podemos retirar contenido y suspender o eliminar cuentas que incumplan las normas o la ley.</p>
+<h3>5. Tu contenido</h3><p>Tus fotos y textos siguen siendo tuyos. Nos autorizas a mostrarlos a otros usuarios dentro del servicio mientras tu cuenta exista. No subas fotos de otras personas sin su permiso ni contenido ilegal.</p>
+<h3>6. Seguridad personal</h3><p>No podemos comprobar quién es cada persona: la insignia de verificado solo aparece si un administrador la otorga manualmente. La compatibilidad es una estimación, no una garantía. Si te reúnes con alguien, hazlo en un lugar público y avisa a alguien de confianza.</p>
+<h3>7. Costos y publicidad</h3><p>El servicio es gratuito. Si en el futuro hubiera cobros, anuncios o patrocinios, se avisará con claridad y anticipación, y no se cobrará nada sin tu consentimiento.</p>
+<h3>8. Borrar tu cuenta</h3><p>Puedes borrar tu cuenta y tus datos cuando quieras desde Perfil.</p>
+<h3>9. Responsabilidad</h3><p>El servicio se ofrece "tal cual" y puede tener interrupciones. En la medida permitida por la ley, TrueMatch no responde por la conducta de otros usuarios. Esto no limita derechos que la ley de tu país no permita renunciar.</p>
+<h3>10. Ley aplicable y contacto</h3><p>Se aplican las leyes de la República Bolivariana de Venezuela, sin perjuicio de las normas obligatorias de protección al consumidor o de datos de tu país de residencia. Contacto: ${CONTACTO}.</p>
+<h3>11. Cambios</h3><p>Si cambiamos estos términos de forma importante, te avisaremos en la app.</p>`,
+p:`<h2>Política de privacidad</h2>${NOTA}
+<h3>Responsable</h3><p>TrueMatch. Contacto para privacidad: ${CONTACTO}.</p>
+<h3>Datos que guardamos</h3><p>Correo y contraseña (la contraseña la protege el proveedor de autenticación; nosotros no la vemos); nombre, fecha de nacimiento, biografía, intereses, objetivo y foto de perfil (se le quitan los datos de ubicación del archivo); tus Me gusta, matches, mensajes, bloqueos y reportes; la fecha en que aceptaste los términos. El proveedor puede registrar datos técnicos (como la dirección IP) por seguridad.</p>
+<h3>Datos que NO recolectamos</h3><p>Ubicación, contactos del teléfono, documentos de identidad, reconocimiento facial ni datos biométricos.</p>
+<h3>Para qué los usamos</h3><p>Para operar el servicio, mostrar perfiles, crear matches, permitir chats, calcular una compatibilidad estimada con una fórmula simple (sin inteligencia artificial externa) y mantener la seguridad y la moderación.</p>
+<h3>Quién ve qué</h3><p>Otros usuarios registrados ven tu nombre, edad (si no la ocultas), biografía, intereses, objetivo y foto. Tu correo nunca se muestra. Tus mensajes solo los ve la otra persona del chat. Los mensajes no están cifrados de extremo a extremo: el administrador del servicio puede acceder técnicamente a los datos para moderación y soporte. No vendemos tus datos ni los compartimos con anunciantes.</p>
+<h3>Proveedores</h3><p>Usamos Supabase (base de datos, autenticación y almacenamiento de fotos) y GitHub Pages (alojamiento de la página). Tus datos pueden procesarse en servidores fuera de tu país.</p>
+<h3>Cuánto tiempo los conservamos</h3><p>Mientras tu cuenta exista. Si la borras desde Perfil, se eliminan tu cuenta de acceso, perfil, foto, Me gusta, matches, mensajes y registros asociados. Las copias de seguridad del proveedor, si existen, se sobrescriben con el tiempo.</p>
+<h3>Tus derechos</h3><p>Puedes pedir acceso, corrección, eliminación, oposición o una copia de tus datos escribiendo a ${CONTACTO}; responderemos en un plazo razonable (objetivo: 30 días). La eliminación también puedes hacerla tú mismo en Perfil. Esto está pensado para respetar el artículo 28 de la Constitución de Venezuela (acceso, rectificación y supresión de datos) y normas como el RGPD europeo, la ley de California, la LGPD de Brasil y otras leyes de tu país.</p>
+<h3>Menores</h3><p>TrueMatch es solo para mayores de 18 años y no recolecta datos de menores a sabiendas.</p>
+<h3>Seguridad</h3><p>Usamos conexión cifrada (HTTPS) y reglas de acceso que limitan qué datos puede leer cada persona. Ningún sistema es 100% seguro. Si ocurriera una brecha que te afecte, te avisaremos como lo exija la ley.</p>
+<h3>Cookies y almacenamiento local</h3><p>Usamos el almacenamiento del navegador solo para mantener tu sesión y recordar los perfiles que pasaste. No usamos cookies de publicidad ni rastreadores de terceros.</p>`,
+n:`<h2>Normas de la comunidad</h2>${NOTA}
+<p>TrueMatch es para conocer personas reales con respeto. Está prohibido:</p>
+<p>• Ser menor de 18 años o interactuar de forma sexual con menores.<br>• Perfiles falsos, suplantación de identidad o fotos de otras personas.<br>• Acoso, amenazas, discurso de odio o discriminación.<br>• Desnudos, contenido sexual explícito o violento.<br>• Estafas, pedir dinero, vender cosas, publicidad o spam.<br>• Compartir datos privados de otras personas.<br>• Cualquier actividad ilegal.</p>
+<h3>Qué hacemos si se incumplen</h3><p>Podemos retirar contenido, suspender o eliminar cuentas y, cuando la ley lo exija, avisar a las autoridades.</p>
+<h3>Cómo protegerte</h3><p>Usa <b>Reportar</b> y <b>Bloquear</b> en cualquier perfil o chat. No envíes dinero ni datos bancarios. Reúnete en lugares públicos y avisa a alguien de confianza.</p>`,
+i:`<h2>Seguridad infantil</h2>${NOTA}
+<p>TrueMatch tiene tolerancia cero con el abuso y la explotación sexual infantil. Solo se permite el uso a personas de 18 años o más.</p>
+<p>• Puedes reportar cualquier perfil o mensaje desde la app con el botón Reportar.<br>• Si recibimos un reporte de este tipo, retiramos el contenido, cerramos la cuenta y, cuando corresponda, lo informamos a las autoridades competentes.<br>• Persona de contacto para temas de seguridad infantil: ${CONTACTO}.</p>
+<p>Si sabes de un menor en peligro, avisa también a las autoridades de tu país o a la línea de ayuda local.</p>`};
+function lg(k){let o=$("lg");if(!o){o=document.createElement("div");o.id="lg";o.style.cssText="position:fixed;inset:0;background:var(--bg);overflow:auto;z-index:9;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 40px;max-width:440px;margin:0 auto";document.body.appendChild(o)}
+ o.style.display="block";o.innerHTML=`<button class="s" onclick="$('lg').style.display='none'">← Cerrar</button><div class="s" style="line-height:1.5;font-size:15px;margin-top:10px">${LEGAL[k]}</div>`;o.scrollTop=0;return false}
+const LK='<a href="#" onclick="return lg(\'t\')">Términos</a>, <a href="#" onclick="return lg(\'p\')">Privacidad</a> y <a href="#" onclick="return lg(\'n\')">Normas</a>';
 function authView(){$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card s"><h3>Entrar o crear cuenta</h3>
 <label>Correo</label><input id="em" type="email" autocomplete="email"><label>Contraseña (mínimo 8 caracteres)</label><input id="pw" type="password" autocomplete="current-password">
-<div class="row"><button class="p" onclick="login()">Entrar</button><button onclick="signup()">Crear cuenta</button></div>
+<label style="display:block;margin-bottom:10px"><input type="checkbox" id="ok1" style="width:auto;margin-right:8px">Para crear cuenta: tengo 18 años o más y acepto los ${LK}.</label><div class="row"><button class="p" onclick="login()">Entrar</button><button onclick="signup()">Crear cuenta</button></div>
 <p style="text-align:center"><button onclick="forgot()" style="border:0;background:none;font-size:14px;color:var(--co)">Olvidé mi contraseña</button></p></div>`}
 async function login(){const{error}=await sb.auth.signInWithPassword({email:$("em").value.trim(),password:$("pw").value});if(error)err(error)}
-async function signup(){const pw=$("pw").value;if(pw.length<8)return alert("La contraseña debe tener al menos 8 caracteres.");
+async function signup(){const pw=$("pw").value;if(!$("ok1").checked)return alert("Para crear tu cuenta confirma que tienes 18 años o más y aceptas los términos.");if(pw.length<8)return alert("La contraseña debe tener al menos 8 caracteres.");
  const{data,error}=await sb.auth.signUp({email:$("em").value.trim(),password:pw,options:{emailRedirectTo:location.origin+location.pathname}});if(error)return err(error);
  if(!data.session)alert("Revisa tu correo y confirma tu cuenta. Luego vuelve y entra.")}
 async function forgot(){const e=$("em").value.trim();if(!e)return alert("Escribe tu correo arriba primero.");
@@ -72,12 +111,12 @@ function setupView(){$("nv").style.display="none";$("m").innerHTML=head()+`<div 
 <label>Fecha de nacimiento (mínimo 18 años)</label><input id="dob" type="date"><label>Biografía</label><textarea id="bio" rows="3" maxlength="300"></textarea>
 <label>Objetivo</label><select id="g">${GOALS.map(g=>`<option>${g}</option>`).join("")}</select><label>Intereses</label><div id="ints">${INT.map(x=>`<span class="tag" onclick="this.classList.toggle('on')">${x}</span>`).join("")}</div>
 <div class="note">Tu nombre, biografía, intereses y edad (si no la ocultas) serán visibles para otros usuarios registrados. Tu correo nunca se muestra.</div>
-<label><input type="checkbox" id="ok" style="width:auto;margin-right:8px">Acepto las normas de la comunidad y la privacidad (en Perfil).</label>
+<label><input type="checkbox" id="ok" style="width:auto;margin-right:8px">Confirmo que tengo 18 años o más y acepto los ${LK}.</label>
 <button class="p" style="width:100%;margin-top:10px" onclick="mk()">Guardar perfil</button><button style="width:100%;margin-top:8px" onclick="sb.auth.signOut()">Salir</button></div>`}
 async function mk(){const n=$("n").value.trim(),d=$("dob").value;if(!n||!d)return alert("Completa nombre y fecha.");
  if(age(d)<18)return alert("TrueMatch es solo para mayores de 18 años.");if(!$("ok").checked)return alert("Debes aceptar las normas.");
  const i=[...document.querySelectorAll("#ints .on")].map(e=>e.textContent);if(!i.length)return alert("Elige al menos un interés.");
- const{data,error}=await sb.from("profiles").insert({id:U.id,name:n,birth_date:d,bio:$("bio").value,interests:i,goal:$("g").value}).select().single();
+ const{data,error}=await sb.from("profiles").insert({id:U.id,name:n,birth_date:d,bio:$("bio").value,interests:i,goal:$("g").value,terms_accepted_at:new Date().toISOString(),terms_version:"2026-10-12"}).select().single();
  if(error)return err(error);ME=data;draw()}
 const T=[["d","♡","Descubrir"],["l","♥","Me gusta"],["m","✦","Matches"],["c","💬","Chat"],["p","☺","Perfil"]];
 async function draw(){clearInterval(poll);$("nv").style.display="flex";
@@ -108,7 +147,7 @@ async function myMatches(){const{data}=await sb.from("matches").select("*").orde
 async function matches(){const l=await myMatches();return `<h2>Matches</h2><p class="mu s">Solo hay match cuando ambas personas se dan Me gusta.</p>`+(l.length?l.map(x=>`<div class="card li s" onclick="tab='c';chatM=${x.id};draw()"><div class="mini">${pic(x.p)}</div><div><b>${esc(x.p.name)}${ageTxt(x.p)}</b><div class="mu">${score(x.p)}% compatible (estimado)</div></div></div>`).join(""):`<p class="mu s">Aún no tienes matches.</p>`)}
 async function chat(){
  if(chatM){const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}
-  return `<button class="s" onclick="chatM=null;draw()">← Chats</button><h3 style="margin-top:10px">${esc(x.p.name)}</h3><div class="note s">Los mensajes se guardan en el servidor de TrueMatch (Supabase) y solo los ven ustedes dos. No están cifrados de extremo a extremo.</div>
+  return `<button class="s" onclick="chatM=null;draw()">← Chats</button><h3 style="margin-top:10px">${esc(x.p.name)}</h3><div class="row s" style="margin:8px 0"><button onclick="rep('${x.p.id}')">Reportar</button><button onclick="blk('${x.p.id}')">Bloquear</button></div><div class="note s">Los mensajes se guardan en el servidor de TrueMatch (Supabase) y solo los ven ustedes dos. No están cifrados de extremo a extremo.</div>
   <div id="ms" class="s"></div><div class="row s" style="margin-top:10px"><input id="mi" placeholder="Escribe un mensaje" maxlength="2000" style="margin:0;flex:3"><button class="p" onclick="send()">Enviar</button></div>`+`<img src="data:," style="display:none" onerror="refreshMsgs()">`}
  const l=await myMatches();return `<h2>Chat</h2>`+(l.length?l.map(x=>`<div class="card li s" onclick="chatM=${x.id};draw()"><div class="mini">${pic(x.p)}</div><b>${esc(x.p.name)}</b></div>`).join(""):`<p class="mu s">Cuando tengas un match podrás chatear aquí.</p>`)}
 async function refreshMsgs(){const el=$("ms");if(!el||!chatM)return;const{data,error}=await sb.from("messages").select("*").eq("match_id",chatM).order("created_at");if(error)return;
@@ -118,7 +157,7 @@ async function prof(){await urls([ME]);return `<h2>Perfil</h2><div class="card s
 <p class="mu">${esc(ME.bio)||"Sin biografía"}</p><p class="mu">Busca: ${esc(ME.goal)}</p>${tags(ME.interests)}
 <label style="display:block;margin-top:12px"><input type="checkbox" style="width:auto;margin-right:8px" ${ME.hide_age?"checked":""} onchange="hideAge(this.checked)">Ocultar mi edad a otros</label>
 <p class="mu" style="font-size:12px">La insignia de verificado solo aparece si un administrador verifica tu cuenta manualmente. Hoy no hay verificación automática.</p></div>
-<div class="card s"><h3>Normas de la comunidad</h3><p class="mu">Sé respetuoso/a, usa datos reales, no pidas dinero, no acoses. Reporta perfiles sospechosos.</p><h3>Privacidad</h3><p class="mu">Guardamos tu correo, perfil, Me gusta, matches y mensajes. Sin reconocimiento facial ni biométricos. La compatibilidad es una fórmula simple, sin IA externa.</p></div>
+<div class="card s"><h3>Legal y seguridad</h3><p><a href="#" onclick="return lg('t')">Términos de uso</a><br><a href="#" onclick="return lg('p')">Política de privacidad</a><br><a href="#" onclick="return lg('n')">Normas de la comunidad</a><br><a href="#" onclick="return lg('i')">Seguridad infantil</a></p><p class="mu" style="font-size:12px">Contacto: ${CONTACTO}</p></div>
 <div class="card s"><button onclick="sb.auth.signOut()">Cerrar sesión</button><button style="margin-top:8px;color:#d33" onclick="del()">Eliminar mi perfil y datos</button></div>`}
 async function upPhoto(inp){const f=inp.files[0];if(!f)return;if(!f.type.startsWith("image/"))return alert("Elige una imagen.");
  try{const bm=await createImageBitmap(f);const k=Math.min(1,720/Math.max(bm.width,bm.height));const c=document.createElement("canvas");c.width=Math.round(bm.width*k);c.height=Math.round(bm.height*k);c.getContext("2d").drawImage(bm,0,0,c.width,c.height);
@@ -126,5 +165,8 @@ async function upPhoto(inp){const f=inp.files[0];if(!f)return;if(!f.type.startsW
  const{error}=await sb.storage.from("avatars").upload(path,blob,{upsert:true,contentType:"image/jpeg"});if(error)return err(error);
  const{error:e2}=await sb.from("profiles").update({photo_path:path}).eq("id",U.id);if(e2)return err(e2);ME.photo_path=path;delete C[path];draw()}catch(e){err(e)}}
 async function hideAge(v){const{error}=await sb.from("profiles").update({hide_age:v}).eq("id",U.id);error?err(error):ME.hide_age=v}
-async function del(){if(!confirm("Se borrará tu perfil, Me gusta, matches y mensajes. ¿Seguro?"))return;const{error}=await sb.from("profiles").delete().eq("id",U.id);if(error)return err(error);alert("Perfil y datos borrados. Tu correo de acceso sigue existiendo hasta que el administrador lo elimine.");sb.auth.signOut()}
+async function del(){if(!confirm("Se borrarán tu cuenta, perfil, foto, Me gusta, matches y mensajes. No se puede deshacer. ¿Seguro?"))return;
+ try{await sb.storage.from("avatars").remove([U.id+"/main.jpg"])}catch(e){}
+ const{error}=await sb.rpc("delete_my_account");if(error)return err(error);
+ alert("Tu cuenta y tus datos fueron eliminados.");await sb.auth.signOut()}
 </script></body></html>
