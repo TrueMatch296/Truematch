@@ -29,12 +29,13 @@ nav button{flex:1;border:0;background:none;font-size:11px;color:var(--mu);paddin
 .msg small{display:block;font-size:10px;opacity:.7;margin-top:2px}
 .li{display:flex;gap:12px;align-items:center;cursor:pointer}.mini{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:#ffe3c2;color:var(--co);flex:none}
 .note{font-size:13px;color:var(--mu);border:1px dashed var(--ln);padding:10px;border-radius:12px;margin:8px 0}
-</style></head><body><div id="app"><main id="m"></main><nav id="nv" style="display:none"></nav></div>
+</style></head><body><div id="app"><main id="m"><p class="mu s">Cargando…</p></main><nav id="nv" style="display:none"></nav></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 const SB_URL="https://wuolzromjabdswklfnky.supabase.co",SB_KEY="sb_publishable_ufXIZPYH9h46I6bRgVk_gw_DucREjlY";
 const INT=["Viajar","Música","Cine","Cocinar","Senderismo","Lectura","Deporte","Arte","Mascotas","Videojuegos","Baile","Fotografía"];
 const GOALS=["Relación seria","Algo casual","Amistad primero","Aún no lo sé"];
+window.onerror=(m)=>{$("m").innerHTML='<div class="note s">Error en la página: '+m+'</div>'};
 const sb=supabase.createClient(SB_URL,SB_KEY);
 let U=null,ME=null,tab="d",chatM=null,poll=null,pend=[];
 const $=i=>document.getElementById(i);
@@ -58,9 +59,10 @@ async function signup(){const pw=$("pw").value;if(pw.length<8)return alert("La c
  if(!data.session)alert("Revisa tu correo y confirma tu cuenta. Luego vuelve y entra.")}
 async function forgot(){const e=$("em").value.trim();if(!e)return alert("Escribe tu correo arriba primero.");
  const{error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.href.split("#")[0]});error?err(error):alert("Si el correo existe, recibirás un enlace para cambiar tu contraseña.")}
-sb.auth.onAuthStateChange(async(ev,s)=>{if(ev==="PASSWORD_RECOVERY"){const p=prompt("Escribe tu nueva contraseña (mínimo 8 caracteres):");if(p&&p.length>=8){const{error}=await sb.auth.updateUser({password:p});error?err(error):alert("Contraseña cambiada.")}}
- U=s?s.user:null;clearInterval(poll);if(!U){ME=null;authView();return}
- const{data}=await sb.from("profiles").select("*").eq("id",U.id).maybeSingle();ME=data;ME?draw():setupView()});
+sb.auth.onAuthStateChange((ev,s)=>{U=s?s.user:null;setTimeout(()=>onAuth(ev),0)});
+async function onAuth(ev){if(ev==="PASSWORD_RECOVERY"){const p=prompt("Escribe tu nueva contraseña (mínimo 8 caracteres):");if(p&&p.length>=8){const{error}=await sb.auth.updateUser({password:p});error?err(error):alert("Contraseña cambiada.")}}
+ clearInterval(poll);if(!U){ME=null;authView();return}
+ const{data}=await sb.from("profiles").select("*").eq("id",U.id).maybeSingle();ME=data;ME?draw():setupView()}
 function setupView(){$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card s"><h3>Crea tu perfil</h3><label>Nombre</label><input id="n" maxlength="40">
 <label>Fecha de nacimiento (mínimo 18 años)</label><input id="dob" type="date"><label>Biografía</label><textarea id="bio" rows="3" maxlength="300"></textarea>
 <label>Objetivo</label><select id="g">${GOALS.map(g=>`<option>${g}</option>`).join("")}</select><label>Intereses</label><div id="ints">${INT.map(x=>`<span class="tag" onclick="this.classList.toggle('on')">${x}</span>`).join("")}</div>
