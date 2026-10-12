@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TrueMatch</title>
+<style>
+:root{--bg:#fbf5ea;--card:#fff;--tx:#2b2220;--mu:#8a7b74;--co:#ff6b6b;--co2:#ff8e72;--ln:#eadfce}
+@media (prefers-color-scheme:dark){:root{--bg:#1d1715;--card:#2a211e;--tx:#f6ece4;--mu:#b3a299;--ln:#3b2f2a}}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font-family:Georgia,serif;display:flex;justify-content:center}
+#app{width:100%;max-width:440px;height:100%;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+main{flex:1;overflow-y:auto;padding:16px}
+h1,h2,h3{margin:0 0 8px;font-weight:600}h1{font-size:28px}
+.s,button,input,textarea,select,nav{font-family:-apple-system,"Helvetica Neue",Arial,sans-serif}
+.logo{color:var(--co);font-style:italic}.mu{color:var(--mu);font-size:14px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:22px;padding:16px;margin-bottom:12px;box-shadow:0 6px 20px rgba(120,70,50,.08);animation:in .3s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.av{height:190px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:80px;margin-bottom:12px;background:linear-gradient(135deg,#ffd6d6,#ffe3c2);color:var(--co)}
+.tag{display:inline-block;padding:4px 10px;border-radius:99px;background:var(--bg);border:1px solid var(--ln);font-size:13px;margin:2px 4px 2px 0}.tag.on{background:var(--co);color:#fff;border-color:var(--co)}
+.badge{font-size:12px;padding:3px 8px;border-radius:8px;background:var(--bg);color:var(--mu)}.badge.v{background:#d4f0dd;color:#14602a}
+.bar{height:8px;border-radius:9px;background:var(--ln);overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--co),var(--co2))}
+button{border-radius:14px;padding:12px 16px;font-size:16px;cursor:pointer;background:var(--card);color:var(--tx);border:1px solid var(--ln)}
+button.p{background:linear-gradient(135deg,var(--co),var(--co2));color:#fff;border:0}
+.row{display:flex;gap:10px}.row>*{flex:1}.act{justify-content:center}.act button{font-size:26px;border-radius:50%;height:62px;width:62px;flex:none;padding:0}
+input,textarea,select{width:100%;padding:12px;border-radius:12px;border:1px solid var(--ln);background:var(--card);color:var(--tx);font-size:16px;margin:4px 0 10px}
+label{font-size:14px;color:var(--mu)}
+nav{display:flex;border-top:1px solid var(--ln);background:var(--card);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+nav button{flex:1;border:0;background:none;font-size:11px;color:var(--mu);padding:6px 0}nav button b{display:block;font-size:20px;font-weight:400}nav button.on{color:var(--co)}
+.msg{max-width:78%;padding:9px 12px;border-radius:16px;margin:4px 0;font-size:15px}.me{background:var(--co);color:#fff;margin-left:auto}.ot{background:var(--card);border:1px solid var(--ln)}
+.msg small{display:block;font-size:10px;opacity:.7;margin-top:2px}
+.li{display:flex;gap:12px;align-items:center;cursor:pointer}.mini{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:#ffe3c2;color:var(--co);flex:none}
+.note{font-size:13px;color:var(--mu);border:1px dashed var(--ln);padding:10px;border-radius:12px;margin:8px 0}
+</style></head><body><div id="app"><main id="m"></main><nav id="nv" style="display:none"></nav></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const SB_URL="https://wuolzromjabdswklfnky.supabase.co",SB_KEY="sb_publishable_ufXIZPYH9h46I6bRgVk_gw_DucREjlY";
+const INT=["Viajar","Música","Cine","Cocinar","Senderismo","Lectura","Deporte","Arte","Mascotas","Videojuegos","Baile","Fotografía"];
+const GOALS=["Relación seria","Algo casual","Amistad primero","Aún no lo sé"];
+const sb=supabase.createClient(SB_URL,SB_KEY);
+let U=null,ME=null,tab="d",chatM=null,poll=null,pend=[];
+const $=i=>document.getElementById(i);
+const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const age=d=>{const b=new Date(d),n=new Date();let a=n.getFullYear()-b.getFullYear();if(n<new Date(n.getFullYear(),b.getMonth(),b.getDate()))a--;return a};
+const passes=()=>{try{return JSON.parse(localStorage.getItem("tm_pass_"+U.id)||"[]")}catch(e){return[]}};
+const addPass=id=>{try{localStorage.setItem("tm_pass_"+U.id,JSON.stringify([...passes(),id]))}catch(e){}};
+const tags=(a,b)=>(a||[]).map(x=>`<span class="tag ${b&&b.includes(x)?"on":""}">${esc(x)}</span>`).join("");
+const err=e=>alert("Error: "+(e&&e.message?e.message:e));
+function score(p){const A=ME.interests||[],B=p.interests||[],sh=A.filter(x=>B.includes(x)).length,un=new Set([...A,...B]).size||1;
+ return Math.round(sh/un*70+(ME.goal===p.goal?30:(ME.goal==="Aún no lo sé"||p.goal==="Aún no lo sé")?12:0))}
+const ageTxt=p=>p.hide_age?"":", "+age(p.birth_date);
+function head(){return `<h1><span class="logo">TrueMatch</span></h1><p class="mu">Conexiones reales. Personas auténticas.</p>`}
+function authView(){$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card s"><h3>Entrar o crear cuenta</h3>
+<label>Correo</label><input id="em" type="email" autocomplete="email"><label>Contraseña (mínimo 8 caracteres)</label><input id="pw" type="password" autocomplete="current-password">
+<div class="row"><button class="p" onclick="login()">Entrar</button><button onclick="signup()">Crear cuenta</button></div>
+<p style="text-align:center"><button onclick="forgot()" style="border:0;background:none;font-size:14px;color:var(--co)">Olvidé mi contraseña</button></p></div>`}
+async function login(){const{error}=await sb.auth.signInWithPassword({email:$("em").value.trim(),password:$("pw").value});if(error)err(error)}
+async function signup(){const pw=$("pw").value;if(pw.length<8)return alert("La contraseña debe tener al menos 8 caracteres.");
+ const{data,error}=await sb.auth.signUp({email:$("em").value.trim(),password:pw});if(error)return err(error);
+ if(!data.session)alert("Revisa tu correo y confirma tu cuenta. Luego vuelve y entra.")}
+async function forgot(){const e=$("em").value.trim();if(!e)return alert("Escribe tu correo arriba primero.");
+ const{error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.href.split("#")[0]});error?err(error):alert("Si el correo existe, recibirás un enlace para cambiar tu contraseña.")}
+sb.auth.onAuthStateChange(async(ev,s)=>{if(ev==="PASSWORD_RECOVERY"){const p=prompt("Escribe tu nueva contraseña (mínimo 8 caracteres):");if(p&&p.length>=8){const{error}=await sb.auth.updateUser({password:p});error?err(error):alert("Contraseña cambiada.")}}
+ U=s?s.user:null;clearInterval(poll);if(!U){ME=null;authView();return}
+ const{data}=await sb.from("profiles").select("*").eq("id",U.id).maybeSingle();ME=data;ME?draw():setupView()});
+function setupView(){$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card s"><h3>Crea tu perfil</h3><label>Nombre</label><input id="n" maxlength="40">
+<label>Fecha de nacimiento (mínimo 18 años)</label><input id="dob" type="date"><label>Biografía</label><textarea id="bio" rows="3" maxlength="300"></textarea>
+<label>Objetivo</label><select id="g">${GOALS.map(g=>`<option>${g}</option>`).join("")}</select><label>Intereses</label><div id="ints">${INT.map(x=>`<span class="tag" onclick="this.classList.toggle('on')">${x}</span>`).join("")}</div>
+<div class="note">Tu nombre, biografía, intereses y edad (si no la ocultas) serán visibles para otros usuarios registrados. Tu correo nunca se muestra.</div>
+<label><input type="checkbox" id="ok" style="width:auto;margin-right:8px">Acepto las normas de la comunidad y la privacidad (en Perfil).</label>
+<button class="p" style="width:100%;margin-top:10px" onclick="mk()">Guardar perfil</button><button style="width:100%;margin-top:8px" onclick="sb.auth.signOut()">Salir</button></div>`}
+async function mk(){const n=$("n").value.trim(),d=$("dob").value;if(!n||!d)return alert("Completa nombre y fecha.");
+ if(age(d)<18)return alert("TrueMatch es solo para mayores de 18 años.");if(!$("ok").checked)return alert("Debes aceptar las normas.");
+ const i=[...document.querySelectorAll("#ints .on")].map(e=>e.textContent);if(!i.length)return alert("Elige al menos un interés.");
+ const{data,error}=await sb.from("profiles").insert({id:U.id,name:n,birth_date:d,bio:$("bio").value,interests:i,goal:$("g").value}).select().single();
+ if(error)return err(error);ME=data;draw()}
+const T=[["d","♡","Descubrir"],["l","♥","Me gusta"],["m","✦","Matches"],["c","💬","Chat"],["p","☺","Perfil"]];
+async function draw(){clearInterval(poll);$("nv").style.display="flex";
+ $("nv").innerHTML=T.map(t=>`<button class="${tab===t[0]?"on":""}" onclick="tab='${t[0]}';chatM=null;draw()"><b>${t[1]}</b>${t[2]}</button>`).join("");
+ $("m").innerHTML=`<p class="mu s">Cargando…</p>`;
+ try{$("m").innerHTML=await({d:disc,l:likes,m:matches,c:chat,p:prof}[tab])();$("m").scrollTop=0;if(tab==="c"&&chatM)poll=setInterval(refreshMsgs,5000)}catch(e){$("m").innerHTML=`<div class="note s">No se pudo cargar: ${esc(e.message||e)}</div>`}}
+async function disc(){
+ const[{data:ps,error:e1},{data:ls}]=await Promise.all([sb.from("profiles").select("*").neq("id",U.id).limit(60),sb.from("likes").select("to_user").eq("from_user",U.id)]);
+ if(e1)throw e1;const seen=new Set([...(ls||[]).map(x=>x.to_user),...passes()]);const q=(ps||[]).filter(p=>!seen.has(p.id));pend=q;const p=q[0];
+ if(!p)return `<h2>Descubrir</h2><div class="card s"><h3>No hay más perfiles por ahora</h3><p class="mu">TrueMatch solo muestra personas que se registraron de verdad. Cuando se una más gente, aparecerán aquí.</p></div>`;
+ const sc=score(p);return `<h2>Descubrir</h2><div class="card s"><div class="av">${esc(p.name[0])}</div>
+ <span class="badge ${p.verified?"v":""}">${p.verified?"Verificado":"Sin verificar"}</span><h2 style="margin-top:8px">${esc(p.name)}${ageTxt(p)}</h2><p class="mu">${esc(p.bio)}</p><p class="mu">Busca: ${esc(p.goal)}</p>${tags(p.interests,ME.interests)}
+ <p style="font-size:14px;margin:10px 0 0">Compatibilidad estimada: <b>${sc}%</b></p><div class="bar"><i style="width:${sc}%"></i></div><p class="mu" style="font-size:12px">Estimación simple por intereses y objetivo. No es una garantía.</p></div>
+ <div class="row act s"><button onclick="pass('${p.id}')">✕</button><button onclick="like('${p.id}',true)" style="color:#2d8cff">★</button><button onclick="like('${p.id}',false)" style="color:var(--co)">♥</button></div>
+ <p class="s" style="text-align:center"><button onclick="rep('${p.id}')" style="font-size:13px;padding:8px">Reportar</button> <button onclick="blk('${p.id}')" style="font-size:13px;padding:8px">Bloquear</button></p>`}
+function pass(id){addPass(id);draw()}
+async function like(id,sup){const{error}=await sb.from("likes").insert({from_user:U.id,to_user:id,is_super:sup});if(error)return err(error);
+ const a=[U.id,id].sort();const{data}=await sb.from("matches").select("id").eq("user_a",a[0]).eq("user_b",a[1]);if(data&&data.length)alert("¡Es un match! Ya pueden chatear.");draw()}
+async function rep(id){const r=prompt("¿Por qué reportas este perfil? (spam, perfil falso, acoso, otro)");if(!r)return;
+ const{error}=await sb.from("reports").insert({reporter:U.id,reported:id,reason:r.slice(0,500)});error?err(error):alert("Reporte enviado. Será revisado manualmente por el administrador.")}
+async function blk(id){if(!confirm("¿Bloquear a esta persona?"))return;const{error}=await sb.from("blocks").insert({blocker:U.id,blocked:id});error?err(error):draw()}
+async function likes(){const{data}=await sb.from("likes").select("to_user,is_super").eq("from_user",U.id).order("created_at",{ascending:false});
+ const ids=(data||[]).map(x=>x.to_user);if(!ids.length)return `<h2>Me gusta</h2><p class="mu s">Aún no has dado Me gusta.</p>`;
+ const{data:ps}=await sb.from("profiles").select("id,name,birth_date,hide_age").in("id",ids);const m=Object.fromEntries((ps||[]).map(p=>[p.id,p]));
+ return `<h2>Me gusta</h2>`+(data||[]).filter(x=>m[x.to_user]).map(x=>`<div class="card li s"><div class="mini">${esc(m[x.to_user].name[0])}</div><div><b>${esc(m[x.to_user].name)}${ageTxt(m[x.to_user])}</b> ${x.is_super?"★":""}<div class="mu">Enviado</div></div></div>`).join("")}
+async function myMatches(){const{data}=await sb.from("matches").select("*").order("created_at",{ascending:false});const o=(data||[]).map(m=>({id:m.id,o:m.user_a===U.id?m.user_b:m.user_a}));
+ if(!o.length)return[];const{data:ps}=await sb.from("profiles").select("*").in("id",o.map(x=>x.o));const pm=Object.fromEntries((ps||[]).map(p=>[p.id,p]));return o.filter(x=>pm[x.o]).map(x=>({id:x.id,p:pm[x.o]}))}
+async function matches(){const l=await myMatches();return `<h2>Matches</h2><p class="mu s">Solo hay match cuando ambas personas se dan Me gusta.</p>`+(l.length?l.map(x=>`<div class="card li s" onclick="tab='c';chatM=${x.id};draw()"><div class="mini">${esc(x.p.name[0])}</div><div><b>${esc(x.p.name)}${ageTxt(x.p)}</b><div class="mu">${score(x.p)}% compatible (estimado)</div></div></div>`).join(""):`<p class="mu s">Aún no tienes matches.</p>`)}
+async function chat(){
+ if(chatM){const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}
+  return `<button class="s" onclick="chatM=null;draw()">← Chats</button><h3 style="margin-top:10px">${esc(x.p.name)}</h3><div class="note s">Los mensajes se guardan en el servidor de TrueMatch (Supabase) y solo los ven ustedes dos. No están cifrados de extremo a extremo.</div>
+  <div id="ms" class="s"></div><div class="row s" style="margin-top:10px"><input id="mi" placeholder="Escribe un mensaje" maxlength="2000" style="margin:0;flex:3"><button class="p" onclick="send()">Enviar</button></div>`+`<img src="data:," style="display:none" onerror="refreshMsgs()">`}
+ const l=await myMatches();return `<h2>Chat</h2>`+(l.length?l.map(x=>`<div class="card li s" onclick="chatM=${x.id};draw()"><div class="mini">${esc(x.p.name[0])}</div><b>${esc(x.p.name)}</b></div>`).join(""):`<p class="mu s">Cuando tengas un match podrás chatear aquí.</p>`)}
+async function refreshMsgs(){const el=$("ms");if(!el||!chatM)return;const{data,error}=await sb.from("messages").select("*").eq("match_id",chatM).order("created_at");if(error)return;
+ el.innerHTML=(data||[]).map(x=>`<div class="msg ${x.sender===U.id?"me":"ot"}">${esc(x.body)}<small>${new Date(x.created_at).toLocaleString("es")}</small></div>`).join("")}
+async function send(){const v=$("mi").value.trim();if(!v)return;const{error}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:v});if(error)return err(error);$("mi").value="";refreshMsgs()}
+async function prof(){return `<h2>Perfil</h2><div class="card s"><b>${esc(ME.name)}, ${age(ME.birth_date)}</b> <span class="badge ${ME.verified?"v":""}">${ME.verified?"Verificado":"Sin verificar"}</span>
+<p class="mu">${esc(ME.bio)||"Sin biografía"}</p><p class="mu">Busca: ${esc(ME.goal)}</p>${tags(ME.interests)}
+<label style="display:block;margin-top:12px"><input type="checkbox" style="width:auto;margin-right:8px" ${ME.hide_age?"checked":""} onchange="hideAge(this.checked)">Ocultar mi edad a otros</label>
+<p class="mu" style="font-size:12px">La insignia de verificado solo aparece si un administrador verifica tu cuenta manualmente. Hoy no hay verificación automática.</p></div>
+<div class="card s"><h3>Normas de la comunidad</h3><p class="mu">Sé respetuoso/a, usa datos reales, no pidas dinero, no acoses. Reporta perfiles sospechosos.</p><h3>Privacidad</h3><p class="mu">Guardamos tu correo, perfil, Me gusta, matches y mensajes. Sin reconocimiento facial ni biométricos. La compatibilidad es una fórmula simple, sin IA externa.</p></div>
+<div class="card s"><button onclick="sb.auth.signOut()">Cerrar sesión</button><button style="margin-top:8px;color:#d33" onclick="del()">Eliminar mi perfil y datos</button></div>`}
+async function hideAge(v){const{error}=await sb.from("profiles").update({hide_age:v}).eq("id",U.id);error?err(error):ME.hide_age=v}
+async function del(){if(!confirm("Se borrará tu perfil, Me gusta, matches y mensajes. ¿Seguro?"))return;const{error}=await sb.from("profiles").delete().eq("id",U.id);if(error)return err(error);alert("Perfil y datos borrados. Tu correo de acceso sigue existiendo hasta que el administrador lo elimine.");sb.auth.signOut()}
+</script></body></html>
