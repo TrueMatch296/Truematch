@@ -59,6 +59,9 @@ a{color:var(--a)}
 .vc{font-size:54px;font-weight:800;letter-spacing:10px;text-align:center;margin:8px 0;color:var(--a)}
 .rec{display:flex;align-items:center;gap:10px}.rec{gap:8px}.rec button{padding:8px 12px;font-size:15px;flex:none}.rec i{flex:none;width:12px;height:12px;border-radius:50%;background:#e5322d;animation:bl 1s infinite}@keyframes bl{50%{opacity:.25}}
 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}.cmp img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:var(--bg)}
+.vp{margin-top:6px;border:0;border-radius:99px;padding:6px 12px;font-size:13px;background:rgba(255,255,255,.28);color:#fff;backdrop-filter:blur(6px)}.card .vp{background:var(--g)}
+.ip{margin:4px 0;font-size:13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lim button:not(:first-child){opacity:.4}
 .pk{margin:6px 0 2px;font-size:12px;color:var(--mu);width:100%}
 </style></head><body><div id="app"><main id="m"><p class="mu">…</p></main><nav id="nv" style="display:none"></nav></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -140,7 +143,24 @@ adm_t:["Moderación","Moderation","Moderação","Modération"],adm_open:["Revisa
 adm_ok:["Aprobar","Approve","Aprovar","Approuver"],adm_no:["Rechazar","Reject","Rejeitar","Refuser"],adm_code:["Código esperado","Expected code","Código esperado","Code attendu"],adm_why:["Motivo del rechazo (opcional):","Reason for rejection (optional):","Motivo da rejeição (opcional):","Motif du refus (facultatif) :"],adm_selfie:["Selfie","Selfie","Selfie","Selfie"],adm_photo:["Foto de perfil","Profile photo","Foto de perfil","Photo de profil"],
 v_no:["Tu navegador no permite grabar audio.","Your browser can't record audio.","Seu navegador não permite gravar áudio.","Ton navigateur ne permet pas d'enregistrer l'audio."],
 v_perm:["Necesito permiso para usar el micrófono. Actívalo en los ajustes del navegador.","I need microphone permission. Turn it on in your browser settings.","Preciso de permissão para usar o microfone. Ative nas configurações do navegador.","J'ai besoin de l'autorisation du micro. Active-la dans les réglages du navigateur."],
-v_big:["La nota de voz es demasiado larga.","The voice note is too long.","A nota de voz é longa demais.","Le message vocal est trop long."],vn_rec:["Grabando…","Recording…","Gravando…","Enregistrement…"]};
+v_big:["La nota de voz es demasiado larga.","The voice note is too long.","A nota de voz é longa demais.","Le message vocal est trop long."],vn_rec:["Grabando…","Recording…","Gravando…","Enregistrement…"],
+ice_t:["Preguntas rompehielo", "Icebreaker questions", "Perguntas para quebrar o gelo", "Questions pour briser la glace"],
+ice_h:["Elige hasta 3 y responde en una frase (máx. 140 caracteres). Otras personas las verán y podrán usarlas para escribirte.", "Pick up to 3 and answer in one sentence (max 140 characters). Others will see them and can use them to message you.", "Escolha até 3 e responda em uma frase (máx. 140 caracteres). Outras pessoas verão e poderão usá-las para falar com você.", "Choisis-en jusqu'à 3 et réponds en une phrase (140 caractères max). Les autres les verront et pourront s'en servir pour t'écrire."],
+ice_pick:["Elige una pregunta…", "Pick a question…", "Escolha uma pergunta…", "Choisis une question…"],
+ice_ans:["Tu respuesta", "Your answer", "Sua resposta", "Ta réponse"],
+ice_use:["Toca una respuesta para usarla en tu primer mensaje.", "Tap an answer to use it in your first message.", "Toque em uma resposta para usá-la na primeira mensagem.", "Touche une réponse pour l'utiliser dans ton premier message."],
+ice_msg:["Me gustó tu respuesta sobre", "I liked your answer about", "Gostei da sua resposta sobre", "J'ai aimé ta réponse sur"],
+intro_t:["Presentación en voz", "Voice intro", "Apresentação em voz", "Présentation vocale"],
+intro_h:["Graba hasta 15 segundos para que te escuchen antes de dar Me gusta. Es opcional.", "Record up to 15 seconds so people can hear you before liking. It's optional.", "Grave até 15 segundos para que ouçam você antes de curtir. É opcional.", "Enregistre jusqu'à 15 secondes pour qu'on t'écoute avant d'aimer. C'est facultatif."],
+intro_rec:["Grabar presentación", "Record intro", "Gravar apresentação", "Enregistrer"],
+intro_redo:["Grabar de nuevo", "Record again", "Gravar de novo", "Réenregistrer"],
+intro_stop:["Detener y guardar", "Stop and save", "Parar e salvar", "Arrêter et enregistrer"],
+intro_del:["Borrar", "Delete", "Apagar", "Supprimer"],
+intro_play:["Escuchar", "Listen", "Ouvir", "Écouter"],
+intro_ok:["Presentación guardada.", "Intro saved.", "Apresentação salva.", "Présentation enregistrée."],
+intro_delq:["¿Borrar tu presentación en voz?", "Delete your voice intro?", "Apagar sua apresentação em voz?", "Supprimer ta présentation vocale ?"],
+lim_note:["Ritmo lento: usaste tus 15 Me gusta de hoy. Conversa con tus matches y vuelve más tarde.", "Slow pace: you used your 15 likes for today. Chat with your matches and come back later.", "Ritmo lento: você usou suas 15 curtidas de hoje. Converse com seus matches e volte mais tarde.", "Rythme lent : tu as utilisé tes 15 J'aime du jour. Discute avec tes matchs et reviens plus tard."],
+e_lim:["Llegaste al límite de 15 Me gusta por día. TrueMatch prefiere calidad sobre cantidad: conversa y vuelve más tarde.", "You reached the limit of 15 likes per day. TrueMatch prefers quality over quantity: chat and come back later.", "Você atingiu o limite de 15 curtidas por dia. O TrueMatch prefere qualidade a quantidade: converse e volte mais tarde.", "Tu as atteint la limite de 15 J'aime par jour. TrueMatch préfère la qualité à la quantité : discute et reviens plus tard."]};
 const t=k=>D[k]?D[k][L.indexOf(LANG)]:k;
 const GOALS=["Relación seria","Algo casual","Amistad primero","Aún no lo sé"],INT=["Viajar","Música","Cine","Cocinar","Senderismo","Lectura","Deporte","Arte","Mascotas","Videojuegos","Baile","Fotografía"];
 const TR={en:{g:["Serious relationship","Something casual","Friendship first","Not sure yet"],i:["Travel","Music","Movies","Cooking","Hiking","Reading","Sports","Art","Pets","Video games","Dancing","Photography"]},
@@ -241,11 +261,43 @@ async function hydrateVn(){const els=[...document.querySelectorAll("audio[data-v
  const need=[...new Set(els.map(e=>e.dataset.vn).filter(p=>!C[p]))];
  if(need.length){const{data}=await sb.storage.from("voice").createSignedUrls(need,3600);(data||[]).forEach(d=>{if(d.signedUrl)C[d.path]=d.signedUrl})}
  els.forEach(e=>{if(C[e.dataset.vn])e.src=C[e.dataset.vn]})}
+const QS={q1:["Mi plan perfecto de domingo es…", "My perfect Sunday plan is…", "Meu domingo perfeito é…", "Mon dimanche idéal, c'est…"],q2:["Lo que más valoro en una persona es…", "What I value most in a person is…", "O que mais valorizo em uma pessoa é…", "Ce que j'apprécie le plus chez quelqu'un, c'est…"],q3:["Una comida que nunca rechazaría es…", "A food I'd never turn down is…", "Uma comida que eu nunca recusaria é…", "Un plat que je ne refuserais jamais, c'est…"],q4:["Mi canción para animarme es…", "My go-to feel-good song is…", "Minha música para me animar é…", "Ma chanson pour me remonter le moral, c'est…"],q5:["El lugar al que soñaría viajar es…", "The place I dream of traveling to is…", "O lugar para onde sonho viajar é…", "L'endroit où je rêve de voyager, c'est…"],q6:["Algo que me hace reír sin falta es…", "Something that always makes me laugh is…", "Algo que sempre me faz rir é…", "Quelque chose qui me fait toujours rire, c'est…"],q7:["Algo que no adivinarías de mí es…", "Something you wouldn't guess about me is…", "Algo que você não imaginaria sobre mim é…", "Quelque chose que tu ne devinerais pas sur moi, c'est…"],q8:["Mi mayor meta este año es…", "My biggest goal this year is…", "Minha maior meta este ano é…", "Mon plus grand objectif cette année, c'est…"],q9:["En una primera cita me gustaría…", "On a first date I'd love to…", "Em um primeiro encontro eu gostaria de…", "Pour un premier rendez-vous, j'aimerais…"],q10:["Mi talento más inútil es…", "My most useless talent is…", "Meu talento mais inútil é…", "Mon talent le plus inutile, c'est…"]};
+const LIM=15;let LL=null,ICE=[],PA=null,IR=null;
+async function loadLL(){try{const{data,error}=await sb.rpc("likes_left");LL=(!error&&typeof data==="number")?data:null}catch(e){LL=null}}
+const iq=q=>QS[q]?QS[q][L.indexOf(LANG)]:"";
+const icePr=p=>Array.isArray(p&&p.prompts)?p.prompts.filter(x=>x&&QS[x.q]&&typeof x.a==="string"&&x.a):[];
+const icePrompt=p=>{const a=icePr(p);return a.length?`<p class="ip">💬 <b>${esc(iq(a[0].q))}</b> ${esc(a[0].a)}</p>`:""};
+const iceCard=p=>{ICE=icePr(p);const v=p.voice_path&&C["vi:"+p.voice_path]?`<button class="vp" onclick="playIntro('${esc(p.voice_path)}')">🔊 ${t("intro_play")}</button>`:"";
+ return(ICE.length||v)?`<div class="card"><b>${t("ice_t")}</b>${ICE.length?`<p class="mu" style="font-size:12px;margin:2px 0 6px">${t("ice_use")}</p>`:""}${ICE.map((x,i)=>`<div class="note" style="cursor:pointer" onclick="useIce(${i})"><b>${esc(iq(x.q))}</b><br>${esc(x.a)}</div>`).join("")}${v}</div>`:""};
+function useIce(i){const e=$("mi");if(e&&ICE[i]){e.value=t("ice_msg")+" «"+iq(ICE[i].q)+"» 😊";e.focus()}}
+const iceRow=i=>{const c=icePr(ME)[i]||{};return `<select id="pq${i}" style="margin-bottom:4px"><option value="">${t("ice_pick")}</option>${Object.keys(QS).map(k=>`<option value="${k}" ${c.q===k?"selected":""}>${esc(iq(k))}</option>`).join("")}</select><input id="pa${i}" maxlength="140" placeholder="${t("ice_ans")}" value="${esc(c.a||"")}">`};
+const readPrompts=()=>{const o=[],u=new Set();for(let i=0;i<3;i++){const q=$("pq"+i).value,a=$("pa"+i).value.trim();if(q&&a&&!u.has(q)){u.add(q);o.push({q,a:a.slice(0,140)})}}return o.length?o:null};
+async function introUrl(path){const k="vi:"+path;if(C[k])return C[k];try{const{data}=await sb.storage.from("voice_intro").createSignedUrl(path,3600);if(data&&data.signedUrl)C[k]=data.signedUrl}catch(e){}return C[k]}
+function playIntro(path){const u=C["vi:"+path];if(!u)return;if(PA){PA.pause();PA=null}PA=new Audio(u);PA.play().catch(()=>{})}
+function irLabel(on,sec){const b=$("irb");if(!b)return;b.textContent=on?"⏹ "+Math.floor(sec/60)+":"+String(sec%60).padStart(2,"0")+" · "+t("intro_stop"):"🎤 "+t(ME&&ME.voice_path?"intro_redo":"intro_rec")}
+async function introToggle(){if(IR){introStop(true);return}
+ if(!navigator.mediaDevices||!window.MediaRecorder)return alert(t("v_no"));
+ let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){return alert(t("v_perm"))}
+ const mime=["audio/mp4","audio/webm;codecs=opus","audio/webm","audio/ogg"].find(m=>MediaRecorder.isTypeSupported(m))||"";
+ const mr=new MediaRecorder(stream,mime?{mimeType:mime}:{}),ch=[];
+ mr.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};
+ const R={mr,ch,stream,t0:Date.now(),mime:(mr.mimeType||mime||"audio/mp4").split(";")[0],save:false};IR=R;
+ R.tm=setInterval(()=>{const sec=Math.floor((Date.now()-R.t0)/1000);irLabel(true,sec);if(sec>=15)introStop(true)},250);
+ mr.onstop=()=>introDone(R);mr.start();irLabel(true,0)}
+function introStop(save){const R=IR;if(!R)return;R.save=save;clearInterval(R.tm);if(R.mr.state!=="inactive")R.mr.stop()}
+async function introDone(R){if(IR===R)IR=null;R.stream.getTracks().forEach(x=>x.stop());if(!R.save)return;
+ const blob=new Blob(R.ch,{type:R.mime});if(blob.size<1500)return irLabel(false);if(blob.size>1000000)return alert(t("v_big"));
+ const ext=R.mime.includes("mp4")?"mp4":R.mime.includes("ogg")?"ogg":"webm",path=U.id+"/intro-"+Date.now()+"."+ext,old=ME.voice_path;
+ const{error}=await sb.storage.from("voice_intro").upload(path,blob,{contentType:R.mime});if(error)return alert(shopErr(error));
+ const{data,error:e2}=await sb.from("profiles").update({voice_path:path}).eq("id",U.id).select().single();
+ if(e2){try{await sb.storage.from("voice_intro").remove([path])}catch(x){}return alert(shopErr(e2))}
+ ME=data;if(old){try{await sb.storage.from("voice_intro").remove([old])}catch(x){}}alert(t("intro_ok"));draw()}
+async function introDel(){const old=ME.voice_path;if(!old||!confirm(t("intro_delq")))return;const{data,error}=await sb.from("profiles").update({voice_path:null}).eq("id",U.id).select().single();if(error)return err(error);ME=data;try{await sb.storage.from("voice_intro").remove([old])}catch(x){}draw()}
 const CONTACTO="Salcedoanthony959@gmail.com";
 const NOTA='<p class="mu">Última actualización: 12 de octubre de 2026. Documento preparado con asistencia de IA a partir de normas públicas; no sustituye el consejo de un abogado.</p>';
 const LEGAL={
 t:`<h2>Términos de uso</h2>${NOTA}
-<h3>1. Qué es TrueMatch</h3><p>TrueMatch es un servicio para conocer personas con intereses y objetivos afines. Hoy es gratuito. Al crear una cuenta aceptas estos Términos, la Política de Privacidad y las Normas de la comunidad.</p>
+<h3>1. Qué es TrueMatch</h3><p>TrueMatch es un servicio para conocer personas con intereses y objetivos afines. Hoy es gratuito. Para favorecer conversaciones de calidad hay un máximo de 15 Me gusta cada 24 horas. Al crear una cuenta aceptas estos Términos, la Política de Privacidad y las Normas de la comunidad.</p>
 <h3>2. Edad mínima</h3><p>Solo pueden usar TrueMatch personas de 18 años o más. Si detectamos una cuenta de una persona menor de edad, la eliminamos. Si conoces un caso, repórtalo.</p>
 <h3>3. Tu cuenta</h3><p>Debes dar datos verdaderos, tener una sola cuenta, no hacerte pasar por otra persona y cuidar tu contraseña. Para ver a otras personas, dar Me gusta y chatear debes verificar tu identidad con una selfie, que revisa una persona; podemos rechazar o retirar la verificación si hay dudas. La verificación reduce el riesgo de perfiles falsos pero no lo elimina.</p>
 <h3>4. Conducta y moderación</h3><p>Debes cumplir las Normas de la comunidad. Los reportes se revisan manualmente. Podemos retirar contenido y suspender o eliminar cuentas que incumplan las normas o la ley.</p>
@@ -258,10 +310,10 @@ t:`<h2>Términos de uso</h2>${NOTA}
 <h3>11. Cambios</h3><p>Si cambiamos estos términos de forma importante, te avisaremos en la app.</p>`,
 p:`<h2>Política de privacidad</h2>${NOTA}
 <h3>Responsable</h3><p>TrueMatch. Contacto para privacidad: ${CONTACTO}.</p>
-<h3>Datos que guardamos</h3><p>Correo y contraseña (la contraseña la protege el proveedor de autenticación; nosotros no la vemos); nombre, fecha de nacimiento, país (el que tú eliges), biografía, intereses, objetivo y fotos de perfil (hasta 6; se les quitan los datos de ubicación del archivo); si tú lo activas, una ubicación aproximada (redondeada a unos 1 km); tus Me gusta, matches, mensajes, bloqueos y reportes; la fecha en que aceptaste los términos; las notas de voz que envías en un chat; y, solo durante la verificación, una selfie con un código (la revisa una persona y se borra al terminar la revisión) junto con el resultado de la revisión. El proveedor puede registrar datos técnicos (como la dirección IP) por seguridad.</p>
+<h3>Datos que guardamos</h3><p>Correo y contraseña (la contraseña la protege el proveedor de autenticación; nosotros no la vemos); nombre, fecha de nacimiento, país (el que tú eliges), biografía, intereses, objetivo y fotos de perfil (hasta 6; se les quitan los datos de ubicación del archivo); tu presentación en voz y tus respuestas a preguntas rompehielo, ambas opcionales; si tú lo activas, una ubicación aproximada (redondeada a unos 1 km); tus Me gusta, matches, mensajes, bloqueos y reportes; la fecha en que aceptaste los términos; las notas de voz que envías en un chat; y, solo durante la verificación, una selfie con un código (la revisa una persona y se borra al terminar la revisión) junto con el resultado de la revisión. El proveedor puede registrar datos técnicos (como la dirección IP) por seguridad.</p>
 <h3>Datos que NO recolectamos</h3><p>Tu ubicación exacta (solo si activas «Personas cerca» guardamos una ubicación aproximada de unos 1 km; nunca se muestra a otros, solo una distancia aproximada, y puedes borrarla cuando quieras en Perfil), contactos del teléfono ni documentos de identidad. No usamos reconocimiento facial automático ni guardamos plantillas biométricas: la selfie de verificación la compara una persona con tus fotos de perfil y luego se borra. El país de tu perfil es un dato que tú declaras y puedes cambiar cuando quieras.</p>
 <h3>Para qué los usamos</h3><p>Para operar el servicio, mostrar perfiles, crear matches, permitir chats, calcular una compatibilidad estimada con una fórmula simple (sin inteligencia artificial externa) y mantener la seguridad y la moderación.</p>
-<h3>Quién ve qué</h3><p>Otros usuarios registrados ven tu nombre, edad (si no la ocultas), país, biografía, intereses, objetivo, fotos y, si activaste tu ubicación, la distancia aproximada que hay entre ustedes (nunca tus coordenadas). Tu correo nunca se muestra. Tus mensajes y notas de voz solo los ve la otra persona del chat. Tu selfie de verificación solo la ve quien modera TrueMatch. Los mensajes no están cifrados de extremo a extremo: el administrador del servicio puede acceder técnicamente a los datos para moderación y soporte. No vendemos tus datos ni los compartimos con anunciantes.</p>
+<h3>Quién ve qué</h3><p>Otros usuarios registrados ven tu nombre, edad (si no la ocultas), país, biografía, intereses, objetivo, fotos, respuestas a preguntas, presentación en voz y, si activaste tu ubicación, la distancia aproximada que hay entre ustedes (nunca tus coordenadas). Tu correo nunca se muestra. Tus mensajes y notas de voz solo los ve la otra persona del chat. Tu selfie de verificación solo la ve quien modera TrueMatch. Los mensajes no están cifrados de extremo a extremo: el administrador del servicio puede acceder técnicamente a los datos para moderación y soporte. No vendemos tus datos ni los compartimos con anunciantes.</p>
 <h3>Proveedores</h3><p>Usamos Supabase (base de datos, autenticación y almacenamiento de fotos) y GitHub Pages (alojamiento de la página). Tus datos pueden procesarse en servidores fuera de tu país.</p>
 <h3>Cuánto tiempo los conservamos</h3><p>Mientras tu cuenta exista. Si la borras desde Perfil, se eliminan tu cuenta de acceso, perfil, foto, Me gusta, matches, mensajes y registros asociados. Las copias de seguridad del proveedor, si existen, se sobrescriben con el tiempo.</p>
 <h3>Tus derechos</h3><p>Puedes pedir acceso, corrección, eliminación, oposición o una copia de tus datos escribiendo a ${CONTACTO}; responderemos en un plazo razonable (objetivo: 30 días). La eliminación también puedes hacerla tú mismo en Perfil. Esto está pensado para respetar el artículo 28 de la Constitución de Venezuela (acceso, rectificación y supresión de datos) y normas como el RGPD europeo, la ley de California, la LGPD de Brasil y otras leyes de tu país.</p>
@@ -306,7 +358,7 @@ async function mk(){const n=$("n").value.trim(),d=$("dob").value,cc=$("cc").valu
  if(error)return err(error);ME=data;draw()}
 const IC={d:'<path d="M12 2c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>',l:'<path d="M12 21C4 15 3 11 3 8.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 1.5C21 11 20 15 12 21z"/>',m:'<path d="M9 12a4 4 0 1 0 0-.01M15 12a4 4 0 1 0 0-.01"/>',c:'<path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/>',p:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',s:'<path d="M6 7h12l1 13H5L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/>'};
 const NV=["d","l","m","c","s","p"].map(k=>[k,`<svg viewBox="0 0 24 24">${IC[k]}</svg>`]);
-async function draw(){clearInterval(poll);BUSY=false;if(REC)vStop(false);$("m").className=tab==="d"?"fill":"";$("nv").style.display="flex";
+async function draw(){clearInterval(poll);BUSY=false;if(REC)vStop(false);if(IR)introStop(false);$("m").className=tab==="d"?"fill":"";$("nv").style.display="flex";
  $("nv").innerHTML=NV.map(n=>`<button class="${tab===n[0]?"on":""}" onclick="tab='${n[0]}';chatM=null;draw()"><b>${n[1]}</b>${t("n"+n[0])}</button>`).join("");
  $("m").innerHTML=`<p class="mu">…</p>`;
  try{$("m").innerHTML=await({d:disc,l:likes,m:matches,c:chat,s:shop,p:prof}[tab])();$("m").scrollTop=0;if(tab==="d")swipe();if(tab==="c"&&chatM)poll=setInterval(refreshMsgs,5000)}catch(e){$("m").innerHTML=`<div class="note">${esc(e.message||e)}</div>`}}
@@ -323,9 +375,10 @@ function setDist(v){DIST=+v;try{localStorage.setItem("tm_dist",v)}catch(e){}draw
 function setLoc(){if(!navigator.geolocation)return alert(t("e_loc"));
  navigator.geolocation.getCurrentPosition(async pos=>{const{error}=await sb.from("profile_locations").upsert({id:U.id,lat:pos.coords.latitude,lng:pos.coords.longitude});if(error)return err(error);LOC={lat:pos.coords.latitude,lng:pos.coords.longitude};draw()},()=>alert(t("e_loc")),{enableHighAccuracy:false,timeout:15000,maximumAge:600000})}
 async function delLoc(){const{error}=await sb.from("profile_locations").delete().eq("id",U.id);if(error)return err(error);LOC=false;DIST=0;try{localStorage.setItem("tm_dist","0")}catch(e){}draw()}
-const filters=()=>`<div class="top" style="margin-bottom:8px"><div class="brand">${LOGO(28)}<span class="wm" style="font-size:22px">true<b>match</b></span></div></div><div class="row" style="margin-bottom:8px"><select style="margin:0;padding:8px" onchange="setReg(this.value)"><option value="all" ${REG==="all"?"selected":""}>🌍 ${t("world")}</option><option value="mine" ${REG==="mine"?"selected":""}>${flag(ME.country)} ${t("mine")}</option>${copts(REG)}</select><select style="margin:0;padding:8px" onchange="setDist(this.value)">${[0,10,25,50,100].map(k=>`<option value="${k}" ${DIST===k?"selected":""}>📍 ${k?t("upto")+" "+k+" km":t("dany")}</option>`).join("")}</select></div>`;
+const filters=()=>`<div class="top" style="margin-bottom:8px"><div class="brand">${LOGO(28)}<span class="wm" style="font-size:22px">true<b>match</b></span></div>${LL!==null?`<span class="pill dm" style="font-size:13px">❤️ ${LL}/${LIM}</span>`:""}</div>${LL===0?`<div class="note" style="margin:0 0 8px">${t("lim_note")}</div>`:""}<div class="row" style="margin-bottom:8px"><select style="margin:0;padding:8px" onchange="setReg(this.value)"><option value="all" ${REG==="all"?"selected":""}>🌍 ${t("world")}</option><option value="mine" ${REG==="mine"?"selected":""}>${flag(ME.country)} ${t("mine")}</option>${copts(REG)}</select><select style="margin:0;padding:8px" onchange="setDist(this.value)">${[0,10,25,50,100].map(k=>`<option value="${k}" ${DIST===k?"selected":""}>📍 ${k?t("upto")+" "+k+" km":t("dany")}</option>`).join("")}</select></div>`;
 async function disc(){
  if(!ME.verified)return head()+`<div class="card"><h3>${t("v_title")}</h3><p>${t("v_gate")}</p><button class="p" style="width:100%" onclick="verifView()">${t("v_start")}</button></div>`;
+ await loadLL();
  let near=null;
  if(DIST>0){if(LOC===undefined)await loadLoc();
   if(LOC){const{data,error}=await sb.rpc("nearby_profiles",{max_km:DIST});if(error)throw error;near=new Map((data||[]).map(r=>[r.id,r.distance_km]))}}
@@ -337,7 +390,7 @@ async function disc(){
  const q=(ps||[]).filter(p=>!seen.has(p.id)&&(REG==="all"||(REG==="mine"?(!ME.country||p.country===ME.country):p.country===REG)));
  if(near)q.sort((a,b)=>near.get(a.id)-near.get(b.id));
  const p=q[0];if(!p)return f+`<div class="card"><p class="mu">${t("none")}</p></div>`;
- await gal([p]);const sc=score(p);CURP=pics(p);PI=0;CURID=p.id;const km=near?near.get(p.id):null;
+ await gal([p]);if(p.voice_path)await introUrl(p.voice_path);const sc=score(p);CURP=pics(p);PI=0;CURID=p.id;const km=near?near.get(p.id):null;
  const shared=ME.interests||[];
  return f+`<div class="dh${frc(p)}" id="hero">${CURP.length?`<img id="hi" src="${CURP[0]}" alt="">`:esc(p.name[0])}
 <div class="dots" id="dots">${CURP.length>1?CURP.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join(""):""}</div>
@@ -346,12 +399,12 @@ async function disc(){
 <div class="mnu" id="mnu"><p class="mu" style="font-size:12px;margin:0 0 8px">${t("comp")}: ${sc}%. ${t("cnote")}</p><div class="row"><button style="font-size:13px;padding:8px" onclick="rep('${p.id}')">${t("rep")}</button><button style="font-size:13px;padding:8px" onclick="blk('${p.id}')">${t("blk")}</button></div></div>
 <div class="ov"><span class="pill">${flag(p.country)} ${p.country?esc(cname(p.country)):""}</span>${km?`<span class="pill">📍 ~${km} km</span>`:""}<span class="pill">${sc}%</span>
 <h2>${esc(p.name)}${ageTxt(p)}</h2><span class="badge ${p.verified?"v":""}">${p.verified?t("ver"):t("unv")}</span>
-<p style="margin:6px 0 4px;font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(p.bio)}</p>
+<p style="margin:6px 0 4px;font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(p.bio)}</p>${icePrompt(p)}${p.voice_path&&C["vi:"+p.voice_path]?`<button class="vp" onclick="playIntro('${esc(p.voice_path)}')">🔊 ${t("intro_play")}</button>`:""}
 <div>${(p.interests||[]).slice(0,4).map(x=>`<span class="pill" ${shared.includes(x)?'style="background:rgba(255,255,255,.55);color:#000;font-weight:600"':""}>${esc(ti(x))}</span>`).join("")}</div></div></div>
-<div class="row act"><button onclick="go('p')" style="color:#9b857c">✕</button><button class="big" onclick="go('l')" style="background:var(--lk);color:#fff">♥</button><button onclick="go('s')" style="color:#2d8cff">★</button></div><span id="cur" data-id="${p.id}"></span>`}
+<div class="row act${LL===0?" lim":""}"><button onclick="go('p')" style="color:#9b857c">✕</button><button class="big" onclick="go('l')" style="background:var(--lk);color:#fff">♥</button><button onclick="go('s')" style="color:#2d8cff">★</button></div><span id="cur" data-id="${p.id}"></span>`}
 function tm(){const m=$("mnu");m.style.display=m.style.display==="block"?"none":"block"}
 function tapPh(x,w){if(CURP.length<2)return;PI=x<w*.4?Math.max(0,PI-1):Math.min(CURP.length-1,PI+1);$("hi").src=CURP[PI];[...$("dots").children].forEach((e,i)=>e.classList.toggle("on",i===PI))}
-function go(k){const h=$("hero");if(!h||!CURID||BUSY)return;BUSY=true;const id=CURID,w=h.offsetWidth,d=k==="p"?-1:1;h.style.transition="transform .28s,opacity .28s";
+function go(k){const h=$("hero");if(!h||!CURID||BUSY)return;if(k!=="p"&&LL===0){alert(t("e_lim"));return}BUSY=true;const id=CURID,w=h.offsetWidth,d=k==="p"?-1:1;h.style.transition="transform .28s,opacity .28s";
  h.style.transform=k==="s"?`translateY(-${w}px)`:`translateX(${d*w*1.3}px) rotate(${d*18}deg)`;h.style.opacity=".2";
  setTimeout(()=>k==="p"?pass(id):like(id,k==="s"),230)}
 function swipe(){const h=$("hero");if(!h)return;let x0=null,dx=0,mv=false;
@@ -362,7 +415,8 @@ function swipe(){const h=$("hero");if(!h)return;let x0=null,dx=0,mv=false;
  h.onpointercancel=()=>{x0=null;rs()};
  CURP.forEach(u=>{new Image().src=u})}
 function pass(id){addPass(id);draw()}
-async function like(id,sup){const{error}=await sb.from("likes").insert({from_user:U.id,to_user:id,is_super:sup});if(error){err(error);return draw()}
+async function like(id,sup){const{error}=await sb.from("likes").insert({from_user:U.id,to_user:id,is_super:sup});if(error){if((error.message||"").includes("limite_diario")){LL=0;alert(t("e_lim"))}else err(error);return draw()}
+ if(LL!==null)LL=Math.max(0,LL-1);
  const a=[U.id,id].sort();const{data}=await sb.from("matches").select("id").eq("user_a",a[0]).eq("user_b",a[1]);if(data&&data.length)alert(t("m_match"));draw()}
 async function rep(id){const r=prompt(t("m_rep"));if(!r)return;const{error}=await sb.from("reports").insert({reporter:U.id,reported:id,reason:r.slice(0,500)});error?err(error):alert(t("m_repok"))}
 async function blk(id){if(!confirm(t("m_blk")))return;const{error}=await sb.from("blocks").insert({blocker:U.id,blocked:id});error?err(error):draw()}
@@ -374,9 +428,9 @@ async function myMatches(){const{data}=await sb.from("matches").select("*").orde
  if(!o.length)return[];const{data:ps}=await sb.from("profiles").select("*").in("id",o.map(x=>x.o));await urls(ps||[]);const pm=Object.fromEntries((ps||[]).map(p=>[p.id,p]));return o.filter(x=>pm[x.o]).map(x=>({id:x.id,p:pm[x.o]}))}
 async function matches(){const l=await myMatches();return `<h2>${t("nm")}</h2><p class="mu">${t("mint")}</p>`+(l.length?l.map(x=>`<div class="card li" onclick="tab='c';chatM=${x.id};draw()"><div class="mini${frc(x.p)}">${pic(x.p)}</div><div><b>${esc(x.p.name)}${ageTxt(x.p)}</b><div class="mu">${flag(x.p.country)} ${score(x.p)}% ${t("comp2")}</div></div></div>`).join(""):`<p class="mu">${t("nom")}</p>`)}
 async function chat(){
- if(chatM){const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}await loadShop();
+ if(chatM){const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}await loadShop();if(x.p.voice_path)await introUrl(x.p.voice_path);
   return `<button onclick="chatM=null;draw()">${t("back")}</button><div class="top" style="margin-top:10px"><h3 style="margin:0">${flag(x.p.country)} ${esc(x.p.name)}</h3><span class="pill dm" id="wal">💎 ${WAL}</span></div><div class="row" style="margin:8px 0"><button onclick="rep('${x.p.id}')">${t("rep")}</button><button onclick="blk('${x.p.id}')">${t("blk")}</button></div>
-  <div class="note">${t("cnt")}</div><div id="ms"></div><div class="card" id="vrec" style="display:none;margin-top:10px"><div class="rec"><i></i><b>${t("vn_rec")}</b><span id="vt">0:00</span><span style="flex:1"></span><button onclick="vStop(false)">${t("cx")}</button><button class="p" onclick="vStop(true)">${t("snd")}</button></div></div><div class="row" id="vbar" style="margin-top:10px"><input id="mi" placeholder="${t("wr")}" maxlength="2000" style="margin:0;flex:3"><button onclick="vStart()" style="flex:none;padding:12px" aria-label="mic">🎤</button><button onclick="tsp()" style="flex:none;padding:12px">😊</button><button class="p" onclick="send()" style="flex:none">${t("snd")}</button></div><div class="card" id="stp" style="display:none;margin-top:8px">${stPanel()}</div><img src="data:," style="display:none" onerror="refreshMsgs()">`}
+  <div class="note">${t("cnt")}</div>${iceCard(x.p)}<div id="ms"></div><div class="card" id="vrec" style="display:none;margin-top:10px"><div class="rec"><i></i><b>${t("vn_rec")}</b><span id="vt">0:00</span><span style="flex:1"></span><button onclick="vStop(false)">${t("cx")}</button><button class="p" onclick="vStop(true)">${t("snd")}</button></div></div><div class="row" id="vbar" style="margin-top:10px"><input id="mi" placeholder="${t("wr")}" maxlength="2000" style="margin:0;flex:3"><button onclick="vStart()" style="flex:none;padding:12px" aria-label="mic">🎤</button><button onclick="tsp()" style="flex:none;padding:12px">😊</button><button class="p" onclick="send()" style="flex:none">${t("snd")}</button></div><div class="card" id="stp" style="display:none;margin-top:8px">${stPanel()}</div><img src="data:," style="display:none" onerror="refreshMsgs()">`}
  const l=await myMatches();return `<h2>${t("nc")}</h2>`+(l.length?l.map(x=>`<div class="card li" onclick="chatM=${x.id};draw()"><div class="mini${frc(x.p)}">${pic(x.p)}</div><b>${esc(x.p.name)}</b></div>`).join(""):`<p class="mu">${t("nochat")}</p>`)}
 async function refreshMsgs(){const el=$("ms");if(!el||!chatM)return;const{data,error}=await sb.from("messages").select("*").eq("match_id",chatM).order("created_at");if(error)return;
  const sg=(data||[]).map(x=>x.id).join(",");if(el.dataset.s===sg)return;el.dataset.s=sg;
@@ -387,13 +441,14 @@ const stPanel=()=>{const o=Object.keys(PK).filter(id=>OWN.has(id));if(!o.length)
 function tsp(){const e=$("stp");if(e)e.style.display=e.style.display==="none"?"block":"none"}
 async function sendSt(id,i){const{error}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:`{{st:${id}:${i}}}`});if(error)return alert(shopErr(error));tsp();refreshMsgs()}
 async function send(){const v=$("mi").value.trim();if(!v)return;const{error}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:v});if(error)return alert(shopErr(error));$("mi").value="";refreshMsgs();updWal()}
-async function prof(){delete GAL[ME.id];await gal([ME]);await urls([ME]);try{await loadShop()}catch(e){}if(LOC===undefined)await loadLoc();if(ADM===undefined){try{const{data}=await sb.rpc("is_admin");ADM=!!data}catch(e){ADM=false}}const ph=GAL[ME.id]||[];
+async function prof(){delete GAL[ME.id];await gal([ME]);await urls([ME]);try{await loadShop()}catch(e){}if(ME.voice_path)await introUrl(ME.voice_path);if(LOC===undefined)await loadLoc();if(ADM===undefined){try{const{data}=await sb.rpc("is_admin");ADM=!!data}catch(e){ADM=false}}const ph=GAL[ME.id]||[];
  const g=ph.map((x,i)=>`<div class="gi"><img src="${C[x]||""}" alt="">${i===0?`<span class="cv">${t("cover")}</span>`:`<button class="st" onclick="mkCover(${i})">★</button>`}<button class="x" onclick="delPhoto(${i})">✕</button></div>`).join("")+(ph.length<6?`<label class="gi add">+<input type="file" accept="image/*" style="display:none" onchange="upPhoto(this)"></label>`:"");
  return `<div class="top"><h2 style="margin:0">${t("np")}</h2><div style="display:flex;gap:6px;align-items:center">${themeBtn()}${langSel()}</div></div><div class="card"><div class="li" style="cursor:default;margin-bottom:10px"><div class="mini${frc(ME)}">${pic(ME)}</div><span class="pill dm" style="margin:0" onclick="tab='s';draw()">💎 ${WAL}</span></div><label style="display:block;margin-bottom:6px">${t("gal")}</label><div class="gg">${g}</div><p class="mu" style="font-size:12px">${t("photo")}</p>
 <b>${esc(ME.name)}, ${age(ME.birth_date)}</b> <span class="badge ${ME.verified?"v":""}">${ME.verified?t("ver"):t("unv")}</span><p class="mu">${esc(ME.bio)}</p><p class="mu">${t("goal")}: ${esc(tg(ME.goal))}</p>${tags(ME.interests)}<button style="width:100%;margin-top:10px" onclick="editView()">${t("ed")}</button>
 <label style="display:block;margin-top:10px">${t("ctry")}</label><select onchange="setCountry(this.value)"><option value="">${t("pick")}</option>${copts(ME.country||"")}</select>
 <label style="display:block"><input type="checkbox" style="width:auto;margin-right:8px" ${ME.hide_age?"checked":""} onchange="hideAge(this.checked)">${t("hide")}</label><p class="mu" style="font-size:12px">${t("vnote")}</p></div>
 <div class="card"><h3>${t("locttl")}</h3><p class="mu" style="font-size:13px">${LOC?t("locok"):t("locno")}</p><div class="row"><button class="p" onclick="setLoc()">${LOC?t("locup"):t("locon")}</button>${LOC?`<button onclick="delLoc()">${t("locdel")}</button>`:""}</div></div>
+<div class="card" id="intro"><h3>${t("intro_t")}</h3><p class="mu" style="font-size:13px">${t("intro_h")}</p>${ME.voice_path&&C["vi:"+ME.voice_path]?`<audio controls src="${C["vi:"+ME.voice_path]}" style="width:100%;margin-bottom:8px"></audio>`:""}<div class="row"><button class="p" id="irb" onclick="introToggle()">🎤 ${t(ME.voice_path?"intro_redo":"intro_rec")}</button>${ME.voice_path?`<button onclick="introDel()">${t("intro_del")}</button>`:""}</div></div>
 <div class="card" id="thseg"><label style="display:block;margin-bottom:6px">${t("th")}</label><div class="row">${["auto","light","dark"].map(v=>`<button class="${TH===v?"p":""}" onclick="setTheme('${v}')">${t("th_"+v[0])}</button>`).join("")}</div></div>
 <div class="card"><h3>${t("v_title")}</h3>${ME.verified?`<span class="badge v">${t("ver")}</span><p class="mu">${t("v_ok")}</p>`:`<p class="mu">${t("v_why")}</p><button class="p" style="width:100%" onclick="verifView()">${t("v_start")}</button>`}</div>${ADM?`<div class="card"><h3>${t("adm_t")}</h3><button style="width:100%" onclick="adminView()">${t("adm_open")}</button></div>`:""}
 <div class="card"><h3>${t("legal")}</h3><p><a href="#" onclick="return lg('t')">${t("lt")}</a><br><a href="#" onclick="return lg('p')">${t("lp")}</a><br><a href="#" onclick="return lg('n')">${t("ln")}</a><br><a href="#" onclick="return lg('i')">${t("li")}</a></p><p class="mu" style="font-size:12px">${CONTACTO}</p></div>
@@ -401,9 +456,10 @@ async function prof(){delete GAL[ME.id];await gal([ME]);await urls([ME]);try{awa
 function editView(){$("m").className="";$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card"><h3>${t("ed")}</h3><label>${t("name")}</label><input id="n" maxlength="40" value="${esc(ME.name)}">
 <label>${t("bio")}</label><textarea id="bio" rows="3" maxlength="300">${esc(ME.bio)}</textarea><label>${t("goal")}</label><select id="g">${GOALS.map(g=>`<option value="${g}" ${ME.goal===g?"selected":""}>${tg(g)}</option>`).join("")}</select>
 <label>${t("ints")}</label><div id="ints">${INT.map(x=>`<span class="tag ${(ME.interests||[]).includes(x)?"on":""}" data-v="${x}" onclick="this.classList.toggle('on')">${ti(x)}</span>`).join("")}</div>
+<label>${t("ice_t")}</label><div class="mu" style="font-size:12px;margin-bottom:6px">${t("ice_h")}</div>${[0,1,2].map(iceRow).join("")}
 <div class="row" style="margin-top:12px"><button onclick="draw()">${t("cx")}</button><button class="p" onclick="saveEdit()">${t("sv")}</button></div></div>`}
 async function saveEdit(){const n=$("n").value.trim();if(!n)return alert(t("e_fill"));const i=[...document.querySelectorAll("#ints .on")].map(e=>e.dataset.v);if(!i.length)return alert(t("e_int"));
- const{data,error}=await sb.from("profiles").update({name:n,bio:$("bio").value,goal:$("g").value,interests:i}).eq("id",U.id).select().single();if(error)return err(error);ME=data;alert(t("saved"));draw()}
+ const{data,error}=await sb.from("profiles").update({name:n,bio:$("bio").value,goal:$("g").value,interests:i,prompts:readPrompts()}).eq("id",U.id).select().single();if(error)return err(error);ME=data;alert(t("saved"));draw()}
 async function setCountry(v){if(!v)return;const{error}=await sb.from("profiles").update({country:v}).eq("id",U.id);error?err(error):(ME.country=v)}
 async function setCover(p){const{error}=await sb.from("profiles").update({photo_path:p}).eq("id",U.id);if(error)return err(error);ME.photo_path=p}
 async function savePos(a){for(let k=0;k<a.length;k++)await sb.from("profile_photos").update({position:k}).eq("user_id",U.id).eq("path",a[k])}
@@ -422,6 +478,7 @@ async function hideAge(v){const{error}=await sb.from("profiles").update({hide_ag
 async function del(){if(!confirm(t("m_del")))return;try{const{data:fl}=await sb.storage.from("avatars").list(U.id,{limit:100});if(fl&&fl.length)await sb.storage.from("avatars").remove(fl.map(x=>U.id+"/"+x.name))}catch(e){}
  try{await sb.storage.from("verification").remove([U.id+"/selfie.jpg"])}catch(e){}
  try{const{data:ms}=await sb.from("matches").select("id");for(const m of ms||[]){const{data:fs}=await sb.storage.from("voice").list(String(m.id),{limit:1000});const mine=(fs||[]).filter(f=>f.name.startsWith(U.id+"-")).map(f=>m.id+"/"+f.name);if(mine.length)await sb.storage.from("voice").remove(mine)}}catch(e){}
+ try{if(ME&&ME.voice_path)await sb.storage.from("voice_intro").remove([ME.voice_path])}catch(e){}
  const{error}=await sb.rpc("delete_my_account");if(error)return err(error);alert(t("m_delok"));await sb.auth.signOut()}
 document.documentElement.lang=LANG;
 </script></body></html>
