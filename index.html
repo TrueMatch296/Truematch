@@ -62,6 +62,22 @@ a{color:var(--a)}
 .vp{margin-top:6px;border:0;border-radius:99px;padding:6px 12px;font-size:13px;background:rgba(255,255,255,.28);color:#fff;backdrop-filter:blur(6px)}.card .vp{background:var(--g)}
 .ip{margin:4px 0;font-size:13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .lim button:not(:first-child){opacity:.4}
+.srow{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 10px;margin:0 -4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}.srow::-webkit-scrollbar{display:none}
+.sb{flex:none;width:68px;text-align:center;cursor:pointer;font-size:12px}.sb .n{display:block;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--tx)}
+.sr{position:relative;width:66px;height:66px;border-radius:50%;padding:3px;background:var(--ln);margin:0 auto}.sr.un{background:var(--g)}
+.sa{width:100%;height:100%;border-radius:50%;overflow:hidden;background:var(--g);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid var(--bg);box-sizing:border-box}.sa img{width:100%;height:100%;object-fit:cover}
+.sa.add{background:var(--card);color:var(--a);font-size:34px;font-weight:300;border:2px dashed var(--a)}
+.sf{position:absolute;right:-3px;bottom:-3px;background:var(--card);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.sv{position:fixed;inset:0;z-index:20;background:#000;max-width:440px;margin:0 auto;display:flex;flex-direction:column;color:#fff}
+.sv .bars{display:flex;gap:4px;padding:calc(10px + env(safe-area-inset-top,0px)) 10px 6px}.sv .bars i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.35);overflow:hidden}.sv .bars i b{display:block;height:100%;width:0;background:#fff}.sv .bars i.d b{width:100%}.sv .bars i.a b{animation:fill 5s linear forwards}@keyframes fill{from{width:0}to{width:100%}}
+.svh{display:flex;align-items:center;gap:10px;padding:6px 12px}.svx{border:0;background:rgba(255,255,255,.18);color:#fff;border-radius:50%;width:36px;height:36px;padding:0;font-size:18px;flex:none}
+.svs{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.svs img{width:100%;height:100%;object-fit:contain}
+.svt{font-size:28px;font-weight:700;line-height:1.25;text-align:center;padding:24px;word-break:break-word;font-family:inherit}
+.svc{position:absolute;left:0;right:0;bottom:0;padding:40px 16px 16px;background:linear-gradient(transparent,rgba(0,0,0,.7));font-size:16px;text-align:center}
+.svf{padding:10px 16px calc(14px + env(safe-area-inset-bottom,0px))}.svf button{width:100%}.svf button:disabled{opacity:.7;background:rgba(255,255,255,.15);color:#fff;border:0}
+#sct::placeholder{color:rgba(255,255,255,.7)}
+.scds{display:flex;gap:10px;justify-content:center;margin:12px 0}.scd{width:32px;height:32px;border-radius:50%;border:3px solid transparent;display:block}.scd.on{border-color:var(--tx)}
+nav button{font-size:10px}
 .pk{margin:6px 0 2px;font-size:12px;color:var(--mu);width:100%}
 </style></head><body><div id="app"><main id="m"><p class="mu">…</p></main><nav id="nv" style="display:none"></nav></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -160,7 +176,29 @@ intro_play:["Escuchar", "Listen", "Ouvir", "Écouter"],
 intro_ok:["Presentación guardada.", "Intro saved.", "Apresentação salva.", "Présentation enregistrée."],
 intro_delq:["¿Borrar tu presentación en voz?", "Delete your voice intro?", "Apagar sua apresentação em voz?", "Supprimer ta présentation vocale ?"],
 lim_note:["Ritmo lento: usaste tus 15 Me gusta de hoy. Conversa con tus matches y vuelve más tarde.", "Slow pace: you used your 15 likes for today. Chat with your matches and come back later.", "Ritmo lento: você usou suas 15 curtidas de hoje. Converse com seus matches e volte mais tarde.", "Rythme lent : tu as utilisé tes 15 J'aime du jour. Discute avec tes matchs et reviens plus tard."],
-e_lim:["Llegaste al límite de 15 Me gusta por día. TrueMatch prefiere calidad sobre cantidad: conversa y vuelve más tarde.", "You reached the limit of 15 likes per day. TrueMatch prefers quality over quantity: chat and come back later.", "Você atingiu o limite de 15 curtidas por dia. O TrueMatch prefere qualidade a quantidade: converse e volte mais tarde.", "Tu as atteint la limite de 15 J'aime par jour. TrueMatch préfère la qualité à la quantité : discute et reviens plus tard."]};
+e_lim:["Llegaste al límite de 15 Me gusta por día. TrueMatch prefiere calidad sobre cantidad: conversa y vuelve más tarde.", "You reached the limit of 15 likes per day. TrueMatch prefers quality over quantity: chat and come back later.", "Você atingiu o limite de 15 curtidas por dia. O TrueMatch prefere qualidade a quantidade: converse e volte mais tarde.", "Tu as atteint la limite de 15 J'aime par jour. TrueMatch préfère la qualité à la quantité : discute et reviens plus tard."],
+nw:["Comunidad", "Community", "Comunidade", "Communauté"],
+st_t:["Historias", "Stories", "Histórias", "Stories"],
+st_add:["Tu historia", "Your story", "Sua história", "Ta story"],
+st_mine:["Mi historia", "My story", "Minha história", "Ma story"],
+st_new:["Nueva historia", "New story", "Nova história", "Nouvelle story"],
+st_text:["Texto", "Text", "Texto", "Texte"],
+st_photo:["Foto", "Photo", "Foto", "Photo"],
+st_ph:["Escribe algo corto…", "Write something short…", "Escreva algo curto…", "Écris quelque chose de court…"],
+st_cap:["Texto (opcional)", "Caption (optional)", "Legenda (opcional)", "Légende (facultatif)"],
+st_pick:["📷 Elegir foto", "📷 Choose photo", "📷 Escolher foto", "📷 Choisir une photo"],
+st_pub:["Publicar", "Post", "Publicar", "Publier"],
+st_exp:["Desaparece en 24 horas.", "Disappears in 24 hours.", "Desaparece em 24 horas.", "Disparaît après 24 heures."],
+st_none:["Aún no hay historias de las últimas 24 horas. ¡Publica la primera!", "No stories from the last 24 hours yet. Post the first one!", "Ainda não há histórias das últimas 24 horas. Publique a primeira!", "Pas encore de stories des dernières 24 heures. Publie la première !"],
+st_reply:["Responder al privado", "Reply privately", "Responder no privado", "Répondre en privé"],
+st_like:["Dar Me gusta para poder escribirle", "Like to be able to message", "Curtir para poder escrever", "Aimer pour pouvoir écrire"],
+st_liked:["Me gusta enviado. Si te corresponde, podrán chatear.", "Like sent. If it's mutual you can chat.", "Curtida enviada. Se for mútua, poderão conversar.", "J'aime envoyé. Si c'est réciproque, vous pourrez discuter."],
+st_del:["Borrar mi historia", "Delete my story", "Apagar minha história", "Supprimer ma story"],
+st_delq:["¿Borrar esta historia?", "Delete this story?", "Apagar esta história?", "Supprimer cette story ?"],
+st_pre:["Vi tu historia 😊", "I saw your story 😊", "Vi sua história 😊", "J'ai vu ta story 😊"],
+wall_t:["Muro (últimas 24 h)", "Wall (last 24 h)", "Mural (últimas 24 h)", "Mur (dernières 24 h)"],
+e_st:["Escribe algo o elige una foto.", "Write something or choose a photo.", "Escreva algo ou escolha uma foto.", "Écris quelque chose ou choisis une photo."],
+e_stlim:["Llegaste al límite de 10 historias por día.", "You reached the limit of 10 stories per day.", "Você atingiu o limite de 10 histórias por dia.", "Tu as atteint la limite de 10 stories par jour."]};
 const t=k=>D[k]?D[k][L.indexOf(LANG)]:k;
 const GOALS=["Relación seria","Algo casual","Amistad primero","Aún no lo sé"],INT=["Viajar","Música","Cine","Cocinar","Senderismo","Lectura","Deporte","Arte","Mascotas","Videojuegos","Baile","Fotografía"];
 const TR={en:{g:["Serious relationship","Something casual","Friendship first","Not sure yet"],i:["Travel","Music","Movies","Cooking","Hiking","Reading","Sports","Art","Pets","Video games","Dancing","Photography"]},
@@ -293,6 +331,77 @@ async function introDone(R){if(IR===R)IR=null;R.stream.getTracks().forEach(x=>x.
  if(e2){try{await sb.storage.from("voice_intro").remove([path])}catch(x){}return alert(shopErr(e2))}
  ME=data;if(old){try{await sb.storage.from("voice_intro").remove([old])}catch(x){}}alert(t("intro_ok"));draw()}
 async function introDel(){const old=ME.voice_path;if(!old||!confirm(t("intro_delq")))return;const{data,error}=await sb.from("profiles").update({voice_path:null}).eq("id",U.id).select().single();if(error)return err(error);ME=data;try{await sb.storage.from("voice_intro").remove([old])}catch(x){}draw()}
+
+const SBG={g1:"linear-gradient(135deg,#ff5a3c,#ff8a3d)",g2:"linear-gradient(135deg,#ff3d6e,#ff5a3c)",g3:"linear-gradient(135deg,#7f5af0,#2cb67d)",g4:"linear-gradient(135deg,#00c2ff,#7f5af0)",g5:"linear-gradient(135deg,#f5c542,#ff8a3d)",g6:"linear-gradient(135deg,#2d3436,#636e72)"};
+let SS=[],SV=null,STM=null,SC=null,MT={},LKS=new Set();const S_URL={};
+const seenK=()=>"tm_seen_"+U.id;
+const getSeen=()=>{try{return new Set(JSON.parse(localStorage.getItem(seenK())||"[]"))}catch(e){return new Set()}};
+const markSeen=id=>{try{const a=[...getSeen(),id].slice(-300);localStorage.setItem(seenK(),JSON.stringify(a))}catch(e){}};
+const ago=d=>{const m=Math.max(1,Math.floor((Date.now()-new Date(d))/60000));return m<60?m+" min":Math.floor(m/60)+" h"};
+async function stClean(){try{const cut=new Date(Date.now()-864e5).toISOString();const{data}=await sb.from("stories").select("id,photo_path").eq("user_id",U.id).lt("created_at",cut);
+ if(data&&data.length){const f=data.map(x=>x.photo_path).filter(Boolean);if(f.length)await sb.storage.from("stories").remove(f);await sb.from("stories").delete().in("id",data.map(x=>x.id))}}catch(e){}}
+const bub=(uid,p,n,un,oc)=>`<div class="sb" onclick="${oc}"><div class="sr ${un?"un":""}"><div class="sa">${pic(p)}</div><span class="sf">${flag(p.country)}</span></div><span class="n">${esc(n)}</span></div>`;
+async function wall(){
+ if(!ME.verified)return head()+`<div class="card"><h3>${t("v_title")}</h3><p>${t("v_gate")}</p><button class="p" style="width:100%" onclick="verifView()">${t("v_start")}</button></div>`;
+ await stClean();const cut=new Date(Date.now()-864e5).toISOString();
+ const[a,b,c]=await Promise.all([sb.from("stories").select("*").gt("created_at",cut).order("created_at",{ascending:false}).limit(200),sb.from("matches").select("id,user_a,user_b"),sb.from("likes").select("to_user").eq("from_user",U.id)]);
+ if(a.error)throw a.error;MT={};(b.data||[]).forEach(m=>{MT[m.user_a===U.id?m.user_b:m.user_a]=m.id});LKS=new Set((c.data||[]).map(x=>x.to_user));
+ const rows=(a.data||[]).filter(x=>new Date(x.created_at)>new Date(cut));const ids=[...new Set(rows.map(x=>x.user_id))];
+ const{data:ps}=ids.length?await sb.from("profiles").select("id,name,photo_path,country,frame").in("id",ids):{data:[]};await urls(ps||[]);
+ const pm=Object.fromEntries((ps||[]).map(x=>[x.id,x]));SS=rows.filter(x=>pm[x.user_id]).map(x=>({...x,p:pm[x.user_id]}));
+ const need=[...new Set(SS.filter(x=>x.photo_path&&!S_URL[x.photo_path]).map(x=>x.photo_path))];
+ if(need.length){const{data}=await sb.storage.from("stories").createSignedUrls(need,3600);(data||[]).forEach(d=>{if(d.signedUrl)S_URL[d.path]=d.signedUrl})}
+ const seen=getSeen(),by=new Map();SS.forEach(x=>{if(!by.has(x.user_id))by.set(x.user_id,[]);by.get(x.user_id).push(x)});
+ const mine=by.get(U.id);by.delete(U.id);
+ const add=`<div class="sb" onclick="stNew()"><div class="sr"><div class="sa add">+</div></div><span class="n">${t("st_add")}</span></div>`;
+ const own=mine?bub(U.id,ME,t("st_mine"),mine.some(x=>!seen.has(x.id)),`stOpen('${U.id}')`):"";
+ const oth=[...by.entries()].map(([uid,l])=>bub(uid,l[0].p,l[0].p.name.split(" ")[0],l.some(x=>!seen.has(x.id)),`stOpen('${uid}')`)).join("");
+ const feed=SS.length?SS.map(x=>`<div class="card li" onclick="stOpenId(${x.id})"><div style="width:48px;height:48px;flex:none"><div class="sa">${pic(x.p)}</div></div><div style="flex:1;min-width:0"><b>${esc(x.p.name)}</b> ${flag(x.p.country)} <span class="mu">· ${ago(x.created_at)}</span><div class="mu" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${x.kind==="photo"?"📷 ":""}${esc(x.body||"")}</div></div>${x.kind==="text"?`<div style="width:48px;height:48px;border-radius:12px;flex:none;background:${SBG[x.bg]||SBG.g1}"></div>`:(S_URL[x.photo_path]?`<img src="${S_URL[x.photo_path]}" alt="" style="width:48px;height:48px;border-radius:12px;object-fit:cover;flex:none">`:"")}</div>`).join(""):`<div class="note">${t("st_none")}</div>`;
+ return `<h2 style="margin:0 0 6px">${t("nw")}</h2><h3 style="font-size:15px;margin:0">${t("st_t")}</h3><div class="srow">${add}${own}${oth}</div><h3 style="font-size:15px;margin:6px 0 8px">${t("wall_t")}</h3>${feed}`}
+function stOpen(uid){const l=SS.filter(x=>x.user_id===uid).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));if(!l.length)return;const sn=getSeen(),k=l.findIndex(x=>!sn.has(x.id));SV={list:l,i:k<0?0:k};svShow()}
+function stOpenId(id){const s0=SS.find(x=>x.id===id);if(!s0)return;const l=SS.filter(x=>x.user_id===s0.user_id).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));SV={list:l,i:l.findIndex(x=>x.id===id)};svShow()}
+function svClose(noDraw){clearTimeout(STM);STM=null;const o=$("sv");if(o)o.remove();SV=null;if(!noDraw&&tab==="w"&&!chatM)draw()}
+function svNext(){if(!SV)return;if(SV.i<SV.list.length-1){SV.i++;svShow()}else svClose()}
+function svPrev(){if(!SV)return;if(SV.i>0)SV.i--;svShow()}
+function svTap(e){const r=e.currentTarget.getBoundingClientRect();(e.clientX-r.left<r.width*.35)?svPrev():svNext()}
+function svShow(){clearTimeout(STM);if(!SV)return;const{list,i}=SV,s0=list[i],p=s0.p;markSeen(s0.id);
+ let o=$("sv");if(!o){o=document.createElement("div");o.id="sv";o.className="sv";document.body.appendChild(o)}
+ const mine=s0.user_id===U.id,mt=MT[s0.user_id];
+ const act=mine?`<button onclick="stDel(${s0.id})">🗑 ${t("st_del")}</button>`:mt?`<button class="p" onclick="stReply('${s0.user_id}')">💬 ${t("st_reply")}</button>`:LKS.has(s0.user_id)?`<button disabled>✓ ${t("st_liked")}</button>`:`<button class="p" onclick="stLike('${s0.user_id}')">💗 ${t("st_like")}</button>`;
+ o.innerHTML=`<div class="bars">${list.map((_,k)=>`<i class="${k<i?"d":k===i?"a":""}"><b></b></i>`).join("")}</div>
+<div class="svh"><div style="width:38px;height:38px;flex:none"><div class="sa" style="font-size:16px">${pic(p)}</div></div><div style="flex:1;min-width:0"><b>${esc(p.name)}</b> ${flag(p.country)}<div style="font-size:12px;opacity:.75">${ago(s0.created_at)}</div></div>${mine?"":`<button class="svx" onclick="stRep('${s0.user_id}')">⋯</button>`}<button class="svx" onclick="svClose()">✕</button></div>
+<div class="svs" onclick="svTap(event)" style="${s0.kind==="text"?"background:"+(SBG[s0.bg]||SBG.g1):""}">${s0.kind==="text"?`<div class="svt">${esc(s0.body)}</div>`:`${S_URL[s0.photo_path]?`<img src="${S_URL[s0.photo_path]}" alt="">`:""}${s0.body?`<div class="svc">${esc(s0.body)}</div>`:""}`}</div>
+<div class="svf">${act}</div>`;
+ STM=setTimeout(svNext,5000)}
+async function stReply(uid){const mid=MT[uid];svClose(true);tab="c";chatM=mid;await draw();const e=$("mi");if(e){e.value=t("st_pre");e.focus()}}
+async function stLike(uid){svClose(true);await like(uid,false)}
+async function stRep(uid){clearTimeout(STM);await rep(uid);if(SV)svShow()}
+async function stDel(id){clearTimeout(STM);if(!confirm(t("st_delq"))){if(SV)svShow();return}const s0=SS.find(x=>x.id===id);
+ try{if(s0&&s0.photo_path)await sb.storage.from("stories").remove([s0.photo_path])}catch(e){}
+ const{error}=await sb.from("stories").delete().eq("id",id);if(error)return err(error);svClose(true);draw()}
+function stNew(){SC={kind:"text",bg:"g1",blob:null,url:"",text:""};scDraw()}
+function scTab(k){const e=$("sct");if(e)SC.text=e.value;SC.kind=k;scDraw()}
+function scBg(b){SC.bg=b;const pv=$("scp");if(pv)pv.style.background=SBG[b];document.querySelectorAll(".scd").forEach(e=>e.classList.toggle("on",e.dataset.b===b))}
+function scClose(){const o=$("sc");if(o)o.remove();if(SC&&SC.url)try{URL.revokeObjectURL(SC.url)}catch(e){}SC=null}
+function scDraw(){let o=$("sc");if(!o){o=document.createElement("div");o.id="sc";o.className="sv";o.style.background="var(--bg)";o.style.color="var(--tx)";document.body.appendChild(o)}
+ o.innerHTML=`<div class="svh" style="padding-top:calc(14px + env(safe-area-inset-top,0px))"><b style="flex:1;font-size:18px">${t("st_new")}</b><button class="svx" style="color:var(--tx);background:var(--card)" onclick="scClose()">✕</button></div>
+<div style="padding:0 16px;overflow:auto;flex:1"><div class="row" style="margin-bottom:10px"><button class="${SC.kind==="text"?"p":""}" onclick="scTab('text')">${t("st_text")}</button><button class="${SC.kind==="photo"?"p":""}" onclick="scTab('photo')">${t("st_photo")}</button></div>
+${SC.kind==="text"?`<div id="scp" class="svs" style="background:${SBG[SC.bg]};border-radius:20px;flex:none;height:280px"><textarea id="sct" maxlength="140" placeholder="${t("st_ph")}" class="svt" style="background:transparent;border:0;color:#fff;resize:none;width:100%;height:100%;margin:0;outline:none">${esc(SC.text)}</textarea></div><div class="scds">${Object.keys(SBG).map(b=>`<i class="scd ${SC.bg===b?"on":""}" data-b="${b}" style="background:${SBG[b]}" onclick="scBg('${b}')"></i>`).join("")}</div>`
+:`<label class="bt" style="margin-bottom:10px">${t("st_pick")}<input type="file" accept="image/*" style="display:none" onchange="scPhoto(this)"></label>${SC.url?`<img src="${SC.url}" alt="" style="width:100%;max-height:46vh;object-fit:contain;border-radius:16px;background:#000">`:""}<input id="sct" maxlength="140" placeholder="${t("st_cap")}" value="${esc(SC.text)}" style="margin-top:10px">`}
+<p class="mu" style="text-align:center">${t("st_exp")}</p></div>
+<div class="row" style="padding:10px 16px calc(14px + env(safe-area-inset-bottom,0px))"><button onclick="scClose()">${t("cx")}</button><button class="p" onclick="scPub()">${t("st_pub")}</button></div>`}
+async function scPhoto(inp){const f=inp.files[0];if(!f||!f.type.startsWith("image/"))return;const e=$("sct");if(e)SC.text=e.value;
+ try{const bm=await createImageBitmap(f),k=Math.min(1,1080/Math.max(bm.width,bm.height)),c=document.createElement("canvas");c.width=Math.round(bm.width*k);c.height=Math.round(bm.height*k);c.getContext("2d").drawImage(bm,0,0,c.width,c.height);
+ const blob=await new Promise(r=>c.toBlob(r,"image/jpeg",0.8));if(SC.url)try{URL.revokeObjectURL(SC.url)}catch(x){}SC.blob=blob;SC.url=URL.createObjectURL(blob);scDraw()}catch(x){err(x)}}
+const stErr=e=>{const m=(e&&e.message)||"";return m.includes("limite_historias")?t("e_stlim"):"Error: "+m};
+async function scPub(){const e=$("sct"),text=(e?e.value:SC.text||"").trim().slice(0,140);let row,path=null;
+ if(SC.kind==="text"){if(!text)return alert(t("e_st"));row={user_id:U.id,kind:"text",body:text,bg:SC.bg}}
+ else{if(!SC.blob)return alert(t("e_st"));path=U.id+"/"+Date.now()+".jpg";
+  const{error:eu}=await sb.storage.from("stories").upload(path,SC.blob,{contentType:"image/jpeg"});if(eu)return alert(stErr(eu));
+  row={user_id:U.id,kind:"photo",body:text||null,photo_path:path}}
+ const{error}=await sb.from("stories").insert(row);
+ if(error){if(path){try{await sb.storage.from("stories").remove([path])}catch(x){}}return alert(stErr(error))}
+ scClose();draw()}
 const CONTACTO="Salcedoanthony959@gmail.com";
 const NOTA='<p class="mu">Última actualización: 12 de octubre de 2026. Documento preparado con asistencia de IA a partir de normas públicas; no sustituye el consejo de un abogado.</p>';
 const LEGAL={
@@ -310,10 +419,10 @@ t:`<h2>Términos de uso</h2>${NOTA}
 <h3>11. Cambios</h3><p>Si cambiamos estos términos de forma importante, te avisaremos en la app.</p>`,
 p:`<h2>Política de privacidad</h2>${NOTA}
 <h3>Responsable</h3><p>TrueMatch. Contacto para privacidad: ${CONTACTO}.</p>
-<h3>Datos que guardamos</h3><p>Correo y contraseña (la contraseña la protege el proveedor de autenticación; nosotros no la vemos); nombre, fecha de nacimiento, país (el que tú eliges), biografía, intereses, objetivo y fotos de perfil (hasta 6; se les quitan los datos de ubicación del archivo); tu presentación en voz y tus respuestas a preguntas rompehielo, ambas opcionales; si tú lo activas, una ubicación aproximada (redondeada a unos 1 km); tus Me gusta, matches, mensajes, bloqueos y reportes; la fecha en que aceptaste los términos; las notas de voz que envías en un chat; y, solo durante la verificación, una selfie con un código (la revisa una persona y se borra al terminar la revisión) junto con el resultado de la revisión. El proveedor puede registrar datos técnicos (como la dirección IP) por seguridad.</p>
+<h3>Datos que guardamos</h3><p>Correo y contraseña (la contraseña la protege el proveedor de autenticación; nosotros no la vemos); nombre, fecha de nacimiento, país (el que tú eliges), biografía, intereses, objetivo y fotos de perfil (hasta 6; se les quitan los datos de ubicación del archivo); tu presentación en voz y tus respuestas a preguntas rompehielo, ambas opcionales; las historias que publicas (texto o foto), que se muestran 24 horas a personas verificadas y luego se eliminan (cuando abres la sección Comunidad o en limpiezas periódicas); si tú lo activas, una ubicación aproximada (redondeada a unos 1 km); tus Me gusta, matches, mensajes, bloqueos y reportes; la fecha en que aceptaste los términos; las notas de voz que envías en un chat; y, solo durante la verificación, una selfie con un código (la revisa una persona y se borra al terminar la revisión) junto con el resultado de la revisión. El proveedor puede registrar datos técnicos (como la dirección IP) por seguridad.</p>
 <h3>Datos que NO recolectamos</h3><p>Tu ubicación exacta (solo si activas «Personas cerca» guardamos una ubicación aproximada de unos 1 km; nunca se muestra a otros, solo una distancia aproximada, y puedes borrarla cuando quieras en Perfil), contactos del teléfono ni documentos de identidad. No usamos reconocimiento facial automático ni guardamos plantillas biométricas: la selfie de verificación la compara una persona con tus fotos de perfil y luego se borra. El país de tu perfil es un dato que tú declaras y puedes cambiar cuando quieras.</p>
 <h3>Para qué los usamos</h3><p>Para operar el servicio, mostrar perfiles, crear matches, permitir chats, calcular una compatibilidad estimada con una fórmula simple (sin inteligencia artificial externa) y mantener la seguridad y la moderación.</p>
-<h3>Quién ve qué</h3><p>Otros usuarios registrados ven tu nombre, edad (si no la ocultas), país, biografía, intereses, objetivo, fotos, respuestas a preguntas, presentación en voz y, si activaste tu ubicación, la distancia aproximada que hay entre ustedes (nunca tus coordenadas). Tu correo nunca se muestra. Tus mensajes y notas de voz solo los ve la otra persona del chat. Tu selfie de verificación solo la ve quien modera TrueMatch. Los mensajes no están cifrados de extremo a extremo: el administrador del servicio puede acceder técnicamente a los datos para moderación y soporte. No vendemos tus datos ni los compartimos con anunciantes.</p>
+<h3>Quién ve qué</h3><p>Otros usuarios registrados ven tu nombre, edad (si no la ocultas), país, biografía, intereses, objetivo, fotos, respuestas a preguntas, presentación en voz, historias (24 horas) y, si activaste tu ubicación, la distancia aproximada que hay entre ustedes (nunca tus coordenadas). Tu correo nunca se muestra. Tus mensajes y notas de voz solo los ve la otra persona del chat. Tu selfie de verificación solo la ve quien modera TrueMatch. Los mensajes no están cifrados de extremo a extremo: el administrador del servicio puede acceder técnicamente a los datos para moderación y soporte. No vendemos tus datos ni los compartimos con anunciantes.</p>
 <h3>Proveedores</h3><p>Usamos Supabase (base de datos, autenticación y almacenamiento de fotos) y GitHub Pages (alojamiento de la página). Tus datos pueden procesarse en servidores fuera de tu país.</p>
 <h3>Cuánto tiempo los conservamos</h3><p>Mientras tu cuenta exista. Si la borras desde Perfil, se eliminan tu cuenta de acceso, perfil, foto, Me gusta, matches, mensajes y registros asociados. Las copias de seguridad del proveedor, si existen, se sobrescriben con el tiempo.</p>
 <h3>Tus derechos</h3><p>Puedes pedir acceso, corrección, eliminación, oposición o una copia de tus datos escribiendo a ${CONTACTO}; responderemos en un plazo razonable (objetivo: 30 días). La eliminación también puedes hacerla tú mismo en Perfil. Esto está pensado para respetar el artículo 28 de la Constitución de Venezuela (acceso, rectificación y supresión de datos) y normas como el RGPD europeo, la ley de California, la LGPD de Brasil y otras leyes de tu país.</p>
@@ -356,12 +465,12 @@ async function mk(){const n=$("n").value.trim(),d=$("dob").value,cc=$("cc").valu
  const i=[...document.querySelectorAll("#ints .on")].map(e=>e.dataset.v);if(!i.length)return alert(t("e_int"));
  const{data,error}=await sb.from("profiles").insert({id:U.id,name:n,birth_date:d,bio:$("bio").value,interests:i,goal:$("g").value,country:cc,terms_accepted_at:new Date().toISOString(),terms_version:"2026-10-12"}).select().single();
  if(error)return err(error);ME=data;draw()}
-const IC={d:'<path d="M12 2c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>',l:'<path d="M12 21C4 15 3 11 3 8.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 1.5C21 11 20 15 12 21z"/>',m:'<path d="M9 12a4 4 0 1 0 0-.01M15 12a4 4 0 1 0 0-.01"/>',c:'<path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/>',p:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',s:'<path d="M6 7h12l1 13H5L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/>'};
-const NV=["d","l","m","c","s","p"].map(k=>[k,`<svg viewBox="0 0 24 24">${IC[k]}</svg>`]);
+const IC={d:'<path d="M12 2c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>',l:'<path d="M12 21C4 15 3 11 3 8.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 1.5C21 11 20 15 12 21z"/>',m:'<path d="M9 12a4 4 0 1 0 0-.01M15 12a4 4 0 1 0 0-.01"/>',c:'<path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/>',p:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',s:'<path d="M6 7h12l1 13H5L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/>',w:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/>'};
+const NV=["d","l","m","c","w","s","p"].map(k=>[k,`<svg viewBox="0 0 24 24">${IC[k]}</svg>`]);
 async function draw(){clearInterval(poll);BUSY=false;if(REC)vStop(false);if(IR)introStop(false);$("m").className=tab==="d"?"fill":"";$("nv").style.display="flex";
  $("nv").innerHTML=NV.map(n=>`<button class="${tab===n[0]?"on":""}" onclick="tab='${n[0]}';chatM=null;draw()"><b>${n[1]}</b>${t("n"+n[0])}</button>`).join("");
  $("m").innerHTML=`<p class="mu">…</p>`;
- try{$("m").innerHTML=await({d:disc,l:likes,m:matches,c:chat,s:shop,p:prof}[tab])();$("m").scrollTop=0;if(tab==="d")swipe();if(tab==="c"&&chatM)poll=setInterval(refreshMsgs,5000)}catch(e){$("m").innerHTML=`<div class="note">${esc(e.message||e)}</div>`}}
+ try{$("m").innerHTML=await({d:disc,l:likes,m:matches,c:chat,w:wall,s:shop,p:prof}[tab])();$("m").scrollTop=0;if(tab==="d")swipe();if(tab==="c"&&chatM)poll=setInterval(refreshMsgs,5000)}catch(e){$("m").innerHTML=`<div class="note">${esc(e.message||e)}</div>`}}
 function setReg(v){REG=v;try{localStorage.setItem("tm_reg",v)}catch(e){}draw()}
 let LOC,CURP=[],PI=0,CURID=null,BUSY=false,DIST=(()=>{try{return +localStorage.getItem("tm_dist")||0}catch(e){return 0}})();
 const GAL={};
@@ -479,6 +588,7 @@ async function del(){if(!confirm(t("m_del")))return;try{const{data:fl}=await sb.
  try{await sb.storage.from("verification").remove([U.id+"/selfie.jpg"])}catch(e){}
  try{const{data:ms}=await sb.from("matches").select("id");for(const m of ms||[]){const{data:fs}=await sb.storage.from("voice").list(String(m.id),{limit:1000});const mine=(fs||[]).filter(f=>f.name.startsWith(U.id+"-")).map(f=>m.id+"/"+f.name);if(mine.length)await sb.storage.from("voice").remove(mine)}}catch(e){}
  try{if(ME&&ME.voice_path)await sb.storage.from("voice_intro").remove([ME.voice_path])}catch(e){}
+ try{const{data:sf}=await sb.storage.from("stories").list(U.id,{limit:200});if(sf&&sf.length)await sb.storage.from("stories").remove(sf.map(x=>U.id+"/"+x.name))}catch(e){}
  const{error}=await sb.rpc("delete_my_account");if(error)return err(error);alert(t("m_delok"));await sb.auth.signOut()}
 document.documentElement.lang=LANG;
 </script></body></html>
