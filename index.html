@@ -78,6 +78,9 @@ a{color:var(--a)}
 #sct::placeholder{color:rgba(255,255,255,.7)}
 .scds{display:flex;gap:10px;justify-content:center;margin:12px 0}.scd{width:32px;height:32px;border-radius:50%;border:3px solid transparent;display:block}.scd.on{border-color:var(--tx)}
 nav button{font-size:10px}
+.rx{border:1px solid var(--ln);background:var(--card);color:var(--tx);border-radius:99px;padding:6px 12px;font-size:16px}.rx.on{background:var(--g);color:#fff;border-color:transparent}.rxr{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.pob{white-space:pre-wrap;word-break:break-word;margin:8px 0;font-size:16px;line-height:1.35}.pimg{width:100%;border-radius:14px;max-height:360px;object-fit:cover;display:block}
+.pot{margin:0 0 8px;resize:none}
 .pk{margin:6px 0 2px;font-size:12px;color:var(--mu);width:100%}
 </style></head><body><div id="app"><main id="m"><p class="mu">…</p></main><nav id="nv" style="display:none"></nav></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -198,7 +201,27 @@ st_delq:["¿Borrar esta historia?", "Delete this story?", "Apagar esta história
 st_pre:["Vi tu historia 😊", "I saw your story 😊", "Vi sua história 😊", "J'ai vu ta story 😊"],
 wall_t:["Muro (últimas 24 h)", "Wall (last 24 h)", "Mural (últimas 24 h)", "Mur (dernières 24 h)"],
 e_st:["Escribe algo o elige una foto.", "Write something or choose a photo.", "Escreva algo ou escolha uma foto.", "Écris quelque chose ou choisis une photo."],
-e_stlim:["Llegaste al límite de 10 historias por día.", "You reached the limit of 10 stories per day.", "Você atingiu o limite de 10 histórias por dia.", "Tu as atteint la limite de 10 stories par jour."]};
+e_stlim:["Llegaste al límite de 10 historias por día.", "You reached the limit of 10 stories per day.", "Você atingiu o limite de 10 histórias por dia.", "Tu as atteint la limite de 10 stories par jour."],
+po_t:["Muro", "Wall", "Mural", "Mur"],
+po_mine:["Mi País 📍", "My Country 📍", "Meu País 📍", "Mon Pays 📍"],
+po_all:["Global 🌍", "Global 🌍", "Global 🌍", "Monde 🌍"],
+po_ph:["¿Qué quieres compartir? (máx. 250 caracteres)", "What do you want to share? (max 250 characters)", "O que você quer compartilhar? (máx. 250 caracteres)", "Que veux-tu partager ? (250 caractères max)"],
+po_img:["📷 Imagen", "📷 Image", "📷 Imagem", "📷 Image"],
+po_pub:["Publicar", "Post", "Publicar", "Publier"],
+po_pre:["Vi tu publicación 😊", "I saw your post 😊", "Vi sua publicação 😊", "J'ai vu ta publication 😊"],
+po_none:["Aún no hay publicaciones aquí. ¡Sé la primera persona!", "No posts here yet. Be the first!", "Ainda não há publicações aqui. Seja a primeira pessoa!", "Pas encore de publications ici. Sois le premier ou la première !"],
+po_hid:["oculta (en revisión)", "hidden (under review)", "oculta (em revisão)", "masquée (en examen)"],
+po_del:["Borrar", "Delete", "Apagar", "Supprimer"],
+po_delq:["¿Borrar esta publicación?", "Delete this post?", "Apagar esta publicação?", "Supprimer cette publication ?"],
+po_repok:["Reporte enviado. Si varias personas reportan, la publicación se oculta mientras se revisa.", "Report sent. If several people report it, the post is hidden while it's reviewed.", "Denúncia enviada. Se várias pessoas denunciarem, a publicação fica oculta durante a revisão.", "Signalement envoyé. Si plusieurs personnes signalent, la publication est masquée pendant l'examen."],
+po_dup:["Ya reportaste esta publicación.", "You already reported this post.", "Você já denunciou esta publicação.", "Tu as déjà signalé cette publication."],
+e_po:["Escribe algo para publicar.", "Write something to post.", "Escreva algo para publicar.", "Écris quelque chose à publier."],
+e_link:["No se permiten enlaces en las publicaciones.", "Links are not allowed in posts.", "Links não são permitidos nas publicações.", "Les liens ne sont pas autorisés dans les publications."],
+e_polim:["Llegaste al límite de 10 publicaciones por día.", "You reached the limit of 10 posts per day.", "Você atingiu o limite de 10 publicações por dia.", "Tu as atteint la limite de 10 publications par jour."],
+adm_posts:["Publicaciones reportadas", "Reported posts", "Publicações denunciadas", "Publications signalées"],
+adm_rm:["Quitar", "Remove", "Remover", "Retirer"],
+adm_rs:["Restaurar", "Restore", "Restaurar", "Rétablir"],
+adm_rpts:["reportes", "reports", "denúncias", "signalements"]};
 const t=k=>D[k]?D[k][L.indexOf(LANG)]:k;
 const GOALS=["Relación seria","Algo casual","Amistad primero","Aún no lo sé"],INT=["Viajar","Música","Cine","Cocinar","Senderismo","Lectura","Deporte","Arte","Mascotas","Videojuegos","Baile","Fotografía"];
 const TR={en:{g:["Serious relationship","Something casual","Friendship first","Not sure yet"],i:["Travel","Music","Movies","Cooking","Hiking","Reading","Sports","Art","Pets","Video games","Dancing","Photography"]},
@@ -270,8 +293,13 @@ async function vUp(inp){const f=inp.files[0];if(!f||!f.type.startsWith("image/")
 async function adminView(){$("m").className="";$("nv").style.display="none";$("m").innerHTML=`<p class="mu">…</p>`;
  try{const{data,error}=await sb.rpc("admin_pending");if(error)throw error;const rows=data||[];await urls(rows);
  const sig=await Promise.all(rows.map(async r=>{const{data:d}=await sb.storage.from("verification").createSignedUrl(r.user_id+"/selfie.jpg",600);return d?d.signedUrl:""}));
- $("m").innerHTML=`<h2>${t("adm_t")}</h2>`+(rows.length?rows.map((r,i)=>`<div class="card"><b>${esc(r.name)}</b><div class="vc" style="font-size:34px;letter-spacing:6px">${esc(r.code)}</div><p class="mu" style="margin:0 0 6px">${t("adm_code")}</p><div class="cmp"><div><p class="mu" style="margin:0">${t("adm_selfie")}</p>${sig[i]?`<img src="${sig[i]}" alt="">`:""}</div><div><p class="mu" style="margin:0">${t("adm_photo")}</p>${C[r.photo_path]?`<img src="${C[r.photo_path]}" alt="">`:""}</div></div><div class="row" style="margin-top:10px"><button onclick="adminRev('${r.user_id}',false)">${t("adm_no")}</button><button class="p" onclick="adminRev('${r.user_id}',true)">${t("adm_ok")}</button></div></div>`).join(""):`<p class="mu">${t("adm_none")}</p>`)+`<button onclick="draw()">${t("close")}</button>`}
+ $("m").innerHTML=`<h2>${t("adm_t")}</h2>`+(rows.length?rows.map((r,i)=>`<div class="card"><b>${esc(r.name)}</b><div class="vc" style="font-size:34px;letter-spacing:6px">${esc(r.code)}</div><p class="mu" style="margin:0 0 6px">${t("adm_code")}</p><div class="cmp"><div><p class="mu" style="margin:0">${t("adm_selfie")}</p>${sig[i]?`<img src="${sig[i]}" alt="">`:""}</div><div><p class="mu" style="margin:0">${t("adm_photo")}</p>${C[r.photo_path]?`<img src="${C[r.photo_path]}" alt="">`:""}</div></div><div class="row" style="margin-top:10px"><button onclick="adminRev('${r.user_id}',false)">${t("adm_no")}</button><button class="p" onclick="adminRev('${r.user_id}',true)">${t("adm_ok")}</button></div></div>`).join(""):`<p class="mu">${t("adm_none")}</p>`)+await adminPosts()+`<button onclick="draw()">${t("close")}</button>`}
  catch(e){$("m").innerHTML=`<div class="note">${esc(e.message||e)}</div><button onclick="draw()">${t("close")}</button>`}}
+async function adminPosts(){let rows=[];try{const{data,error}=await sb.rpc("admin_posts");if(!error)rows=data||[]}catch(e){}
+ if(!rows.length)return "";
+ return `<h3 style="margin-top:16px">${t("adm_posts")}</h3>`+rows.map(r=>`<div class="card"><b>${esc(r.name)}</b> <span class="badge">${r.reports} ${t("adm_rpts")}</span>${r.hidden?` <span class="badge" style="background:#ffd9d9;color:#8a1a1a">${t("po_hid")}</span>`:""}<p class="pob">${esc(r.body)}${r.photo_path?" 📷":""}</p><div class="row"><button onclick="admPost(${r.id},'delete',${r.photo_path?`'${esc(r.photo_path)}'`:"null"})">${t("adm_rm")}</button>${r.hidden?`<button class="p" onclick="admPost(${r.id},'restore',null)">${t("adm_rs")}</button>`:""}</div></div>`).join("")}
+async function admPost(id,act,path){const{error}=await sb.rpc("admin_post_action",{pid:id,act});if(error)return alert(vErr(error));
+ if(act==="delete"&&path){try{await sb.storage.from("posts").remove([path])}catch(e){}}adminView()}
 async function adminRev(uid,ok){let why=null;if(!ok){why=prompt(t("adm_why"));if(why===null)return}
  const{error}=await sb.rpc("admin_review",{target:uid,approve:ok,why:why||null});if(error)return alert(vErr(error));
  try{await sb.storage.from("verification").remove([uid+"/selfie.jpg"])}catch(e){}
@@ -357,7 +385,7 @@ async function wall(){
  const own=mine?bub(U.id,ME,t("st_mine"),mine.some(x=>!seen.has(x.id)),`stOpen('${U.id}')`):"";
  const oth=[...by.entries()].map(([uid,l])=>bub(uid,l[0].p,l[0].p.name.split(" ")[0],l.some(x=>!seen.has(x.id)),`stOpen('${uid}')`)).join("");
  const feed=SS.length?SS.map(x=>`<div class="card li" onclick="stOpenId(${x.id})"><div style="width:48px;height:48px;flex:none"><div class="sa">${pic(x.p)}</div></div><div style="flex:1;min-width:0"><b>${esc(x.p.name)}</b> ${flag(x.p.country)} <span class="mu">· ${ago(x.created_at)}</span><div class="mu" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${x.kind==="photo"?"📷 ":""}${esc(x.body||"")}</div></div>${x.kind==="text"?`<div style="width:48px;height:48px;border-radius:12px;flex:none;background:${SBG[x.bg]||SBG.g1}"></div>`:(S_URL[x.photo_path]?`<img src="${S_URL[x.photo_path]}" alt="" style="width:48px;height:48px;border-radius:12px;object-fit:cover;flex:none">`:"")}</div>`).join(""):`<div class="note">${t("st_none")}</div>`;
- return `<h2 style="margin:0 0 6px">${t("nw")}</h2><h3 style="font-size:15px;margin:0">${t("st_t")}</h3><div class="srow">${add}${own}${oth}</div><h3 style="font-size:15px;margin:6px 0 8px">${t("wall_t")}</h3>${feed}`}
+ return `<h2 style="margin:0 0 6px">${t("nw")}</h2><h3 style="font-size:15px;margin:0">${t("st_t")}</h3><div class="srow">${add}${own}${oth}</div>${await postsSection()}`}
 function stOpen(uid){const l=SS.filter(x=>x.user_id===uid).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));if(!l.length)return;const sn=getSeen(),k=l.findIndex(x=>!sn.has(x.id));SV={list:l,i:k<0?0:k};svShow()}
 function stOpenId(id){const s0=SS.find(x=>x.id===id);if(!s0)return;const l=SS.filter(x=>x.user_id===s0.user_id).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));SV={list:l,i:l.findIndex(x=>x.id===id)};svShow()}
 function svClose(noDraw){clearTimeout(STM);STM=null;const o=$("sv");if(o)o.remove();SV=null;if(!noDraw&&tab==="w"&&!chatM)draw()}
@@ -402,6 +430,50 @@ async function scPub(){const e=$("sct"),text=(e?e.value:SC.text||"").trim().slic
  const{error}=await sb.from("stories").insert(row);
  if(error){if(path){try{await sb.storage.from("stories").remove([path])}catch(x){}}return alert(stErr(error))}
  scClose();draw()}
+
+const RXE={heart:"❤️",fire:"🔥",plane:"✈️",laugh:"😂"};
+let PSC=(()=>{try{return localStorage.getItem("tm_scope")==="mine"?"mine":"all"}catch(e){return"all"}})(),PD={text:"",blob:null,url:""},RX={};const P_URL={};
+const LINKRE=/(https?:\/\/|www\.|t\.me\/|wa\.me\/|bit\.ly)/i;
+const rxHtml=id=>Object.keys(RXE).map(k=>{const r=(RX[id]||{})[k]||{n:0,mine:false};return `<button class="rx${r.mine?" on":""}" onclick="poRx(${id},'${k}')">${RXE[k]}${r.n>0?` <b>${r.n}</b>`:""}</button>`}).join("");
+const compHtml=()=>`<div class="card"><textarea id="pot" class="pot" rows="3" maxlength="250" placeholder="${t("po_ph")}" oninput="PD.text=this.value;poCnt()">${esc(PD.text)}</textarea>${PD.url?`<div style="position:relative;margin-bottom:8px"><img class="pimg" src="${PD.url}" alt="" style="max-height:200px"><button class="svx" style="position:absolute;top:6px;right:6px" onclick="poNoImg()">✕</button></div>`:""}
+<div style="display:flex;gap:10px;align-items:center"><label class="rx" style="cursor:pointer">${t("po_img")}<input type="file" accept="image/*" style="display:none" onchange="poImg(this)"></label><span class="mu" id="pocnt" style="flex:1">${PD.text.length}/250</span><button class="p" onclick="poPub()">${t("po_pub")}</button></div></div>`;
+function poCnt(){const e=$("pocnt");if(e)e.textContent=PD.text.length+"/250"}
+function poComp(){const e=$("pocomp");if(e)e.innerHTML=compHtml()}
+function poScope(v){PSC=v;try{localStorage.setItem("tm_scope",v)}catch(e){}draw()}
+function poNoImg(){if(PD.url)try{URL.revokeObjectURL(PD.url)}catch(e){}PD.blob=null;PD.url="";poComp()}
+async function poImg(inp){const f=inp.files[0];if(!f||!f.type.startsWith("image/"))return;
+ try{const bm=await createImageBitmap(f),k=Math.min(1,1080/Math.max(bm.width,bm.height)),c=document.createElement("canvas");c.width=Math.round(bm.width*k);c.height=Math.round(bm.height*k);c.getContext("2d").drawImage(bm,0,0,c.width,c.height);
+ const blob=await new Promise(r=>c.toBlob(r,"image/jpeg",0.8));if(PD.url)try{URL.revokeObjectURL(PD.url)}catch(x){}PD.blob=blob;PD.url=URL.createObjectURL(blob);poComp()}catch(x){err(x)}}
+const poErr=e=>{const m=(e&&e.message)||"";return m.includes("limite_publicaciones")?t("e_polim"):m.includes("posts_sin_enlaces")?t("e_link"):"Error: "+m};
+async function poPub(){const text=($("pot")?$("pot").value:PD.text).trim().slice(0,250);if(!text)return alert(t("e_po"));if(LINKRE.test(text))return alert(t("e_link"));let path=null;
+ if(PD.blob){path=U.id+"/"+Date.now()+".jpg";const{error:eu}=await sb.storage.from("posts").upload(path,PD.blob,{contentType:"image/jpeg"});if(eu)return alert(poErr(eu))}
+ const{error}=await sb.from("posts").insert({user_id:U.id,body:text,photo_path:path});
+ if(error){if(path){try{await sb.storage.from("posts").remove([path])}catch(x){}}return alert(poErr(error))}
+ if(PD.url)try{URL.revokeObjectURL(PD.url)}catch(x){}PD={text:"",blob:null,url:""};draw()}
+async function poRx(id,k){const m=RX[id]=RX[id]||{},r=m[k]=m[k]||{n:0,mine:false},was=r.mine;r.mine=!was;r.n+=was?-1:1;const el=$("rx"+id);if(el)el.innerHTML=rxHtml(id);
+ const{error}=await(was?sb.from("post_reactions").delete().eq("post_id",id).eq("user_id",U.id).eq("emoji",k):sb.from("post_reactions").insert({post_id:id,user_id:U.id,emoji:k}));
+ if(error){r.mine=was;r.n+=was?1:-1;if(el)el.innerHTML=rxHtml(id);alert("Error: "+error.message)}}
+async function poReply(uid){const mid=MT[uid];if(!mid)return;tab="c";chatM=mid;await draw();const e=$("mi");if(e){e.value=t("po_pre");e.focus()}}
+async function poRep(id){const r=prompt(t("m_rep"));if(!r)return;const{error}=await sb.from("post_reports").insert({post_id:id,reporter:U.id,reason:r.slice(0,500)});
+ error?alert(error.code==="23505"?t("po_dup"):"Error: "+error.message):alert(t("po_repok"))}
+async function poDel(id,path){if(!confirm(t("po_delq")))return;try{if(path)await sb.storage.from("posts").remove([path])}catch(e){}
+ const{error}=await sb.from("posts").delete().eq("id",id);if(error)return err(error);draw()}
+async function postsSection(){
+ const head=`<h3 style="font-size:15px;margin:6px 0 8px">${t("po_t")}</h3><div class="row" style="margin-bottom:10px"><button class="${PSC==="mine"?"p":""}" onclick="poScope('mine')">${t("po_mine")}</button><button class="${PSC==="all"?"p":""}" onclick="poScope('all')">${t("po_all")}</button></div><div id="pocomp">${compHtml()}</div>`;
+ let q=sb.from("posts").select("*").order("created_at",{ascending:false}).limit(50);if(PSC==="mine"&&ME.country)q=q.eq("country",ME.country);
+ const{data:rows,error}=await q;if(error)return head+`<div class="note">${esc(error.message)}</div>`;
+ const list=rows||[];if(!list.length)return head+`<div class="note">${t("po_none")}</div>`;
+ const ids=[...new Set(list.map(x=>x.user_id))];
+ const{data:ps}=await sb.from("profiles").select("id,name,birth_date,hide_age,photo_path,country,frame").in("id",ids);await urls(ps||[]);const pm=Object.fromEntries((ps||[]).map(x=>[x.id,x]));
+ const need=[...new Set(list.filter(x=>x.photo_path&&!P_URL[x.photo_path]).map(x=>x.photo_path))];
+ if(need.length){const{data}=await sb.storage.from("posts").createSignedUrls(need,3600);(data||[]).forEach(d=>{if(d.signedUrl)P_URL[d.path]=d.signedUrl})}
+ RX={};try{const{data}=await sb.rpc("post_reaction_counts",{ids:list.map(x=>x.id)});(data||[]).forEach(r=>{(RX[r.post_id]=RX[r.post_id]||{})[r.emoji]={n:r.n,mine:r.mine}})}catch(e){}
+ const cards=list.filter(x=>pm[x.user_id]).map(x=>{const p=pm[x.user_id],mine=x.user_id===U.id,mt=MT[x.user_id];
+  const act=mine?`<button onclick="poDel(${x.id},${x.photo_path?`'${esc(x.photo_path)}'`:"null"})">🗑 ${t("po_del")}</button>`:mt?`<button class="p" onclick="poReply('${x.user_id}')">💬 ${t("st_reply")}</button>`:LKS.has(x.user_id)?`<button disabled style="opacity:.7">✓ ${t("st_liked")}</button>`:`<button class="p" onclick="stLike('${x.user_id}')">💗 ${t("st_like")}</button>`;
+  return `<div class="card"><div class="li" style="cursor:default"><div class="mini${frc(p)}">${pic(p)}</div><div style="flex:1;min-width:0"><b>${esc(p.name)}${ageTxt(p)}</b> ${flag(p.country)}<div class="mu" style="font-size:12px">${ago(x.created_at)}${x.hidden?" · "+t("po_hid"):""}</div></div></div>
+<p class="pob">${esc(x.body)}</p>${x.photo_path&&P_URL[x.photo_path]?`<img class="pimg" src="${P_URL[x.photo_path]}" alt="">`:""}<div class="rxr" id="rx${x.id}">${rxHtml(x.id)}</div>
+<div class="row" style="margin-top:10px;align-items:stretch">${act}${mine?"":`<button onclick="poRep(${x.id})" style="flex:none" aria-label="report">🚩</button>`}</div></div>`}).join("");
+ return head+(cards||`<div class="note">${t("po_none")}</div>`)}
 const CONTACTO="Salcedoanthony959@gmail.com";
 const NOTA='<p class="mu">Última actualización: 12 de octubre de 2026. Documento preparado con asistencia de IA a partir de normas públicas; no sustituye el consejo de un abogado.</p>';
 const LEGAL={
@@ -409,7 +481,7 @@ t:`<h2>Términos de uso</h2>${NOTA}
 <h3>1. Qué es TrueMatch</h3><p>TrueMatch es un servicio para conocer personas con intereses y objetivos afines. Hoy es gratuito. Para favorecer conversaciones de calidad hay un máximo de 15 Me gusta cada 24 horas. Al crear una cuenta aceptas estos Términos, la Política de Privacidad y las Normas de la comunidad.</p>
 <h3>2. Edad mínima</h3><p>Solo pueden usar TrueMatch personas de 18 años o más. Si detectamos una cuenta de una persona menor de edad, la eliminamos. Si conoces un caso, repórtalo.</p>
 <h3>3. Tu cuenta</h3><p>Debes dar datos verdaderos, tener una sola cuenta, no hacerte pasar por otra persona y cuidar tu contraseña. Para ver a otras personas, dar Me gusta y chatear debes verificar tu identidad con una selfie, que revisa una persona; podemos rechazar o retirar la verificación si hay dudas. La verificación reduce el riesgo de perfiles falsos pero no lo elimina.</p>
-<h3>4. Conducta y moderación</h3><p>Debes cumplir las Normas de la comunidad. Los reportes se revisan manualmente. Podemos retirar contenido y suspender o eliminar cuentas que incumplan las normas o la ley.</p>
+<h3>4. Conducta y moderación</h3><p>Debes cumplir las Normas de la comunidad. Los reportes se revisan manualmente. Las publicaciones del muro las ven personas verificadas; si varias personas reportan una publicación, se oculta mientras se revisa. Podemos retirar contenido y suspender o eliminar cuentas que incumplan las normas o la ley.</p>
 <h3>5. Tu contenido</h3><p>Tus fotos y textos siguen siendo tuyos. Nos autorizas a mostrarlos a otros usuarios dentro del servicio mientras tu cuenta exista. No subas fotos de otras personas sin su permiso ni contenido ilegal.</p>
 <h3>6. Seguridad personal</h3><p>No podemos comprobar quién es cada persona: la insignia de verificado solo aparece si un administrador la otorga manualmente. La compatibilidad es una estimación, no una garantía. Si te reúnes con alguien, hazlo en un lugar público y avisa a alguien de confianza.</p>
 <h3>7. Costos, diamantes y publicidad</h3><p>El servicio es gratuito. Los diamantes (💎) son puntos virtuales del juego dentro de la app: se ganan chateando, se usan para stickers y marcos, no se compran con dinero, no se pueden cambiar por dinero y no tienen valor fuera de TrueMatch. Si en el futuro hubiera cobros, anuncios o patrocinios, se avisará con claridad y anticipación, y no se cobrará nada sin tu consentimiento.</p>
@@ -419,10 +491,10 @@ t:`<h2>Términos de uso</h2>${NOTA}
 <h3>11. Cambios</h3><p>Si cambiamos estos términos de forma importante, te avisaremos en la app.</p>`,
 p:`<h2>Política de privacidad</h2>${NOTA}
 <h3>Responsable</h3><p>TrueMatch. Contacto para privacidad: ${CONTACTO}.</p>
-<h3>Datos que guardamos</h3><p>Correo y contraseña (la contraseña la protege el proveedor de autenticación; nosotros no la vemos); nombre, fecha de nacimiento, país (el que tú eliges), biografía, intereses, objetivo y fotos de perfil (hasta 6; se les quitan los datos de ubicación del archivo); tu presentación en voz y tus respuestas a preguntas rompehielo, ambas opcionales; las historias que publicas (texto o foto), que se muestran 24 horas a personas verificadas y luego se eliminan (cuando abres la sección Comunidad o en limpiezas periódicas); si tú lo activas, una ubicación aproximada (redondeada a unos 1 km); tus Me gusta, matches, mensajes, bloqueos y reportes; la fecha en que aceptaste los términos; las notas de voz que envías en un chat; y, solo durante la verificación, una selfie con un código (la revisa una persona y se borra al terminar la revisión) junto con el resultado de la revisión. El proveedor puede registrar datos técnicos (como la dirección IP) por seguridad.</p>
+<h3>Datos que guardamos</h3><p>Correo y contraseña (la contraseña la protege el proveedor de autenticación; nosotros no la vemos); nombre, fecha de nacimiento, país (el que tú eliges), biografía, intereses, objetivo y fotos de perfil (hasta 6; se les quitan los datos de ubicación del archivo); tu presentación en voz y tus respuestas a preguntas rompehielo, ambas opcionales; tus publicaciones del muro (texto y foto opcional) y las reacciones que das; las historias que publicas (texto o foto), que se muestran 24 horas a personas verificadas y luego se eliminan (cuando abres la sección Comunidad o en limpiezas periódicas); si tú lo activas, una ubicación aproximada (redondeada a unos 1 km); tus Me gusta, matches, mensajes, bloqueos y reportes; la fecha en que aceptaste los términos; las notas de voz que envías en un chat; y, solo durante la verificación, una selfie con un código (la revisa una persona y se borra al terminar la revisión) junto con el resultado de la revisión. El proveedor puede registrar datos técnicos (como la dirección IP) por seguridad.</p>
 <h3>Datos que NO recolectamos</h3><p>Tu ubicación exacta (solo si activas «Personas cerca» guardamos una ubicación aproximada de unos 1 km; nunca se muestra a otros, solo una distancia aproximada, y puedes borrarla cuando quieras en Perfil), contactos del teléfono ni documentos de identidad. No usamos reconocimiento facial automático ni guardamos plantillas biométricas: la selfie de verificación la compara una persona con tus fotos de perfil y luego se borra. El país de tu perfil es un dato que tú declaras y puedes cambiar cuando quieras.</p>
 <h3>Para qué los usamos</h3><p>Para operar el servicio, mostrar perfiles, crear matches, permitir chats, calcular una compatibilidad estimada con una fórmula simple (sin inteligencia artificial externa) y mantener la seguridad y la moderación.</p>
-<h3>Quién ve qué</h3><p>Otros usuarios registrados ven tu nombre, edad (si no la ocultas), país, biografía, intereses, objetivo, fotos, respuestas a preguntas, presentación en voz, historias (24 horas) y, si activaste tu ubicación, la distancia aproximada que hay entre ustedes (nunca tus coordenadas). Tu correo nunca se muestra. Tus mensajes y notas de voz solo los ve la otra persona del chat. Tu selfie de verificación solo la ve quien modera TrueMatch. Los mensajes no están cifrados de extremo a extremo: el administrador del servicio puede acceder técnicamente a los datos para moderación y soporte. No vendemos tus datos ni los compartimos con anunciantes.</p>
+<h3>Quién ve qué</h3><p>Otros usuarios registrados ven tu nombre, edad (si no la ocultas), país, biografía, intereses, objetivo, fotos, respuestas a preguntas, presentación en voz, historias (24 horas), publicaciones del muro y, si activaste tu ubicación, la distancia aproximada que hay entre ustedes (nunca tus coordenadas). Tu correo nunca se muestra. Tus mensajes y notas de voz solo los ve la otra persona del chat. Tu selfie de verificación solo la ve quien modera TrueMatch. Los mensajes no están cifrados de extremo a extremo: el administrador del servicio puede acceder técnicamente a los datos para moderación y soporte. No vendemos tus datos ni los compartimos con anunciantes.</p>
 <h3>Proveedores</h3><p>Usamos Supabase (base de datos, autenticación y almacenamiento de fotos) y GitHub Pages (alojamiento de la página). Tus datos pueden procesarse en servidores fuera de tu país.</p>
 <h3>Cuánto tiempo los conservamos</h3><p>Mientras tu cuenta exista. Si la borras desde Perfil, se eliminan tu cuenta de acceso, perfil, foto, Me gusta, matches, mensajes y registros asociados. Las copias de seguridad del proveedor, si existen, se sobrescriben con el tiempo.</p>
 <h3>Tus derechos</h3><p>Puedes pedir acceso, corrección, eliminación, oposición o una copia de tus datos escribiendo a ${CONTACTO}; responderemos en un plazo razonable (objetivo: 30 días). La eliminación también puedes hacerla tú mismo en Perfil. Esto está pensado para respetar el artículo 28 de la Constitución de Venezuela (acceso, rectificación y supresión de datos) y normas como el RGPD europeo, la ley de California, la LGPD de Brasil y otras leyes de tu país.</p>
@@ -589,6 +661,7 @@ async function del(){if(!confirm(t("m_del")))return;try{const{data:fl}=await sb.
  try{const{data:ms}=await sb.from("matches").select("id");for(const m of ms||[]){const{data:fs}=await sb.storage.from("voice").list(String(m.id),{limit:1000});const mine=(fs||[]).filter(f=>f.name.startsWith(U.id+"-")).map(f=>m.id+"/"+f.name);if(mine.length)await sb.storage.from("voice").remove(mine)}}catch(e){}
  try{if(ME&&ME.voice_path)await sb.storage.from("voice_intro").remove([ME.voice_path])}catch(e){}
  try{const{data:sf}=await sb.storage.from("stories").list(U.id,{limit:200});if(sf&&sf.length)await sb.storage.from("stories").remove(sf.map(x=>U.id+"/"+x.name))}catch(e){}
+ try{const{data:pf}=await sb.storage.from("posts").list(U.id,{limit:200});if(pf&&pf.length)await sb.storage.from("posts").remove(pf.map(x=>U.id+"/"+x.name))}catch(e){}
  const{error}=await sb.rpc("delete_my_account");if(error)return err(error);alert(t("m_delok"));await sb.auth.signOut()}
 document.documentElement.lang=LANG;
 </script></body></html>
