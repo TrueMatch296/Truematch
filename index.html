@@ -90,6 +90,21 @@ nav button{position:relative}nav button b{position:relative}
 .dsep{text-align:center;font-size:12px;color:var(--mu);margin:10px 0 2px}
 .typ{height:18px;font-size:13px;color:var(--mu);margin:2px 4px}
 .badge.new{background:var(--g);color:#fff}
+main.fill{padding:6px 10px 4px}
+.dh{border-radius:28px}
+.dh .ov{padding:90px 16px 60px;background:linear-gradient(transparent,rgba(0,0,0,.8))}
+.dh .ov h2{font-size:29px}
+.acts{display:flex;justify-content:center;align-items:flex-end;gap:20px;margin:-46px 0 2px;position:relative;z-index:4;flex:none}
+.abw{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--mu)}
+.ab{width:62px;height:62px;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;border:0;background:var(--card);box-shadow:0 6px 18px rgba(0,0,0,.25);transition:transform .12s}
+.ab:active{transform:scale(.92)}
+.ab svg{width:28px;height:28px}
+.ab.n svg{fill:none;stroke:#e5322d;stroke-width:3.2;stroke-linecap:round}
+.ab.s svg{fill:#2d8cff}
+.ab.l{width:80px;height:80px;background:var(--lk)}.ab.l svg{width:38px;height:38px;fill:#fff}
+.acts.lim .abw:nth-child(n+2){opacity:.4}
+#fpan select{font-size:13px;padding:8px 4px;text-overflow:ellipsis}
+.fbt{position:relative;padding:6px 10px;border-radius:12px;display:flex;align-items:center;line-height:1}.fbt svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}.fbt i{position:absolute;top:3px;right:3px;width:9px;height:9px;border-radius:50%;background:var(--a)}
 </style></head><body><div id="app"><main id="m"><p class="mu">…</p></main><nav id="nv" style="display:none"></nav></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
@@ -233,6 +248,9 @@ adm_rm:["Quitar", "Remove", "Remover", "Retirer"],
 adm_rs:["Restaurar", "Restore", "Restaurar", "Rétablir"],
 adm_rpts:["reportes", "reports", "denúncias", "signalements"],
 seen:["Visto", "Seen", "Visto", "Vu"],
+b_pass:["Pasar", "Pass", "Passar", "Passer"],
+b_like:["Me gusta", "Like", "Curtir", "J'aime"],
+b_super:["Súper", "Super", "Super", "Super"],
 typing:["escribiendo…", "typing…", "digitando…", "écrit…"],
 n_new:["Nuevo", "New", "Novo", "Nouveau"],
 n_match:["¡Nuevo match!", "New match!", "Novo match!", "Nouveau match !"],
@@ -572,21 +590,22 @@ function setDist(v){DIST=+v;try{localStorage.setItem("tm_dist",v)}catch(e){}draw
 function setLoc(){if(!navigator.geolocation)return alert(t("e_loc"));
  navigator.geolocation.getCurrentPosition(async pos=>{const{error}=await sb.from("profile_locations").upsert({id:U.id,lat:pos.coords.latitude,lng:pos.coords.longitude});if(error)return err(error);LOC={lat:pos.coords.latitude,lng:pos.coords.longitude};draw()},()=>alert(t("e_loc")),{enableHighAccuracy:false,timeout:15000,maximumAge:600000})}
 async function delLoc(){const{error}=await sb.from("profile_locations").delete().eq("id",U.id);if(error)return err(error);LOC=false;DIST=0;try{localStorage.setItem("tm_dist","0")}catch(e){}draw()}
-const filters=()=>`<div class="top" style="margin-bottom:8px"><div class="brand">${LOGO(28)}<span class="wm" style="font-size:22px">true<b>match</b></span></div>${LL!==null?`<span class="pill dm" style="font-size:13px">❤️ ${LL}/${LIM}</span>`:""}</div>${LL===0?`<div class="note" style="margin:0 0 8px">${t("lim_note")}</div>`:""}<div class="row" style="margin-bottom:8px"><select style="margin:0;padding:8px" onchange="setReg(this.value)"><option value="all" ${REG==="all"?"selected":""}>🌍 ${t("world")}</option><option value="mine" ${REG==="mine"?"selected":""}>${flag(ME.country)} ${t("mine")}</option>${copts(REG)}</select><select style="margin:0;padding:8px" onchange="setDist(this.value)">${[0,10,25,50,100].map(k=>`<option value="${k}" ${DIST===k?"selected":""}>📍 ${k?t("upto")+" "+k+" km":t("dany")}</option>`).join("")}</select></div>`;
+const filters=(open)=>`<div class="top" style="margin-bottom:6px"><div class="brand">${LOGO(26)}<span class="wm" style="font-size:20px">true<b>match</b></span></div><div style="display:flex;gap:8px;align-items:center">${LL!==null?`<span class="pill dm" style="font-size:13px">❤️ ${LL}/${LIM}</span>`:""}<button class="fbt" onclick="tf()" aria-label="${t("more")}"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>${REG!=="all"||DIST>0?"<i></i>":""}</button></div></div>${LL===0?`<div class="note" style="margin:0 0 6px">${t("lim_note")}</div>`:""}<div class="row" id="fpan" style="margin-bottom:6px;display:${open?"flex":"none"}"><select style="margin:0;padding:8px" onchange="setReg(this.value)"><option value="all" ${REG==="all"?"selected":""}>🌍 ${t("world")}</option><option value="mine" ${REG==="mine"?"selected":""}>${flag(ME.country)} ${t("mine")}</option>${copts(REG)}</select><select style="margin:0;padding:8px" onchange="setDist(this.value)">${[0,10,25,50,100].map(k=>`<option value="${k}" ${DIST===k?"selected":""}>📍 ${k?t("upto")+" "+k+" km":t("dany")}</option>`).join("")}</select></div>`;
+function tf(){const e=$("fpan");if(e)e.style.display=e.style.display==="none"?"flex":"none"}
 async function disc(){
  if(!ME.verified)return head()+`<div class="card"><h3>${t("v_title")}</h3><p>${t("v_gate")}</p><button class="p" style="width:100%" onclick="verifView()">${t("v_start")}</button></div>`;
  await loadLL();
  let near=null;
  if(DIST>0){if(LOC===undefined)await loadLoc();
   if(LOC){const{data,error}=await sb.rpc("nearby_profiles",{max_km:DIST});if(error)throw error;near=new Map((data||[]).map(r=>[r.id,r.distance_km]))}}
- const f=filters();
- if(DIST>0&&!LOC)return f+`<div class="card"><h3>${t("locttl")}</h3><p class="mu">${t("locneed")}</p><button class="p" style="width:100%" onclick="setLoc()">${t("locon")}</button></div>`;
+ const f=filters(),fo=filters(true);
+ if(DIST>0&&!LOC)return fo+`<div class="card"><h3>${t("locttl")}</h3><p class="mu">${t("locneed")}</p><button class="p" style="width:100%" onclick="setLoc()">${t("locon")}</button></div>`;
  const base=sb.from("profiles_pub").select("*").neq("id",U.id);
  const[{data:ps,error:e1},{data:ls}]=await Promise.all([near?(near.size?base.in("id",[...near.keys()]).limit(200):Promise.resolve({data:[]})):base.limit(100),sb.from("likes").select("to_user").eq("from_user",U.id)]);
  if(e1)throw e1;const seen=new Set([...(ls||[]).map(x=>x.to_user),...passes()]);
  const q=(ps||[]).filter(p=>!seen.has(p.id)&&(REG==="all"||(REG==="mine"?(!ME.country||p.country===ME.country):p.country===REG)));
  if(near)q.sort((a,b)=>near.get(a.id)-near.get(b.id));
- const p=q[0];if(!p)return f+`<div class="card"><p class="mu">${t("none")}</p></div>`;
+ const p=q[0];if(!p)return fo+`<div class="card"><p class="mu">${t("none")}</p></div>`;
  await gal([p]);if(p.voice_path)await introUrl(p.voice_path);const sc=score(p);CURP=pics(p);PI=0;CURID=p.id;const km=near?near.get(p.id):null;
  const shared=ME.interests||[];
  return f+`<div class="dh${frc(p)}" id="hero">${CURP.length?`<img id="hi" src="${CURP[0]}" alt="">`:esc(p.name[0])}
@@ -595,10 +614,10 @@ async function disc(){
 <button class="mb" onclick="tm()" aria-label="${t("more")}">⋯</button>
 <div class="mnu" id="mnu"><p class="mu" style="font-size:12px;margin:0 0 8px">${t("comp")}: ${sc}%. ${t("cnote")}</p><div class="row"><button style="font-size:13px;padding:8px" onclick="rep('${p.id}')">${t("rep")}</button><button style="font-size:13px;padding:8px" onclick="blk('${p.id}')">${t("blk")}</button></div></div>
 <div class="ov"><span class="pill">${flag(p.country)} ${p.country?esc(cname(p.country)):""}</span>${km?`<span class="pill">📍 ~${km} km</span>`:""}<span class="pill">${sc}%</span>
-<h2>${esc(p.name)}${ageTxt(p)}${vb(p)}</h2><span class="badge ${p.verified?"v":""}">${p.verified?t("ver"):t("unv")}</span>
+<h2>${esc(p.name)}${ageTxt(p)}${vb(p)}</h2>${p.verified?"":`<span class="badge">${t("unv")}</span>`}
 <p style="margin:6px 0 4px;font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(p.bio)}</p>${icePrompt(p)}${p.voice_path&&C["vi:"+p.voice_path]?`<button class="vp" onclick="playIntro('${esc(p.voice_path)}')">🔊 ${t("intro_play")}</button>`:""}
 <div>${(p.interests||[]).slice(0,4).map(x=>`<span class="pill" ${shared.includes(x)?'style="background:rgba(255,255,255,.55);color:#000;font-weight:600"':""}>${esc(ti(x))}</span>`).join("")}</div></div></div>
-<div class="row act${LL===0?" lim":""}"><button onclick="go('p')" style="color:#9b857c">✕</button><button class="big" onclick="go('l')" style="background:var(--lk);color:#fff">♥</button><button onclick="go('s')" style="color:#2d8cff">★</button></div><span id="cur" data-id="${p.id}"></span>`}
+<div class="acts${LL===0?" lim":""}"><div class="abw"><button class="ab n" onclick="go('p')" aria-label="${t("b_pass")}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><span>${t("b_pass")}</span></div><div class="abw"><button class="ab l" onclick="go('l')" aria-label="${t("b_like")}"><svg viewBox="0 0 24 24"><path d="M12 21C4 15 3 11 3 8.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 1.5C21 11 20 15 12 21z"/></svg></button><span>${t("b_like")}</span></div><div class="abw"><button class="ab s" onclick="go('s')" aria-label="${t("b_super")}"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg></button><span>${t("b_super")}</span></div></div><span id="cur" data-id="${p.id}"></span>`}
 function tm(){const m=$("mnu");m.style.display=m.style.display==="block"?"none":"block"}
 function tapPh(x,w){if(CURP.length<2)return;PI=x<w*.4?Math.max(0,PI-1):Math.min(CURP.length-1,PI+1);$("hi").src=CURP[PI];[...$("dots").children].forEach((e,i)=>e.classList.toggle("on",i===PI))}
 function go(k){const h=$("hero");if(!h||!CURID||BUSY)return;if(k!=="p"&&LL===0){alert(t("e_lim"));return}BUSY=true;const id=CURID,w=h.offsetWidth,d=k==="p"?-1:1;h.style.transition="transform .28s,opacity .28s";
