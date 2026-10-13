@@ -28,7 +28,7 @@ input,textarea,select{width:100%;padding:12px;border-radius:12px;border:1px soli
 label{font-size:14px;color:var(--mu)}
 nav{display:flex;background:var(--card);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -2px 12px rgba(0,0,0,.05)}
 nav button{flex:1;border:0;background:none;font-size:11px;color:var(--mu);padding:6px 0}nav button b{display:flex;justify-content:center;height:24px;margin-bottom:2px}nav button svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}nav button.on{color:var(--a);font-weight:600}nav button.on svg{stroke:var(--a)}
-.msg{max-width:78%;padding:9px 12px;border-radius:18px;margin:4px 0;font-size:15px}.me{background:var(--g);color:#fff;margin-left:auto}.ot{background:var(--card)}
+.msg{width:fit-content;max-width:78%;padding:9px 12px;border-radius:18px;margin:4px 0;font-size:15px}.me{background:var(--g);color:#fff;margin-left:auto}.ot{background:var(--card)}
 .msg small{display:block;font-size:10px;opacity:.7;margin-top:2px}
 .li{display:flex;gap:12px;align-items:center;cursor:pointer}.mini{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--g);color:#fff;flex:none;overflow:hidden}.mini img{width:100%;height:100%;object-fit:cover}
 .note{font-size:13px;color:var(--mu);background:var(--card);padding:10px;border-radius:12px;margin:8px 0}
@@ -43,6 +43,17 @@ main.fill{display:flex;flex-direction:column;padding:8px 12px 6px;overflow:hidde
 .gg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.gi{position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--mu);border:1px dashed var(--ln);cursor:pointer}.gi img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .gi button{position:absolute;padding:0;width:26px;height:26px;border-radius:50%;font-size:13px;border:0;background:rgba(0,0,0,.55);color:#fff;z-index:1}.gi .x{top:5px;right:5px}.gi .st{bottom:5px;left:5px}.gi .cv{position:absolute;bottom:5px;left:5px;font-size:11px;background:var(--g);color:#fff;border-radius:8px;padding:2px 7px;z-index:1}
 a{color:var(--a)}
+.mini{position:relative}
+.fx::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:4px;pointer-events:none;z-index:2;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
+.mini.fx::after{padding:3px}
+.fr_gold::after{background:linear-gradient(135deg,#fff3b0,#f5c542,#b8860b,#f5c542)}
+.fr_neon::after{background:linear-gradient(135deg,#00f5d4,#00bbf9,#9b5de5)}.fr_neon{box-shadow:0 0 14px #00f5d4aa}
+.fr_rose::after{background:linear-gradient(135deg,#ffc2d4,#ff3d6e,#ffc2d4)}
+.fr_aurora::after{background:linear-gradient(135deg,#7f5af0,#2cb67d,#00c2ff,#ff6ac1,#7f5af0);background-size:300% 300%;animation:au 4s ease-in-out infinite alternate}@keyframes au{to{background-position:100% 100%}}
+.pill.dm{background:var(--card);color:var(--tx);border:1px solid var(--ln);font-weight:700;font-size:15px;margin:0}
+.msg.stk{background:none;color:inherit;padding:2px 6px}
+.stp{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.stp button{border:0;background:var(--bg);padding:4px 6px;font-size:28px;border-radius:12px}
+.pk{margin:6px 0 2px;font-size:12px;color:var(--mu);width:100%}
 </style></head><body><div id="app"><main id="m"><p class="mu">…</p></main><nav id="nv" style="display:none"></nav></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
@@ -99,7 +110,14 @@ locok:["Ubicación aproximada guardada (~1 km). Los demás solo ven la distancia
 locno:["Ubicación desactivada. Es opcional.","Location is off. It is optional.","Localização desativada. É opcional.","Position désactivée. C'est facultatif."],
 e_loc:["No pudimos obtener tu ubicación. Revisa el permiso de ubicación del navegador (en iPhone: Ajustes > Privacidad > Localización > Safari).","We couldn't get your location. Check the browser's location permission.","Não foi possível obter sua localização. Verifique a permissão de localização do navegador.","Impossible d'obtenir ta position. Vérifie l'autorisation de localisation du navigateur."],
 gal:["Mis fotos (hasta 6)","My photos (up to 6)","Minhas fotos (até 6)","Mes photos (jusqu'à 6)"],cover:["Principal","Main","Principal","Principale"],e_photos:["Máximo 6 fotos.","Maximum 6 photos.","Máximo 6 fotos.","6 photos maximum."],delph:["¿Borrar esta foto?","Delete this photo?","Apagar esta foto?","Supprimer cette photo ?"],
-m_np:["Escribe tu nueva contraseña (mínimo 8 caracteres):","Enter your new password (min. 8 characters):","Digite sua nova senha (mín. 8 caracteres):","Saisis ton nouveau mot de passe (8 caractères min.) :"]};
+m_np:["Escribe tu nueva contraseña (mínimo 8 caracteres):","Enter your new password (min. 8 characters):","Digite sua nova senha (mín. 8 caracteres):","Saisis ton nouveau mot de passe (8 caractères min.) :"],
+ns:["Tienda","Shop","Loja","Boutique"],
+sh_how:["Gana 💎 chateando: recibes 1 por cada mensaje que envías a un match que ya te respondió (máximo 20 al día). Úsalos para stickers y marcos. Los diamantes no se compran con dinero ni valen dinero.","Earn 💎 by chatting: you get 1 for each message you send to a match who has already replied (max 20 a day). Spend them on stickers and frames. Diamonds can't be bought with money and have no cash value.","Ganhe 💎 conversando: 1 por mensagem enviada a um match que já respondeu (máx. 20 por dia). Use em stickers e molduras. Diamantes não se compram com dinheiro nem valem dinheiro.","Gagne des 💎 en discutant : 1 par message envoyé à un match qui a déjà répondu (20 max par jour). Utilise-les pour des stickers et des cadres. Les diamants ne s'achètent pas et n'ont aucune valeur monétaire."],
+sh_st:["Stickers","Stickers","Stickers","Stickers"],sh_fr:["Marcos de foto","Photo frames","Molduras de foto","Cadres photo"],
+sh_own:["Tuyo","Owned","Seu","À toi"],sh_eq:["Equipar","Equip","Equipar","Équiper"],sh_on:["Equipado","Equipped","Equipado","Équipé"],sh_off:["Quitar marco","Remove frame","Remover moldura","Retirer le cadre"],
+e_dm:["No tienes suficientes diamantes todavía.","You don't have enough diamonds yet.","Você ainda não tem diamantes suficientes.","Tu n'as pas encore assez de diamants."],
+e_own:["Aún no tienes ese objeto. Consíguelo en la Tienda.","You don't own that item yet. Get it in the Shop.","Você ainda não tem esse item. Pegue na Loja.","Tu n'as pas encore cet objet. Prends-le dans la Boutique."],
+st_none:["Aún no tienes stickers. Compra un paquete en la Tienda.","You have no stickers yet. Buy a pack in the Shop.","Você ainda não tem stickers. Compre um pacote na Loja.","Tu n'as pas encore de stickers. Achète un pack dans la Boutique."]};
 const t=k=>D[k]?D[k][L.indexOf(LANG)]:k;
 const GOALS=["Relación seria","Algo casual","Amistad primero","Aún no lo sé"],INT=["Viajar","Música","Cine","Cocinar","Senderismo","Lectura","Deporte","Arte","Mascotas","Videojuegos","Baile","Fotografía"];
 const TR={en:{g:["Serious relationship","Something casual","Friendship first","Not sure yet"],i:["Travel","Music","Movies","Cooking","Hiking","Reading","Sports","Art","Pets","Video games","Dancing","Photography"]},
@@ -130,7 +148,21 @@ const langSel=()=>`<select style="width:auto;margin:0;padding:6px 8px;font-size:
 const head=()=>`<div class="top"><div class="brand">${LOGO(34)}<span class="wm">true<b>match</b></span></div>${langSel()}</div>`;
 function setLang(l){LANG=l;try{localStorage.setItem("tm_lang",l)}catch(e){}document.documentElement.lang=l;rerender()}
 function rerender(){if(!U)authView();else if(!ME)setupView();else draw()}
-const CONTACTO="(correo de contacto por definir)";
+const PK={pk_love:{n:["Amor","Love","Amor","Amour"],e:["❤️","😍","😘","💌","💕","💘","🥰","💋","💞","🌹","💝","😻"]},pk_party:{n:["Fiesta","Party","Festa","Fête"],e:["🎉","🥳","🍾","🎂","🎈","🎊","🪩","🎁","🕺","💃","🍰","🥂"]},pk_animals:{n:["Animales","Animals","Animais","Animaux"],e:["🐶","🐱","🐼","🦊","🐨","🐯","🦁","🐸","🐧","🦄","🐢","🐙"]},pk_food:{n:["Comida","Food","Comida","Cuisine"],e:["🍕","🍔","🌮","🍣","🍩","🍦","🍓","🥑","🍫","☕","🍿","🍷"]}};
+const FRN={fr_gold:["Dorado","Gold","Dourado","Doré"],fr_neon:["Neón","Neon","Neon","Néon"],fr_rose:["Rosa","Rose","Rosa","Rose"],fr_aurora:["Aurora","Aurora","Aurora","Aurore"]};
+const FR=Object.keys(FRN),frc=p=>p&&FR.includes(p.frame)?" fx "+p.frame:"";
+let WAL=0,OWN=new Set(),PRICE={};
+async function loadShop(){const[a,b,c]=await Promise.all([sb.from("user_wallet").select("diamonds").eq("user_id",U.id).maybeSingle(),sb.from("user_items").select("item_id").eq("user_id",U.id),sb.from("shop_items").select("id,price")]);
+ WAL=a.data?a.data.diamonds:0;OWN=new Set((b.data||[]).map(x=>x.item_id));PRICE=Object.fromEntries((c.data||[]).map(x=>[x.id,x.price]))}
+async function updWal(){try{await loadShop()}catch(e){}const e=$("wal");if(e)e.textContent="💎 "+WAL}
+const shopErr=e=>{const m=(e&&e.message)||"";return m.includes("sin_diamantes")?t("e_dm"):(m.includes("sticker_bloqueado")||m.includes("marco_bloqueado"))?t("e_own"):m.includes("ya_lo_tienes")?"✓":"Error: "+m};
+async function shop(){await loadShop();await urls([ME]);const li=L.indexOf(LANG);
+ return `<div class="top"><h2 style="margin:0">${t("ns")}</h2><span class="pill dm" id="wal">💎 ${WAL}</span></div><div class="note">${t("sh_how")}</div>
+<h3>${t("sh_st")}</h3>`+Object.keys(PK).map(id=>`<div class="card li" style="cursor:default"><div class="mini" style="border-radius:14px;font-size:24px;background:var(--bg)">${PK[id].e[0]}</div><div style="flex:1"><b>${PK[id].n[li]}</b><div class="mu" style="font-size:16px">${PK[id].e.slice(0,6).join(" ")}</div></div>${OWN.has(id)?`<span class="badge v">${t("sh_own")}</span>`:`<button class="p" onclick="buyIt('${id}')">💎 ${PRICE[id]??"?"}</button>`}</div>`).join("")+
+`<h3 style="margin-top:14px">${t("sh_fr")}</h3>`+FR.map(id=>`<div class="card li" style="cursor:default"><div class="mini${frc({frame:id})}">${pic(ME)}</div><div style="flex:1"><b>${FRN[id][li]}</b></div>${!OWN.has(id)?`<button class="p" onclick="buyIt('${id}')">💎 ${PRICE[id]??"?"}</button>`:ME.frame===id?`<span class="badge v">${t("sh_on")}</span>`:`<button onclick="equip('${id}')">${t("sh_eq")}</button>`}</div>`).join("")+(ME.frame?`<button style="width:100%" onclick="equip(null)">${t("sh_off")}</button>`:"")}
+async function buyIt(id){const{error}=await sb.rpc("buy_item",{item:id});if(error)return alert(shopErr(error));draw()}
+async function equip(id){const{data,error}=await sb.from("profiles").update({frame:id}).eq("id",U.id).select().single();if(error)return alert(shopErr(error));ME=data;draw()}
+const CONTACTO="Salcedoanthony959@gmail.com";
 const NOTA='<p class="mu">Última actualización: 12 de octubre de 2026. Documento preparado con asistencia de IA a partir de normas públicas; no sustituye el consejo de un abogado.</p>';
 const LEGAL={
 t:`<h2>Términos de uso</h2>${NOTA}
@@ -140,7 +172,7 @@ t:`<h2>Términos de uso</h2>${NOTA}
 <h3>4. Conducta y moderación</h3><p>Debes cumplir las Normas de la comunidad. Los reportes se revisan manualmente. Podemos retirar contenido y suspender o eliminar cuentas que incumplan las normas o la ley.</p>
 <h3>5. Tu contenido</h3><p>Tus fotos y textos siguen siendo tuyos. Nos autorizas a mostrarlos a otros usuarios dentro del servicio mientras tu cuenta exista. No subas fotos de otras personas sin su permiso ni contenido ilegal.</p>
 <h3>6. Seguridad personal</h3><p>No podemos comprobar quién es cada persona: la insignia de verificado solo aparece si un administrador la otorga manualmente. La compatibilidad es una estimación, no una garantía. Si te reúnes con alguien, hazlo en un lugar público y avisa a alguien de confianza.</p>
-<h3>7. Costos y publicidad</h3><p>El servicio es gratuito. Si en el futuro hubiera cobros, anuncios o patrocinios, se avisará con claridad y anticipación, y no se cobrará nada sin tu consentimiento.</p>
+<h3>7. Costos, diamantes y publicidad</h3><p>El servicio es gratuito. Los diamantes (💎) son puntos virtuales del juego dentro de la app: se ganan chateando, se usan para stickers y marcos, no se compran con dinero, no se pueden cambiar por dinero y no tienen valor fuera de TrueMatch. Si en el futuro hubiera cobros, anuncios o patrocinios, se avisará con claridad y anticipación, y no se cobrará nada sin tu consentimiento.</p>
 <h3>8. Borrar tu cuenta</h3><p>Puedes borrar tu cuenta y tus datos cuando quieras desde Perfil.</p>
 <h3>9. Responsabilidad</h3><p>El servicio se ofrece "tal cual" y puede tener interrupciones. En la medida permitida por la ley, TrueMatch no responde por la conducta de otros usuarios. Esto no limita derechos que la ley de tu país no permita renunciar.</p>
 <h3>10. Ley aplicable y contacto</h3><p>Se aplican las leyes de la República Bolivariana de Venezuela, sin perjuicio de las normas obligatorias de protección al consumidor o de datos de tu país de residencia. Contacto: ${CONTACTO}.</p>
@@ -180,7 +212,7 @@ async function signup(){const pw=$("pw").value;if(!$("ok1").checked)return alert
 async function forgot(){const e=$("em").value.trim();if(!e)return alert(t("m_mail"));const{error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.origin+location.pathname});error?err(error):alert(t("m_rst"))}
 sb.auth.onAuthStateChange((ev,s)=>{U=s?s.user:null;setTimeout(()=>onAuth(ev),0)});
 async function onAuth(ev){if(ev==="PASSWORD_RECOVERY"){const p=prompt(t("m_np"));if(p&&p.length>=8){const{error}=await sb.auth.updateUser({password:p});error&&err(error)}}
- clearInterval(poll);LOC=undefined;if(!U){ME=null;for(const k in GAL)delete GAL[k];authView();return}
+ clearInterval(poll);LOC=undefined;WAL=0;OWN=new Set();if(!U){ME=null;for(const k in GAL)delete GAL[k];authView();return}
  const{data}=await sb.from("profiles").select("*").eq("id",U.id).maybeSingle();ME=data;ME?draw():setupView()}
 function setupView(){$("m").className="";$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card"><h3>${t("mk")}</h3><label>${t("name")}</label><input id="n" maxlength="40">
 <label>${t("dob")}</label><input id="dob" type="date"><label>${t("ctry")}</label><select id="cc"><option value="">${t("pick")}</option>${copts("")}</select>
@@ -193,12 +225,12 @@ async function mk(){const n=$("n").value.trim(),d=$("dob").value,cc=$("cc").valu
  const i=[...document.querySelectorAll("#ints .on")].map(e=>e.dataset.v);if(!i.length)return alert(t("e_int"));
  const{data,error}=await sb.from("profiles").insert({id:U.id,name:n,birth_date:d,bio:$("bio").value,interests:i,goal:$("g").value,country:cc,terms_accepted_at:new Date().toISOString(),terms_version:"2026-10-12"}).select().single();
  if(error)return err(error);ME=data;draw()}
-const IC={d:'<path d="M12 2c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>',l:'<path d="M12 21C4 15 3 11 3 8.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 1.5C21 11 20 15 12 21z"/>',m:'<path d="M9 12a4 4 0 1 0 0-.01M15 12a4 4 0 1 0 0-.01"/>',c:'<path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/>',p:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'};
-const NV=["d","l","m","c","p"].map(k=>[k,`<svg viewBox="0 0 24 24">${IC[k]}</svg>`]);
+const IC={d:'<path d="M12 2c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>',l:'<path d="M12 21C4 15 3 11 3 8.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 1.5C21 11 20 15 12 21z"/>',m:'<path d="M9 12a4 4 0 1 0 0-.01M15 12a4 4 0 1 0 0-.01"/>',c:'<path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/>',p:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',s:'<path d="M6 7h12l1 13H5L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/>'};
+const NV=["d","l","m","c","s","p"].map(k=>[k,`<svg viewBox="0 0 24 24">${IC[k]}</svg>`]);
 async function draw(){clearInterval(poll);BUSY=false;$("m").className=tab==="d"?"fill":"";$("nv").style.display="flex";
  $("nv").innerHTML=NV.map(n=>`<button class="${tab===n[0]?"on":""}" onclick="tab='${n[0]}';chatM=null;draw()"><b>${n[1]}</b>${t("n"+n[0])}</button>`).join("");
  $("m").innerHTML=`<p class="mu">…</p>`;
- try{$("m").innerHTML=await({d:disc,l:likes,m:matches,c:chat,p:prof}[tab])();$("m").scrollTop=0;if(tab==="d")swipe();if(tab==="c"&&chatM)poll=setInterval(refreshMsgs,5000)}catch(e){$("m").innerHTML=`<div class="note">${esc(e.message||e)}</div>`}}
+ try{$("m").innerHTML=await({d:disc,l:likes,m:matches,c:chat,s:shop,p:prof}[tab])();$("m").scrollTop=0;if(tab==="d")swipe();if(tab==="c"&&chatM)poll=setInterval(refreshMsgs,5000)}catch(e){$("m").innerHTML=`<div class="note">${esc(e.message||e)}</div>`}}
 function setReg(v){REG=v;try{localStorage.setItem("tm_reg",v)}catch(e){}draw()}
 let LOC,CURP=[],PI=0,CURID=null,BUSY=false,DIST=(()=>{try{return +localStorage.getItem("tm_dist")||0}catch(e){return 0}})();
 const GAL={};
@@ -227,7 +259,7 @@ async function disc(){
  const p=q[0];if(!p)return f+`<div class="card"><p class="mu">${t("none")}</p></div>`;
  await gal([p]);const sc=score(p);CURP=pics(p);PI=0;CURID=p.id;const km=near?near.get(p.id):null;
  const shared=ME.interests||[];
- return f+`<div class="dh" id="hero">${CURP.length?`<img id="hi" src="${CURP[0]}" alt="">`:esc(p.name[0])}
+ return f+`<div class="dh${frc(p)}" id="hero">${CURP.length?`<img id="hi" src="${CURP[0]}" alt="">`:esc(p.name[0])}
 <div class="dots" id="dots">${CURP.length>1?CURP.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join(""):""}</div>
 <div class="stamp l" id="sl">${t("st_l")}</div><div class="stamp n" id="sn">${t("st_n")}</div>
 <button class="mb" onclick="tm()" aria-label="${t("more")}">⋯</button>
@@ -256,22 +288,27 @@ async function rep(id){const r=prompt(t("m_rep"));if(!r)return;const{error}=awai
 async function blk(id){if(!confirm(t("m_blk")))return;const{error}=await sb.from("blocks").insert({blocker:U.id,blocked:id});error?err(error):draw()}
 async function likes(){const{data}=await sb.from("likes").select("to_user,is_super").eq("from_user",U.id).order("created_at",{ascending:false});
  const ids=(data||[]).map(x=>x.to_user);if(!ids.length)return `<h2>${t("nl")}</h2><p class="mu">${t("nolk")}</p>`;
- const{data:ps}=await sb.from("profiles").select("id,name,birth_date,hide_age,photo_path,country").in("id",ids);await urls(ps||[]);const m=Object.fromEntries((ps||[]).map(p=>[p.id,p]));
- return `<h2>${t("nl")}</h2>`+(data||[]).filter(x=>m[x.to_user]).map(x=>{const p=m[x.to_user];return `<div class="card li"><div class="mini">${pic(p)}</div><div><b>${esc(p.name)}${ageTxt(p)}</b> ${x.is_super?"★":""}<div class="mu">${flag(p.country)} ${t("sent")}</div></div></div>`}).join("")}
+ const{data:ps}=await sb.from("profiles").select("id,name,birth_date,hide_age,photo_path,country,frame").in("id",ids);await urls(ps||[]);const m=Object.fromEntries((ps||[]).map(p=>[p.id,p]));
+ return `<h2>${t("nl")}</h2>`+(data||[]).filter(x=>m[x.to_user]).map(x=>{const p=m[x.to_user];return `<div class="card li"><div class="mini${frc(p)}">${pic(p)}</div><div><b>${esc(p.name)}${ageTxt(p)}</b> ${x.is_super?"★":""}<div class="mu">${flag(p.country)} ${t("sent")}</div></div></div>`}).join("")}
 async function myMatches(){const{data}=await sb.from("matches").select("*").order("created_at",{ascending:false});const o=(data||[]).map(m=>({id:m.id,o:m.user_a===U.id?m.user_b:m.user_a}));
  if(!o.length)return[];const{data:ps}=await sb.from("profiles").select("*").in("id",o.map(x=>x.o));await urls(ps||[]);const pm=Object.fromEntries((ps||[]).map(p=>[p.id,p]));return o.filter(x=>pm[x.o]).map(x=>({id:x.id,p:pm[x.o]}))}
-async function matches(){const l=await myMatches();return `<h2>${t("nm")}</h2><p class="mu">${t("mint")}</p>`+(l.length?l.map(x=>`<div class="card li" onclick="tab='c';chatM=${x.id};draw()"><div class="mini">${pic(x.p)}</div><div><b>${esc(x.p.name)}${ageTxt(x.p)}</b><div class="mu">${flag(x.p.country)} ${score(x.p)}% ${t("comp2")}</div></div></div>`).join(""):`<p class="mu">${t("nom")}</p>`)}
+async function matches(){const l=await myMatches();return `<h2>${t("nm")}</h2><p class="mu">${t("mint")}</p>`+(l.length?l.map(x=>`<div class="card li" onclick="tab='c';chatM=${x.id};draw()"><div class="mini${frc(x.p)}">${pic(x.p)}</div><div><b>${esc(x.p.name)}${ageTxt(x.p)}</b><div class="mu">${flag(x.p.country)} ${score(x.p)}% ${t("comp2")}</div></div></div>`).join(""):`<p class="mu">${t("nom")}</p>`)}
 async function chat(){
- if(chatM){const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}
-  return `<button onclick="chatM=null;draw()">${t("back")}</button><h3 style="margin-top:10px">${flag(x.p.country)} ${esc(x.p.name)}</h3><div class="row" style="margin:8px 0"><button onclick="rep('${x.p.id}')">${t("rep")}</button><button onclick="blk('${x.p.id}')">${t("blk")}</button></div>
-  <div class="note">${t("cnt")}</div><div id="ms"></div><div class="row" style="margin-top:10px"><input id="mi" placeholder="${t("wr")}" maxlength="2000" style="margin:0;flex:3"><button class="p" onclick="send()">${t("snd")}</button></div><img src="data:," style="display:none" onerror="refreshMsgs()">`}
- const l=await myMatches();return `<h2>${t("nc")}</h2>`+(l.length?l.map(x=>`<div class="card li" onclick="chatM=${x.id};draw()"><div class="mini">${pic(x.p)}</div><b>${esc(x.p.name)}</b></div>`).join(""):`<p class="mu">${t("nochat")}</p>`)}
+ if(chatM){const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}await loadShop();
+  return `<button onclick="chatM=null;draw()">${t("back")}</button><div class="top" style="margin-top:10px"><h3 style="margin:0">${flag(x.p.country)} ${esc(x.p.name)}</h3><span class="pill dm" id="wal">💎 ${WAL}</span></div><div class="row" style="margin:8px 0"><button onclick="rep('${x.p.id}')">${t("rep")}</button><button onclick="blk('${x.p.id}')">${t("blk")}</button></div>
+  <div class="note">${t("cnt")}</div><div id="ms"></div><div class="row" style="margin-top:10px"><input id="mi" placeholder="${t("wr")}" maxlength="2000" style="margin:0;flex:3"><button onclick="tsp()" style="flex:none;padding:12px">😊</button><button class="p" onclick="send()" style="flex:none">${t("snd")}</button></div><div class="card" id="stp" style="display:none;margin-top:8px">${stPanel()}</div><img src="data:," style="display:none" onerror="refreshMsgs()">`}
+ const l=await myMatches();return `<h2>${t("nc")}</h2>`+(l.length?l.map(x=>`<div class="card li" onclick="chatM=${x.id};draw()"><div class="mini${frc(x.p)}">${pic(x.p)}</div><b>${esc(x.p.name)}</b></div>`).join(""):`<p class="mu">${t("nochat")}</p>`)}
 async function refreshMsgs(){const el=$("ms");if(!el||!chatM)return;const{data,error}=await sb.from("messages").select("*").eq("match_id",chatM).order("created_at");if(error)return;
- el.innerHTML=(data||[]).map(x=>`<div class="msg ${x.sender===U.id?"me":"ot"}">${esc(x.body)}<small>${new Date(x.created_at).toLocaleString(LANG)}</small></div>`).join("")}
-async function send(){const v=$("mi").value.trim();if(!v)return;const{error}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:v});if(error)return err(error);$("mi").value="";refreshMsgs()}
-async function prof(){delete GAL[ME.id];await gal([ME]);if(LOC===undefined)await loadLoc();const ph=GAL[ME.id]||[];
+ el.innerHTML=(data||[]).map(x=>`<div class="msg ${x.sender===U.id?"me":"ot"}${stk(x.body)?" stk":""}">${stk(x.body)||esc(x.body)}<small>${new Date(x.created_at).toLocaleString(LANG)}</small></div>`).join("")}
+const stk=b=>{const m=/^\{\{st:([a-z_]+):(\d{1,2})\}\}$/.exec(b);return m&&PK[m[1]]&&PK[m[1]].e[+m[2]]?`<span style="font-size:44px;line-height:1.1">${PK[m[1]].e[+m[2]]}</span>`:""};
+const stPanel=()=>{const o=Object.keys(PK).filter(id=>OWN.has(id));if(!o.length)return `<p class="mu" style="margin:0">${t("st_none")}</p>`;const li=L.indexOf(LANG);
+ return o.map(id=>`<div class="pk">${PK[id].n[li]}</div><div class="stp">${PK[id].e.map((e,i)=>`<button onclick="sendSt('${id}',${i})">${e}</button>`).join("")}</div>`).join("")};
+function tsp(){const e=$("stp");if(e)e.style.display=e.style.display==="none"?"block":"none"}
+async function sendSt(id,i){const{error}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:`{{st:${id}:${i}}}`});if(error)return alert(shopErr(error));tsp();refreshMsgs()}
+async function send(){const v=$("mi").value.trim();if(!v)return;const{error}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:v});if(error)return alert(shopErr(error));$("mi").value="";refreshMsgs();updWal()}
+async function prof(){delete GAL[ME.id];await gal([ME]);await urls([ME]);try{await loadShop()}catch(e){}if(LOC===undefined)await loadLoc();const ph=GAL[ME.id]||[];
  const g=ph.map((x,i)=>`<div class="gi"><img src="${C[x]||""}" alt="">${i===0?`<span class="cv">${t("cover")}</span>`:`<button class="st" onclick="mkCover(${i})">★</button>`}<button class="x" onclick="delPhoto(${i})">✕</button></div>`).join("")+(ph.length<6?`<label class="gi add">+<input type="file" accept="image/*" style="display:none" onchange="upPhoto(this)"></label>`:"");
- return `<div class="top"><h2 style="margin:0">${t("np")}</h2>${langSel()}</div><div class="card"><label style="display:block;margin-bottom:6px">${t("gal")}</label><div class="gg">${g}</div><p class="mu" style="font-size:12px">${t("photo")}</p>
+ return `<div class="top"><h2 style="margin:0">${t("np")}</h2>${langSel()}</div><div class="card"><div class="li" style="cursor:default;margin-bottom:10px"><div class="mini${frc(ME)}">${pic(ME)}</div><span class="pill dm" style="margin:0" onclick="tab='s';draw()">💎 ${WAL}</span></div><label style="display:block;margin-bottom:6px">${t("gal")}</label><div class="gg">${g}</div><p class="mu" style="font-size:12px">${t("photo")}</p>
 <b>${esc(ME.name)}, ${age(ME.birth_date)}</b> <span class="badge ${ME.verified?"v":""}">${ME.verified?t("ver"):t("unv")}</span><p class="mu">${esc(ME.bio)}</p><p class="mu">${t("goal")}: ${esc(tg(ME.goal))}</p>${tags(ME.interests)}<button style="width:100%;margin-top:10px" onclick="editView()">${t("ed")}</button>
 <label style="display:block;margin-top:10px">${t("ctry")}</label><select onchange="setCountry(this.value)"><option value="">${t("pick")}</option>${copts(ME.country||"")}</select>
 <label style="display:block"><input type="checkbox" style="width:auto;margin-right:8px" ${ME.hide_age?"checked":""} onchange="hideAge(this.checked)">${t("hide")}</label><p class="mu" style="font-size:12px">${t("vnote")}</p></div>
