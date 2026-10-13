@@ -81,6 +81,7 @@ nav button{font-size:10px}
 .rx{border:1px solid var(--ln);background:var(--card);color:var(--tx);border-radius:99px;padding:6px 12px;font-size:16px}.rx.on{background:var(--g);color:#fff;border-color:transparent}.rxr{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .pob{white-space:pre-wrap;word-break:break-word;margin:8px 0;font-size:16px;line-height:1.35}.pimg{width:100%;border-radius:14px;max-height:360px;object-fit:cover;display:block}
 .pot{margin:0 0 8px;resize:none}
+.vck{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#1d9bf0;color:#fff;font-size:11px;font-weight:700;line-height:1;vertical-align:middle;margin-left:4px}
 .pk{margin:6px 0 2px;font-size:12px;color:var(--mu);width:100%}
 </style></head><body><div id="app"><main id="m"><p class="mu">…</p></main><nav id="nv" style="display:none"></nav></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -124,6 +125,8 @@ m_conf:["Revisa tu correo y confirma tu cuenta. Luego entra.","Check your email 
 m_rst:["Si el correo existe, recibirás un enlace para cambiar tu contraseña.","If the email exists, you'll get a link to reset your password.","Se o e-mail existir, você receberá um link para redefinir a senha.","Si l'e-mail existe, tu recevras un lien pour réinitialiser ton mot de passe."],
 m_mail:["Escribe tu correo arriba primero.","Enter your email above first.","Digite seu e-mail acima primeiro.","Saisis d'abord ton e-mail ci-dessus."],
 m_match:["¡Es un match! Ya pueden chatear.","It's a match! You can chat now.","É um match! Já podem conversar.","C'est un match ! Vous pouvez discuter."],
+m_rep_post:["¿Por qué reportas esta publicación? (spam, enlaces, acoso, otro)","Why are you reporting this post? (spam, links, harassment, other)","Por que você denuncia esta publicação? (spam, links, assédio, outro)","Pourquoi signales-tu cette publication ? (spam, liens, harcèlement, autre)"],
+m_rep_story:["¿Por qué reportas esta historia? (contenido inapropiado, acoso, otro)","Why are you reporting this story? (inappropriate, harassment, other)","Por que você denuncia esta história? (impróprio, assédio, outro)","Pourquoi signales-tu cette story ? (inapproprié, harcèlement, autre)"],
 m_rep:["¿Por qué reportas este perfil? (spam, perfil falso, acoso, otro)","Why are you reporting this profile? (spam, fake, harassment, other)","Por que você denuncia este perfil? (spam, falso, assédio, outro)","Pourquoi signales-tu ce profil ? (spam, faux, harcèlement, autre)"],
 m_repok:["Reporte enviado. Será revisado manualmente.","Report sent. It will be reviewed manually.","Denúncia enviada. Será revisada manualmente.","Signalement envoyé. Il sera examiné manuellement."],
 m_blk:["¿Bloquear a esta persona?","Block this person?","Bloquear esta pessoa?","Bloquer cette personne ?"],
@@ -229,6 +232,7 @@ pt:{g:["Relacionamento sério","Algo casual","Amizade primeiro","Ainda não sei"
 fr:{g:["Relation sérieuse","Quelque chose de léger","D'abord l'amitié","Je ne sais pas encore"],i:["Voyager","Musique","Cinéma","Cuisine","Randonnée","Lecture","Sport","Art","Animaux","Jeux vidéo","Danse","Photographie"]}};
 const tg=v=>LANG==="es"?v:(TR[LANG].g[GOALS.indexOf(v)]||v),ti=v=>LANG==="es"?v:(TR[LANG].i[INT.indexOf(v)]||v);
 const CC="VE CO MX AR CL PE EC BO UY PY BR PA CR GT SV HN NI DO CU PR US CA ES PT FR IT DE GB IE NL BE CH AT SE NO DK FI PL RO GR TR RU UA CN JP KR IN PH ID TH VN AU NZ ZA NG EG MA IL AE SA".split(" ");
+const vb=p=>p&&p.verified?`<span class="vck" role="img" aria-label="${t("ver")}" title="${t("ver")}">✓</span>`:"";
 const flag=c=>c?String.fromCodePoint(...[...c].map(x=>127397+x.charCodeAt(0))):"🌍";
 const cname=c=>{try{return new Intl.DisplayNames([LANG],{type:"region"}).of(c)}catch(e){return c}};
 const copts=(sel)=>[...CC].sort((a,b)=>cname(a).localeCompare(cname(b),LANG)).map(c=>`<option value="${c}" ${sel===c?"selected":""}>${flag(c)} ${esc(cname(c))}</option>`).join("");
@@ -244,7 +248,7 @@ const C={};
 async function urls(ps){const need=[...new Set(ps.filter(p=>p&&p.photo_path&&!C[p.photo_path]).map(p=>p.photo_path))];
  if(need.length){const{data}=await sb.storage.from("avatars").createSignedUrls(need,3600);(data||[]).forEach(d=>{if(d.signedUrl)C[d.path]=d.signedUrl})}}
 const pic=p=>{const u=p.photo_path&&C[p.photo_path];return u?`<img src="${u}" alt="">`:esc(p.name[0])};
-const ageTxt=p=>p.hide_age?"":", "+age(p.birth_date);
+const ageTxt=p=>(p.hide_age||p.age_years==null)?"":", "+p.age_years;
 function score(p){const A=ME.interests||[],B=p.interests||[],sh=A.filter(x=>B.includes(x)).length,un=new Set([...A,...B]).size||1;
  return Math.round(sh/un*70+(ME.goal===p.goal?30:(ME.goal==="Aún no lo sé"||p.goal==="Aún no lo sé")?12:0))}
 const LOGO=(s)=>`<svg width="${s}" height="${s}" viewBox="0 0 64 64"><defs><linearGradient id="lgx" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5a3c"/><stop offset="1" stop-color="#ff8a3d"/></linearGradient></defs><path d="M32 57C9 41 5 29 5 21a13 13 0 0 1 24-7l3 4 3-4a13 13 0 0 1 24 7c0 8-4 20-27 36z" fill="url(#lgx)"/><path d="M21 31l8 8 14-16" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -375,7 +379,7 @@ async function wall(){
  const[a,b,c]=await Promise.all([sb.from("stories").select("*").gt("created_at",cut).order("created_at",{ascending:false}).limit(200),sb.from("matches").select("id,user_a,user_b"),sb.from("likes").select("to_user").eq("from_user",U.id)]);
  if(a.error)throw a.error;MT={};(b.data||[]).forEach(m=>{MT[m.user_a===U.id?m.user_b:m.user_a]=m.id});LKS=new Set((c.data||[]).map(x=>x.to_user));
  const rows=(a.data||[]).filter(x=>new Date(x.created_at)>new Date(cut));const ids=[...new Set(rows.map(x=>x.user_id))];
- const{data:ps}=ids.length?await sb.from("profiles").select("id,name,photo_path,country,frame").in("id",ids):{data:[]};await urls(ps||[]);
+ const{data:ps}=ids.length?await sb.from("profiles_pub").select("id,name,verified,photo_path,country,frame").in("id",ids):{data:[]};await urls(ps||[]);
  const pm=Object.fromEntries((ps||[]).map(x=>[x.id,x]));SS=rows.filter(x=>pm[x.user_id]).map(x=>({...x,p:pm[x.user_id]}));
  const need=[...new Set(SS.filter(x=>x.photo_path&&!S_URL[x.photo_path]).map(x=>x.photo_path))];
  if(need.length){const{data}=await sb.storage.from("stories").createSignedUrls(need,3600);(data||[]).forEach(d=>{if(d.signedUrl)S_URL[d.path]=d.signedUrl})}
@@ -384,7 +388,7 @@ async function wall(){
  const add=`<div class="sb" onclick="stNew()"><div class="sr"><div class="sa add">+</div></div><span class="n">${t("st_add")}</span></div>`;
  const own=mine?bub(U.id,ME,t("st_mine"),mine.some(x=>!seen.has(x.id)),`stOpen('${U.id}')`):"";
  const oth=[...by.entries()].map(([uid,l])=>bub(uid,l[0].p,l[0].p.name.split(" ")[0],l.some(x=>!seen.has(x.id)),`stOpen('${uid}')`)).join("");
- const feed=SS.length?SS.map(x=>`<div class="card li" onclick="stOpenId(${x.id})"><div style="width:48px;height:48px;flex:none"><div class="sa">${pic(x.p)}</div></div><div style="flex:1;min-width:0"><b>${esc(x.p.name)}</b> ${flag(x.p.country)} <span class="mu">· ${ago(x.created_at)}</span><div class="mu" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${x.kind==="photo"?"📷 ":""}${esc(x.body||"")}</div></div>${x.kind==="text"?`<div style="width:48px;height:48px;border-radius:12px;flex:none;background:${SBG[x.bg]||SBG.g1}"></div>`:(S_URL[x.photo_path]?`<img src="${S_URL[x.photo_path]}" alt="" style="width:48px;height:48px;border-radius:12px;object-fit:cover;flex:none">`:"")}</div>`).join(""):`<div class="note">${t("st_none")}</div>`;
+ const feed=SS.length?SS.map(x=>`<div class="card li" onclick="stOpenId(${x.id})"><div style="width:48px;height:48px;flex:none"><div class="sa">${pic(x.p)}</div></div><div style="flex:1;min-width:0"><b>${esc(x.p.name)}</b>${vb(x.p)} ${flag(x.p.country)} <span class="mu">· ${ago(x.created_at)}</span><div class="mu" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${x.kind==="photo"?"📷 ":""}${esc(x.body||"")}</div></div>${x.kind==="text"?`<div style="width:48px;height:48px;border-radius:12px;flex:none;background:${SBG[x.bg]||SBG.g1}"></div>`:(S_URL[x.photo_path]?`<img src="${S_URL[x.photo_path]}" alt="" style="width:48px;height:48px;border-radius:12px;object-fit:cover;flex:none">`:"")}</div>`).join(""):`<div class="note">${t("st_none")}</div>`;
  return `<h2 style="margin:0 0 6px">${t("nw")}</h2><h3 style="font-size:15px;margin:0">${t("st_t")}</h3><div class="srow">${add}${own}${oth}</div>${await postsSection()}`}
 function stOpen(uid){const l=SS.filter(x=>x.user_id===uid).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));if(!l.length)return;const sn=getSeen(),k=l.findIndex(x=>!sn.has(x.id));SV={list:l,i:k<0?0:k};svShow()}
 function stOpenId(id){const s0=SS.find(x=>x.id===id);if(!s0)return;const l=SS.filter(x=>x.user_id===s0.user_id).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));SV={list:l,i:l.findIndex(x=>x.id===id)};svShow()}
@@ -397,13 +401,13 @@ function svShow(){clearTimeout(STM);if(!SV)return;const{list,i}=SV,s0=list[i],p=
  const mine=s0.user_id===U.id,mt=MT[s0.user_id];
  const act=mine?`<button onclick="stDel(${s0.id})">🗑 ${t("st_del")}</button>`:mt?`<button class="p" onclick="stReply('${s0.user_id}')">💬 ${t("st_reply")}</button>`:LKS.has(s0.user_id)?`<button disabled>✓ ${t("st_liked")}</button>`:`<button class="p" onclick="stLike('${s0.user_id}')">💗 ${t("st_like")}</button>`;
  o.innerHTML=`<div class="bars">${list.map((_,k)=>`<i class="${k<i?"d":k===i?"a":""}"><b></b></i>`).join("")}</div>
-<div class="svh"><div style="width:38px;height:38px;flex:none"><div class="sa" style="font-size:16px">${pic(p)}</div></div><div style="flex:1;min-width:0"><b>${esc(p.name)}</b> ${flag(p.country)}<div style="font-size:12px;opacity:.75">${ago(s0.created_at)}</div></div>${mine?"":`<button class="svx" onclick="stRep('${s0.user_id}')">⋯</button>`}<button class="svx" onclick="svClose()">✕</button></div>
+<div class="svh"><div style="width:38px;height:38px;flex:none"><div class="sa" style="font-size:16px">${pic(p)}</div></div><div style="flex:1;min-width:0"><b>${esc(p.name)}</b>${vb(p)} ${flag(p.country)}<div style="font-size:12px;opacity:.75">${ago(s0.created_at)}</div></div>${mine?"":`<button class="svx" onclick="stRep('${s0.user_id}')">⋯</button>`}<button class="svx" onclick="svClose()">✕</button></div>
 <div class="svs" onclick="svTap(event)" style="${s0.kind==="text"?"background:"+(SBG[s0.bg]||SBG.g1):""}">${s0.kind==="text"?`<div class="svt">${esc(s0.body)}</div>`:`${S_URL[s0.photo_path]?`<img src="${S_URL[s0.photo_path]}" alt="">`:""}${s0.body?`<div class="svc">${esc(s0.body)}</div>`:""}`}</div>
 <div class="svf">${act}</div>`;
  STM=setTimeout(svNext,5000)}
 async function stReply(uid){const mid=MT[uid];svClose(true);tab="c";chatM=mid;await draw();const e=$("mi");if(e){e.value=t("st_pre");e.focus()}}
 async function stLike(uid){svClose(true);await like(uid,false)}
-async function stRep(uid){clearTimeout(STM);await rep(uid);if(SV)svShow()}
+async function stRep(uid){clearTimeout(STM);await rep(uid,"m_rep_story");if(SV)svShow()}
 async function stDel(id){clearTimeout(STM);if(!confirm(t("st_delq"))){if(SV)svShow();return}const s0=SS.find(x=>x.id===id);
  try{if(s0&&s0.photo_path)await sb.storage.from("stories").remove([s0.photo_path])}catch(e){}
  const{error}=await sb.from("stories").delete().eq("id",id);if(error)return err(error);svClose(true);draw()}
@@ -454,7 +458,7 @@ async function poRx(id,k){const m=RX[id]=RX[id]||{},r=m[k]=m[k]||{n:0,mine:false
  const{error}=await(was?sb.from("post_reactions").delete().eq("post_id",id).eq("user_id",U.id).eq("emoji",k):sb.from("post_reactions").insert({post_id:id,user_id:U.id,emoji:k}));
  if(error){r.mine=was;r.n+=was?1:-1;if(el)el.innerHTML=rxHtml(id);alert("Error: "+error.message)}}
 async function poReply(uid){const mid=MT[uid];if(!mid)return;tab="c";chatM=mid;await draw();const e=$("mi");if(e){e.value=t("po_pre");e.focus()}}
-async function poRep(id){const r=prompt(t("m_rep"));if(!r)return;const{error}=await sb.from("post_reports").insert({post_id:id,reporter:U.id,reason:r.slice(0,500)});
+async function poRep(id){const r=prompt(t("m_rep_post"));if(!r)return;const{error}=await sb.from("post_reports").insert({post_id:id,reporter:U.id,reason:r.slice(0,500)});
  error?alert(error.code==="23505"?t("po_dup"):"Error: "+error.message):alert(t("po_repok"))}
 async function poDel(id,path){if(!confirm(t("po_delq")))return;try{if(path)await sb.storage.from("posts").remove([path])}catch(e){}
  const{error}=await sb.from("posts").delete().eq("id",id);if(error)return err(error);draw()}
@@ -464,13 +468,13 @@ async function postsSection(){
  const{data:rows,error}=await q;if(error)return head+`<div class="note">${esc(error.message)}</div>`;
  const list=rows||[];if(!list.length)return head+`<div class="note">${t("po_none")}</div>`;
  const ids=[...new Set(list.map(x=>x.user_id))];
- const{data:ps}=await sb.from("profiles").select("id,name,birth_date,hide_age,photo_path,country,frame").in("id",ids);await urls(ps||[]);const pm=Object.fromEntries((ps||[]).map(x=>[x.id,x]));
+ const{data:ps}=await sb.from("profiles_pub").select("id,name,age_years,hide_age,verified,photo_path,country,frame").in("id",ids);await urls(ps||[]);const pm=Object.fromEntries((ps||[]).map(x=>[x.id,x]));
  const need=[...new Set(list.filter(x=>x.photo_path&&!P_URL[x.photo_path]).map(x=>x.photo_path))];
  if(need.length){const{data}=await sb.storage.from("posts").createSignedUrls(need,3600);(data||[]).forEach(d=>{if(d.signedUrl)P_URL[d.path]=d.signedUrl})}
  RX={};try{const{data}=await sb.rpc("post_reaction_counts",{ids:list.map(x=>x.id)});(data||[]).forEach(r=>{(RX[r.post_id]=RX[r.post_id]||{})[r.emoji]={n:r.n,mine:r.mine}})}catch(e){}
  const cards=list.filter(x=>pm[x.user_id]).map(x=>{const p=pm[x.user_id],mine=x.user_id===U.id,mt=MT[x.user_id];
   const act=mine?`<button onclick="poDel(${x.id},${x.photo_path?`'${esc(x.photo_path)}'`:"null"})">🗑 ${t("po_del")}</button>`:mt?`<button class="p" onclick="poReply('${x.user_id}')">💬 ${t("st_reply")}</button>`:LKS.has(x.user_id)?`<button disabled style="opacity:.7">✓ ${t("st_liked")}</button>`:`<button class="p" onclick="stLike('${x.user_id}')">💗 ${t("st_like")}</button>`;
-  return `<div class="card"><div class="li" style="cursor:default"><div class="mini${frc(p)}">${pic(p)}</div><div style="flex:1;min-width:0"><b>${esc(p.name)}${ageTxt(p)}</b> ${flag(p.country)}<div class="mu" style="font-size:12px">${ago(x.created_at)}${x.hidden?" · "+t("po_hid"):""}</div></div></div>
+  return `<div class="card"><div class="li" style="cursor:default"><div class="mini${frc(p)}">${pic(p)}</div><div style="flex:1;min-width:0"><b>${esc(p.name)}${ageTxt(p)}</b>${vb(p)} ${flag(p.country)}<div class="mu" style="font-size:12px">${ago(x.created_at)}${x.hidden?" · "+t("po_hid"):""}</div></div></div>
 <p class="pob">${esc(x.body)}</p>${x.photo_path&&P_URL[x.photo_path]?`<img class="pimg" src="${P_URL[x.photo_path]}" alt="">`:""}<div class="rxr" id="rx${x.id}">${rxHtml(x.id)}</div>
 <div class="row" style="margin-top:10px;align-items:stretch">${act}${mine?"":`<button onclick="poRep(${x.id})" style="flex:none" aria-label="report">🚩</button>`}</div></div>`}).join("");
  return head+(cards||`<div class="note">${t("po_none")}</div>`)}
@@ -565,7 +569,7 @@ async function disc(){
   if(LOC){const{data,error}=await sb.rpc("nearby_profiles",{max_km:DIST});if(error)throw error;near=new Map((data||[]).map(r=>[r.id,r.distance_km]))}}
  const f=filters();
  if(DIST>0&&!LOC)return f+`<div class="card"><h3>${t("locttl")}</h3><p class="mu">${t("locneed")}</p><button class="p" style="width:100%" onclick="setLoc()">${t("locon")}</button></div>`;
- const base=sb.from("profiles").select("*").neq("id",U.id);
+ const base=sb.from("profiles_pub").select("*").neq("id",U.id);
  const[{data:ps,error:e1},{data:ls}]=await Promise.all([near?(near.size?base.in("id",[...near.keys()]).limit(200):Promise.resolve({data:[]})):base.limit(100),sb.from("likes").select("to_user").eq("from_user",U.id)]);
  if(e1)throw e1;const seen=new Set([...(ls||[]).map(x=>x.to_user),...passes()]);
  const q=(ps||[]).filter(p=>!seen.has(p.id)&&(REG==="all"||(REG==="mine"?(!ME.country||p.country===ME.country):p.country===REG)));
@@ -579,7 +583,7 @@ async function disc(){
 <button class="mb" onclick="tm()" aria-label="${t("more")}">⋯</button>
 <div class="mnu" id="mnu"><p class="mu" style="font-size:12px;margin:0 0 8px">${t("comp")}: ${sc}%. ${t("cnote")}</p><div class="row"><button style="font-size:13px;padding:8px" onclick="rep('${p.id}')">${t("rep")}</button><button style="font-size:13px;padding:8px" onclick="blk('${p.id}')">${t("blk")}</button></div></div>
 <div class="ov"><span class="pill">${flag(p.country)} ${p.country?esc(cname(p.country)):""}</span>${km?`<span class="pill">📍 ~${km} km</span>`:""}<span class="pill">${sc}%</span>
-<h2>${esc(p.name)}${ageTxt(p)}</h2><span class="badge ${p.verified?"v":""}">${p.verified?t("ver"):t("unv")}</span>
+<h2>${esc(p.name)}${ageTxt(p)}${vb(p)}</h2><span class="badge ${p.verified?"v":""}">${p.verified?t("ver"):t("unv")}</span>
 <p style="margin:6px 0 4px;font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(p.bio)}</p>${icePrompt(p)}${p.voice_path&&C["vi:"+p.voice_path]?`<button class="vp" onclick="playIntro('${esc(p.voice_path)}')">🔊 ${t("intro_play")}</button>`:""}
 <div>${(p.interests||[]).slice(0,4).map(x=>`<span class="pill" ${shared.includes(x)?'style="background:rgba(255,255,255,.55);color:#000;font-weight:600"':""}>${esc(ti(x))}</span>`).join("")}</div></div></div>
 <div class="row act${LL===0?" lim":""}"><button onclick="go('p')" style="color:#9b857c">✕</button><button class="big" onclick="go('l')" style="background:var(--lk);color:#fff">♥</button><button onclick="go('s')" style="color:#2d8cff">★</button></div><span id="cur" data-id="${p.id}"></span>`}
@@ -599,20 +603,20 @@ function pass(id){addPass(id);draw()}
 async function like(id,sup){const{error}=await sb.from("likes").insert({from_user:U.id,to_user:id,is_super:sup});if(error){if((error.message||"").includes("limite_diario")){LL=0;alert(t("e_lim"))}else err(error);return draw()}
  if(LL!==null)LL=Math.max(0,LL-1);
  const a=[U.id,id].sort();const{data}=await sb.from("matches").select("id").eq("user_a",a[0]).eq("user_b",a[1]);if(data&&data.length)alert(t("m_match"));draw()}
-async function rep(id){const r=prompt(t("m_rep"));if(!r)return;const{error}=await sb.from("reports").insert({reporter:U.id,reported:id,reason:r.slice(0,500)});error?err(error):alert(t("m_repok"))}
+async function rep(id,k){const r=prompt(t(k||"m_rep"));if(!r)return;const{error}=await sb.from("reports").insert({reporter:U.id,reported:id,reason:r.slice(0,500)});error?err(error):alert(t("m_repok"))}
 async function blk(id){if(!confirm(t("m_blk")))return;const{error}=await sb.from("blocks").insert({blocker:U.id,blocked:id});error?err(error):draw()}
 async function likes(){const{data}=await sb.from("likes").select("to_user,is_super").eq("from_user",U.id).order("created_at",{ascending:false});
  const ids=(data||[]).map(x=>x.to_user);if(!ids.length)return `<h2>${t("nl")}</h2><p class="mu">${t("nolk")}</p>`;
- const{data:ps}=await sb.from("profiles").select("id,name,birth_date,hide_age,photo_path,country,frame").in("id",ids);await urls(ps||[]);const m=Object.fromEntries((ps||[]).map(p=>[p.id,p]));
- return `<h2>${t("nl")}</h2>`+(data||[]).filter(x=>m[x.to_user]).map(x=>{const p=m[x.to_user];return `<div class="card li"><div class="mini${frc(p)}">${pic(p)}</div><div><b>${esc(p.name)}${ageTxt(p)}</b> ${x.is_super?"★":""}<div class="mu">${flag(p.country)} ${t("sent")}</div></div></div>`}).join("")}
+ const{data:ps}=await sb.from("profiles_pub").select("id,name,age_years,hide_age,verified,photo_path,country,frame").in("id",ids);await urls(ps||[]);const m=Object.fromEntries((ps||[]).map(p=>[p.id,p]));
+ return `<h2>${t("nl")}</h2>`+(data||[]).filter(x=>m[x.to_user]).map(x=>{const p=m[x.to_user];return `<div class="card li"><div class="mini${frc(p)}">${pic(p)}</div><div><b>${esc(p.name)}${ageTxt(p)}</b>${vb(p)} ${x.is_super?"★":""}<div class="mu">${flag(p.country)} ${t("sent")}</div></div></div>`}).join("")}
 async function myMatches(){const{data}=await sb.from("matches").select("*").order("created_at",{ascending:false});const o=(data||[]).map(m=>({id:m.id,o:m.user_a===U.id?m.user_b:m.user_a}));
- if(!o.length)return[];const{data:ps}=await sb.from("profiles").select("*").in("id",o.map(x=>x.o));await urls(ps||[]);const pm=Object.fromEntries((ps||[]).map(p=>[p.id,p]));return o.filter(x=>pm[x.o]).map(x=>({id:x.id,p:pm[x.o]}))}
-async function matches(){const l=await myMatches();return `<h2>${t("nm")}</h2><p class="mu">${t("mint")}</p>`+(l.length?l.map(x=>`<div class="card li" onclick="tab='c';chatM=${x.id};draw()"><div class="mini${frc(x.p)}">${pic(x.p)}</div><div><b>${esc(x.p.name)}${ageTxt(x.p)}</b><div class="mu">${flag(x.p.country)} ${score(x.p)}% ${t("comp2")}</div></div></div>`).join(""):`<p class="mu">${t("nom")}</p>`)}
+ if(!o.length)return[];const{data:ps}=await sb.from("profiles_pub").select("*").in("id",o.map(x=>x.o));await urls(ps||[]);const pm=Object.fromEntries((ps||[]).map(p=>[p.id,p]));return o.filter(x=>pm[x.o]).map(x=>({id:x.id,p:pm[x.o]}))}
+async function matches(){const l=await myMatches();return `<h2>${t("nm")}</h2><p class="mu">${t("mint")}</p>`+(l.length?l.map(x=>`<div class="card li" onclick="tab='c';chatM=${x.id};draw()"><div class="mini${frc(x.p)}">${pic(x.p)}</div><div><b>${esc(x.p.name)}${ageTxt(x.p)}</b>${vb(x.p)}<div class="mu">${flag(x.p.country)} ${score(x.p)}% ${t("comp2")}</div></div></div>`).join(""):`<p class="mu">${t("nom")}</p>`)}
 async function chat(){
  if(chatM){const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}await loadShop();if(x.p.voice_path)await introUrl(x.p.voice_path);
-  return `<button onclick="chatM=null;draw()">${t("back")}</button><div class="top" style="margin-top:10px"><h3 style="margin:0">${flag(x.p.country)} ${esc(x.p.name)}</h3><span class="pill dm" id="wal">💎 ${WAL}</span></div><div class="row" style="margin:8px 0"><button onclick="rep('${x.p.id}')">${t("rep")}</button><button onclick="blk('${x.p.id}')">${t("blk")}</button></div>
+  return `<button onclick="chatM=null;draw()">${t("back")}</button><div class="top" style="margin-top:10px"><h3 style="margin:0">${flag(x.p.country)} ${esc(x.p.name)}${vb(x.p)}</h3><span class="pill dm" id="wal">💎 ${WAL}</span></div><div class="row" style="margin:8px 0"><button onclick="rep('${x.p.id}')">${t("rep")}</button><button onclick="blk('${x.p.id}')">${t("blk")}</button></div>
   <div class="note">${t("cnt")}</div>${iceCard(x.p)}<div id="ms"></div><div class="card" id="vrec" style="display:none;margin-top:10px"><div class="rec"><i></i><b>${t("vn_rec")}</b><span id="vt">0:00</span><span style="flex:1"></span><button onclick="vStop(false)">${t("cx")}</button><button class="p" onclick="vStop(true)">${t("snd")}</button></div></div><div class="row" id="vbar" style="margin-top:10px"><input id="mi" placeholder="${t("wr")}" maxlength="2000" style="margin:0;flex:3"><button onclick="vStart()" style="flex:none;padding:12px" aria-label="mic">🎤</button><button onclick="tsp()" style="flex:none;padding:12px">😊</button><button class="p" onclick="send()" style="flex:none">${t("snd")}</button></div><div class="card" id="stp" style="display:none;margin-top:8px">${stPanel()}</div><img src="data:," style="display:none" onerror="refreshMsgs()">`}
- const l=await myMatches();return `<h2>${t("nc")}</h2>`+(l.length?l.map(x=>`<div class="card li" onclick="chatM=${x.id};draw()"><div class="mini${frc(x.p)}">${pic(x.p)}</div><b>${esc(x.p.name)}</b></div>`).join(""):`<p class="mu">${t("nochat")}</p>`)}
+ const l=await myMatches();return `<h2>${t("nc")}</h2>`+(l.length?l.map(x=>`<div class="card li" onclick="chatM=${x.id};draw()"><div class="mini${frc(x.p)}">${pic(x.p)}</div><b>${esc(x.p.name)}</b>${vb(x.p)}</div>`).join(""):`<p class="mu">${t("nochat")}</p>`)}
 async function refreshMsgs(){const el=$("ms");if(!el||!chatM)return;const{data,error}=await sb.from("messages").select("*").eq("match_id",chatM).order("created_at");if(error)return;
  const sg=(data||[]).map(x=>x.id).join(",");if(el.dataset.s===sg)return;el.dataset.s=sg;
  el.innerHTML=(data||[]).map(x=>`<div class="msg ${x.sender===U.id?"me":"ot"}${stk(x.body)?" stk":""}">${vnp(x.body)?`<audio controls preload="none" data-vn="${vnp(x.body)}" style="width:220px;max-width:100%;height:38px"></audio>`:(stk(x.body)||esc(x.body))}<small>${new Date(x.created_at).toLocaleString(LANG)}</small></div>`).join("");hydrateVn()}
@@ -625,7 +629,7 @@ async function send(){const v=$("mi").value.trim();if(!v)return;const{error}=awa
 async function prof(){delete GAL[ME.id];await gal([ME]);await urls([ME]);try{await loadShop()}catch(e){}if(ME.voice_path)await introUrl(ME.voice_path);if(LOC===undefined)await loadLoc();if(ADM===undefined){try{const{data}=await sb.rpc("is_admin");ADM=!!data}catch(e){ADM=false}}const ph=GAL[ME.id]||[];
  const g=ph.map((x,i)=>`<div class="gi"><img src="${C[x]||""}" alt="">${i===0?`<span class="cv">${t("cover")}</span>`:`<button class="st" onclick="mkCover(${i})">★</button>`}<button class="x" onclick="delPhoto(${i})">✕</button></div>`).join("")+(ph.length<6?`<label class="gi add">+<input type="file" accept="image/*" style="display:none" onchange="upPhoto(this)"></label>`:"");
  return `<div class="top"><h2 style="margin:0">${t("np")}</h2><div style="display:flex;gap:6px;align-items:center">${themeBtn()}${langSel()}</div></div><div class="card"><div class="li" style="cursor:default;margin-bottom:10px"><div class="mini${frc(ME)}">${pic(ME)}</div><span class="pill dm" style="margin:0" onclick="tab='s';draw()">💎 ${WAL}</span></div><label style="display:block;margin-bottom:6px">${t("gal")}</label><div class="gg">${g}</div><p class="mu" style="font-size:12px">${t("photo")}</p>
-<b>${esc(ME.name)}, ${age(ME.birth_date)}</b> <span class="badge ${ME.verified?"v":""}">${ME.verified?t("ver"):t("unv")}</span><p class="mu">${esc(ME.bio)}</p><p class="mu">${t("goal")}: ${esc(tg(ME.goal))}</p>${tags(ME.interests)}<button style="width:100%;margin-top:10px" onclick="editView()">${t("ed")}</button>
+<b>${esc(ME.name)}, ${age(ME.birth_date)}</b>${vb(ME)} <span class="badge ${ME.verified?"v":""}">${ME.verified?t("ver"):t("unv")}</span><p class="mu">${esc(ME.bio)}</p><p class="mu">${t("goal")}: ${esc(tg(ME.goal))}</p>${tags(ME.interests)}<button style="width:100%;margin-top:10px" onclick="editView()">${t("ed")}</button>
 <label style="display:block;margin-top:10px">${t("ctry")}</label><select onchange="setCountry(this.value)"><option value="">${t("pick")}</option>${copts(ME.country||"")}</select>
 <label style="display:block"><input type="checkbox" style="width:auto;margin-right:8px" ${ME.hide_age?"checked":""} onchange="hideAge(this.checked)">${t("hide")}</label><p class="mu" style="font-size:12px">${t("vnote")}</p></div>
 <div class="card"><h3>${t("locttl")}</h3><p class="mu" style="font-size:13px">${LOC?t("locok"):t("locno")}</p><div class="row"><button class="p" onclick="setLoc()">${LOC?t("locup"):t("locon")}</button>${LOC?`<button onclick="delLoc()">${t("locdel")}</button>`:""}</div></div>
