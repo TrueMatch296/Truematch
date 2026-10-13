@@ -3,9 +3,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ff5a3c">
 <title>TrueMatch</title>
+<script>try{var _t=localStorage.getItem("tm_theme");if(_t==="light"||_t==="dark")document.documentElement.setAttribute("data-theme",_t)}catch(e){}</script>
 <style>
 :root{--bg:#fff7f1;--card:#fff;--tx:#2a1d1a;--mu:#9b857c;--ln:#f1e3da;--g:linear-gradient(135deg,#ff5a3c,#ff8a3d);--lk:linear-gradient(135deg,#ff3d6e,#ff5a3c);--a:#ff5a3c}
-@media (prefers-color-scheme:dark){:root{--bg:#1c1412;--card:#2a1f1c;--tx:#fbefe8;--mu:#bba79d;--ln:#3b2c27}}
+:root[data-theme="light"]{color-scheme:light}:root[data-theme="dark"]{color-scheme:dark;--bg:#1c1412;--card:#2a1f1c;--tx:#fbefe8;--mu:#bba79d;--ln:#3b2c27}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="dark"]){color-scheme:dark;--bg:#1c1412;--card:#2a1f1c;--tx:#fbefe8;--mu:#bba79d;--ln:#3b2c27}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{height:100%;margin:0}
 body{background:var(--bg);color:var(--tx);font-family:-apple-system,"Helvetica Neue",Arial,sans-serif;display:flex;justify-content:center}
 #app{width:100%;max-width:440px;height:100%;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
@@ -53,6 +55,10 @@ a{color:var(--a)}
 .pill.dm{background:var(--card);color:var(--tx);border:1px solid var(--ln);font-weight:700;font-size:15px;margin:0}
 .msg.stk{background:none;color:inherit;padding:2px 6px}
 .stp{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.stp button{border:0;background:var(--bg);padding:4px 6px;font-size:28px;border-radius:12px}
+.bt{display:block;text-align:center;border-radius:14px;padding:14px 16px;font-size:16px;font-weight:600;background:var(--g);color:#fff;cursor:pointer}
+.vc{font-size:54px;font-weight:800;letter-spacing:10px;text-align:center;margin:8px 0;color:var(--a)}
+.rec{display:flex;align-items:center;gap:10px}.rec{gap:8px}.rec button{padding:8px 12px;font-size:15px;flex:none}.rec i{flex:none;width:12px;height:12px;border-radius:50%;background:#e5322d;animation:bl 1s infinite}@keyframes bl{50%{opacity:.25}}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}.cmp img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:var(--bg)}
 .pk{margin:6px 0 2px;font-size:12px;color:var(--mu);width:100%}
 </style></head><body><div id="app"><main id="m"><p class="mu">…</p></main><nav id="nv" style="display:none"></nav></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -117,7 +123,24 @@ sh_st:["Stickers","Stickers","Stickers","Stickers"],sh_fr:["Marcos de foto","Pho
 sh_own:["Tuyo","Owned","Seu","À toi"],sh_eq:["Equipar","Equip","Equipar","Équiper"],sh_on:["Equipado","Equipped","Equipado","Équipé"],sh_off:["Quitar marco","Remove frame","Remover moldura","Retirer le cadre"],
 e_dm:["No tienes suficientes diamantes todavía.","You don't have enough diamonds yet.","Você ainda não tem diamantes suficientes.","Tu n'as pas encore assez de diamants."],
 e_own:["Aún no tienes ese objeto. Consíguelo en la Tienda.","You don't own that item yet. Get it in the Shop.","Você ainda não tem esse item. Pegue na Loja.","Tu n'as pas encore cet objet. Prends-le dans la Boutique."],
-st_none:["Aún no tienes stickers. Compra un paquete en la Tienda.","You have no stickers yet. Buy a pack in the Shop.","Você ainda não tem stickers. Compre um pacote na Loja.","Tu n'as pas encore de stickers. Achète un pack dans la Boutique."]};
+st_none:["Aún no tienes stickers. Compra un paquete en la Tienda.","You have no stickers yet. Buy a pack in the Shop.","Você ainda não tem stickers. Compre um pacote na Loja.","Tu n'as pas encore de stickers. Achète un pack dans la Boutique."],
+th:["Tema","Theme","Tema","Thème"],th_a:["Automático","Auto","Automático","Auto"],th_l:["Claro","Light","Claro","Clair"],th_d:["Oscuro","Dark","Escuro","Sombre"],
+v_title:["Verificación de identidad","Identity verification","Verificação de identidade","Vérification d'identité"],
+v_why:["Para evitar perfiles falsos, todas las personas se verifican con una selfie que revisa una persona. Hasta que te verifiquen no puedes ver a otros ni que te vean.","To avoid fake profiles, everyone is verified with a selfie reviewed by a person. Until you are verified you can't see others and they can't see you.","Para evitar perfis falsos, todas as pessoas se verificam com uma selfie revisada por uma pessoa. Até ser verificado(a) você não vê os outros nem é visto(a).","Pour éviter les faux profils, chacun est vérifié par un selfie examiné par une personne. Tant que tu n'es pas vérifié(e), tu ne vois personne et personne ne te voit."],
+v_gate:["Verifica tu identidad para ver a otras personas, dar Me gusta y chatear. Es rápido y solo lo ve quien modera TrueMatch.","Verify your identity to see other people, like and chat. It's quick and only TrueMatch's moderator sees it.","Verifique sua identidade para ver outras pessoas, curtir e conversar. É rápido e só quem modera o TrueMatch vê.","Vérifie ton identité pour voir d'autres personnes, aimer et discuter. C'est rapide et seul le modérateur de TrueMatch le voit."],
+v_start:["Verificar mi identidad","Verify my identity","Verificar minha identidade","Vérifier mon identité"],
+v_steps:["1) Escribe este código en un papel. 2) Sostén el papel junto a tu cara, con buena luz y sin gafas oscuras ni gorra. 3) Toma la selfie: se debe ver tu cara completa y el código legible.","1) Write this code on a piece of paper. 2) Hold the paper next to your face, in good light, without sunglasses or a cap. 3) Take the selfie: your full face and the code must be readable.","1) Escreva este código em um papel. 2) Segure o papel ao lado do rosto, com boa luz, sem óculos escuros nem boné. 3) Tire a selfie: o rosto inteiro e o código devem estar legíveis.","1) Écris ce code sur un papier. 2) Tiens le papier près de ton visage, bien éclairé, sans lunettes de soleil ni casquette. 3) Prends le selfie : ton visage entier et le code doivent être lisibles."],
+v_code:["Tu código","Your code","Seu código","Ton code"],v_take:["📷 Tomar selfie","📷 Take selfie","📷 Tirar selfie","📷 Prendre un selfie"],
+v_pend:["Tu selfie está en revisión. Vuelve más tarde: el resultado aparecerá en tu Perfil.","Your selfie is under review. Come back later: the result will show in your Profile.","Sua selfie está em revisão. Volte mais tarde: o resultado aparecerá no seu Perfil.","Ton selfie est en cours d'examen. Reviens plus tard : le résultat apparaîtra dans ton Profil."],
+v_ok:["Tu cuenta está verificada.","Your account is verified.","Sua conta está verificada.","Ton compte est vérifié."],
+v_rej:["No pudimos verificarte. Puedes intentarlo de nuevo.","We couldn't verify you. You can try again.","Não foi possível verificar você. Pode tentar de novo.","Nous n'avons pas pu te vérifier. Tu peux réessayer."],
+v_note:["Tu selfie solo la ve quien modera TrueMatch, nunca otros usuarios, y se borra al terminar la revisión. No usamos reconocimiento facial automático.","Your selfie is only seen by TrueMatch's moderator, never by other users, and is deleted after review. We don't use automatic face recognition.","Sua selfie só é vista por quem modera o TrueMatch, nunca por outros usuários, e é apagada após a revisão. Não usamos reconhecimento facial automático.","Ton selfie n'est vu que par le modérateur de TrueMatch, jamais par d'autres utilisateurs, et est supprimé après examen. Nous n'utilisons pas de reconnaissance faciale automatique."],
+v_retry:["Intentar de nuevo","Try again","Tentar de novo","Réessayer"],v_sent:["Selfie enviada. Quedó en revisión.","Selfie sent. It's under review.","Selfie enviada. Em revisão.","Selfie envoyé. En cours d'examen."],
+adm_t:["Moderación","Moderation","Moderação","Modération"],adm_open:["Revisar verificaciones","Review verifications","Revisar verificações","Examiner les vérifications"],adm_none:["No hay verificaciones pendientes.","No pending verifications.","Nenhuma verificação pendente.","Aucune vérification en attente."],
+adm_ok:["Aprobar","Approve","Aprovar","Approuver"],adm_no:["Rechazar","Reject","Rejeitar","Refuser"],adm_code:["Código esperado","Expected code","Código esperado","Code attendu"],adm_why:["Motivo del rechazo (opcional):","Reason for rejection (optional):","Motivo da rejeição (opcional):","Motif du refus (facultatif) :"],adm_selfie:["Selfie","Selfie","Selfie","Selfie"],adm_photo:["Foto de perfil","Profile photo","Foto de perfil","Photo de profil"],
+v_no:["Tu navegador no permite grabar audio.","Your browser can't record audio.","Seu navegador não permite gravar áudio.","Ton navigateur ne permet pas d'enregistrer l'audio."],
+v_perm:["Necesito permiso para usar el micrófono. Actívalo en los ajustes del navegador.","I need microphone permission. Turn it on in your browser settings.","Preciso de permissão para usar o microfone. Ative nas configurações do navegador.","J'ai besoin de l'autorisation du micro. Active-la dans les réglages du navigateur."],
+v_big:["La nota de voz es demasiado larga.","The voice note is too long.","A nota de voz é longa demais.","Le message vocal est trop long."],vn_rec:["Grabando…","Recording…","Gravando…","Enregistrement…"]};
 const t=k=>D[k]?D[k][L.indexOf(LANG)]:k;
 const GOALS=["Relación seria","Algo casual","Amistad primero","Aún no lo sé"],INT=["Viajar","Música","Cine","Cocinar","Senderismo","Lectura","Deporte","Arte","Mascotas","Videojuegos","Baile","Fotografía"];
 const TR={en:{g:["Serious relationship","Something casual","Friendship first","Not sure yet"],i:["Travel","Music","Movies","Cooking","Hiking","Reading","Sports","Art","Pets","Video games","Dancing","Photography"]},
@@ -145,7 +168,7 @@ function score(p){const A=ME.interests||[],B=p.interests||[],sh=A.filter(x=>B.in
  return Math.round(sh/un*70+(ME.goal===p.goal?30:(ME.goal==="Aún no lo sé"||p.goal==="Aún no lo sé")?12:0))}
 const LOGO=(s)=>`<svg width="${s}" height="${s}" viewBox="0 0 64 64"><defs><linearGradient id="lgx" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5a3c"/><stop offset="1" stop-color="#ff8a3d"/></linearGradient></defs><path d="M32 57C9 41 5 29 5 21a13 13 0 0 1 24-7l3 4 3-4a13 13 0 0 1 24 7c0 8-4 20-27 36z" fill="url(#lgx)"/><path d="M21 31l8 8 14-16" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const langSel=()=>`<select style="width:auto;margin:0;padding:6px 8px;font-size:14px" onchange="setLang(this.value)">${L.map(l=>`<option value="${l}" ${l===LANG?"selected":""}>${LN[l]}</option>`).join("")}</select>`;
-const head=()=>`<div class="top"><div class="brand">${LOGO(34)}<span class="wm">true<b>match</b></span></div>${langSel()}</div>`;
+const head=()=>`<div class="top"><div class="brand">${LOGO(34)}<span class="wm">true<b>match</b></span></div><div style="display:flex;gap:6px;align-items:center">${themeBtn()}${langSel()}</div></div>`;
 function setLang(l){LANG=l;try{localStorage.setItem("tm_lang",l)}catch(e){}document.documentElement.lang=l;rerender()}
 function rerender(){if(!U)authView();else if(!ME)setupView();else draw()}
 const PK={pk_love:{n:["Amor","Love","Amor","Amour"],e:["❤️","😍","😘","💌","💕","💘","🥰","💋","💞","🌹","💝","😻"]},pk_party:{n:["Fiesta","Party","Festa","Fête"],e:["🎉","🥳","🍾","🎂","🎈","🎊","🪩","🎁","🕺","💃","🍰","🥂"]},pk_animals:{n:["Animales","Animals","Animais","Animaux"],e:["🐶","🐱","🐼","🦊","🐨","🐯","🦁","🐸","🐧","🦄","🐢","🐙"]},pk_food:{n:["Comida","Food","Comida","Cuisine"],e:["🍕","🍔","🌮","🍣","🍩","🍦","🍓","🥑","🍫","☕","🍿","🍷"]}};
@@ -162,13 +185,69 @@ async function shop(){await loadShop();await urls([ME]);const li=L.indexOf(LANG)
 `<h3 style="margin-top:14px">${t("sh_fr")}</h3>`+FR.map(id=>`<div class="card li" style="cursor:default"><div class="mini${frc({frame:id})}">${pic(ME)}</div><div style="flex:1"><b>${FRN[id][li]}</b></div>${!OWN.has(id)?`<button class="p" onclick="buyIt('${id}')">💎 ${PRICE[id]??"?"}</button>`:ME.frame===id?`<span class="badge v">${t("sh_on")}</span>`:`<button onclick="equip('${id}')">${t("sh_eq")}</button>`}</div>`).join("")+(ME.frame?`<button style="width:100%" onclick="equip(null)">${t("sh_off")}</button>`:"")}
 async function buyIt(id){const{error}=await sb.rpc("buy_item",{item:id});if(error)return alert(shopErr(error));draw()}
 async function equip(id){const{data,error}=await sb.from("profiles").update({frame:id}).eq("id",U.id).select().single();if(error)return alert(shopErr(error));ME=data;draw()}
+
+let TH=(()=>{try{const s=localStorage.getItem("tm_theme");return["auto","light","dark"].includes(s)?s:"auto"}catch(e){return"auto"}})();
+const thIc=()=>TH==="auto"?"🌓":TH==="light"?"☀️":"🌙";
+function applyTheme(){const r=document.documentElement;TH==="auto"?r.removeAttribute("data-theme"):r.setAttribute("data-theme",TH);document.querySelectorAll(".thb").forEach(b=>b.textContent=thIc())}
+function setTheme(v){TH=v;try{localStorage.setItem("tm_theme",v)}catch(e){}applyTheme();if(U&&ME&&tab==="p"&&!chatM&&document.getElementById("thseg"))draw()}
+function cycTheme(){setTheme(TH==="auto"?"light":TH==="light"?"dark":"auto")}
+const themeBtn=()=>`<button class="thb" onclick="cycTheme()" style="padding:6px 10px;font-size:16px;border-radius:12px" aria-label="${t("th")}">${thIc()}</button>`;
+let ADM;
+const vErr=e=>{const m=(e&&e.message)||"";return m.includes("ya_pendiente")?t("v_pend"):m.includes("ya_verificado")?t("v_ok"):"Error: "+m};
+async function vstate(){const{data}=await sb.from("verification_requests").select("*").eq("user_id",U.id).maybeSingle();return data}
+async function verifView(){$("m").className="";$("nv").style.display="none";$("m").innerHTML=`<p class="mu">…</p>`;
+ try{const st=await vstate(),b=`<button onclick="draw()">${t("close")}</button>`;
+ if(ME.verified)return $("m").innerHTML=head()+`<div class="card"><h3>${t("v_title")}</h3><span class="badge v">${t("ver")}</span><p class="mu">${t("v_ok")}</p></div>${b}`;
+ if(st&&st.status==="pendiente")return $("m").innerHTML=head()+`<div class="card"><h3>${t("v_title")}</h3><p>${t("v_pend")}</p></div>${b}`;
+ if(st&&st.status==="codigo")return vCapture(st.code);
+ $("m").innerHTML=head()+`<div class="card"><h3>${t("v_title")}</h3>${st&&st.status==="rechazada"?`<div class="note" style="color:#d33">${t("v_rej")}${st.note?" — "+esc(st.note):""}</div>`:""}<p class="mu">${t("v_why")}</p><div class="note">${t("v_note")}</div><button class="p" style="width:100%" onclick="vBegin()">${st&&st.status==="rechazada"?t("v_retry"):t("v_start")}</button></div>${b}`}
+ catch(e){$("m").innerHTML=`<div class="note">${esc(e.message||e)}</div><button onclick="draw()">${t("close")}</button>`}}
+async function vBegin(){const{data,error}=await sb.rpc("request_verification");if(error){alert(vErr(error));return verifView()}vCapture(data)}
+function vCapture(code){$("m").innerHTML=head()+`<div class="card"><h3>${t("v_title")}</h3><p class="mu" style="margin:0">${t("v_code")}</p><div class="vc">${esc(code)}</div><p style="font-size:15px">${t("v_steps")}</p><label class="bt">${t("v_take")}<input type="file" accept="image/*" capture="user" style="display:none" onchange="vUp(this)"></label><div class="note">${t("v_note")}</div></div><button onclick="draw()">${t("close")}</button>`}
+async function vUp(inp){const f=inp.files[0];if(!f||!f.type.startsWith("image/"))return;
+ try{const bm=await createImageBitmap(f),k=Math.min(1,1024/Math.max(bm.width,bm.height)),c=document.createElement("canvas");c.width=Math.round(bm.width*k);c.height=Math.round(bm.height*k);c.getContext("2d").drawImage(bm,0,0,c.width,c.height);
+ const blob=await new Promise(r=>c.toBlob(r,"image/jpeg",0.85));
+ const{error}=await sb.storage.from("verification").upload(U.id+"/selfie.jpg",blob,{contentType:"image/jpeg",upsert:true});if(error)return alert(vErr(error));
+ const{error:e2}=await sb.rpc("submit_verification");if(e2)return alert(vErr(e2));alert(t("v_sent"));verifView()}catch(e){alert(vErr(e))}}
+async function adminView(){$("m").className="";$("nv").style.display="none";$("m").innerHTML=`<p class="mu">…</p>`;
+ try{const{data,error}=await sb.rpc("admin_pending");if(error)throw error;const rows=data||[];await urls(rows);
+ const sig=await Promise.all(rows.map(async r=>{const{data:d}=await sb.storage.from("verification").createSignedUrl(r.user_id+"/selfie.jpg",600);return d?d.signedUrl:""}));
+ $("m").innerHTML=`<h2>${t("adm_t")}</h2>`+(rows.length?rows.map((r,i)=>`<div class="card"><b>${esc(r.name)}</b><div class="vc" style="font-size:34px;letter-spacing:6px">${esc(r.code)}</div><p class="mu" style="margin:0 0 6px">${t("adm_code")}</p><div class="cmp"><div><p class="mu" style="margin:0">${t("adm_selfie")}</p>${sig[i]?`<img src="${sig[i]}" alt="">`:""}</div><div><p class="mu" style="margin:0">${t("adm_photo")}</p>${C[r.photo_path]?`<img src="${C[r.photo_path]}" alt="">`:""}</div></div><div class="row" style="margin-top:10px"><button onclick="adminRev('${r.user_id}',false)">${t("adm_no")}</button><button class="p" onclick="adminRev('${r.user_id}',true)">${t("adm_ok")}</button></div></div>`).join(""):`<p class="mu">${t("adm_none")}</p>`)+`<button onclick="draw()">${t("close")}</button>`}
+ catch(e){$("m").innerHTML=`<div class="note">${esc(e.message||e)}</div><button onclick="draw()">${t("close")}</button>`}}
+async function adminRev(uid,ok){let why=null;if(!ok){why=prompt(t("adm_why"));if(why===null)return}
+ const{error}=await sb.rpc("admin_review",{target:uid,approve:ok,why:why||null});if(error)return alert(vErr(error));
+ try{await sb.storage.from("verification").remove([uid+"/selfie.jpg"])}catch(e){}
+ if(uid===U.id){const{data}=await sb.from("profiles").select("*").eq("id",U.id).maybeSingle();if(data)ME=data}
+ adminView()}
+let REC=null;
+function vShow(on){const a=$("vrec"),b=$("vbar");if(a)a.style.display=on?"block":"none";if(b)b.style.display=on?"none":"flex"}
+async function vStart(){if(REC)return;if(!navigator.mediaDevices||!window.MediaRecorder)return alert(t("v_no"));
+ let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){return alert(t("v_perm"))}
+ const mime=["audio/mp4","audio/webm;codecs=opus","audio/webm","audio/ogg"].find(m=>MediaRecorder.isTypeSupported(m))||"";
+ const mr=new MediaRecorder(stream,mime?{mimeType:mime}:{}),ch=[];
+ mr.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};
+ REC={mr,ch,stream,t0:Date.now(),mime:(mr.mimeType||mime||"audio/mp4").split(";")[0],send:false};REC.tm=setInterval(vTick,250);
+ mr.onstop=()=>vDone(REC);mr.start();vShow(true);vTick()}
+function vTick(){if(!REC)return;const s=Math.floor((Date.now()-REC.t0)/1000),e=$("vt");if(e)e.textContent=Math.floor(s/60)+":"+String(s%60).padStart(2,"0");if(s>=60)vStop(true)}
+function vStop(send){if(!REC)return;REC.send=send;clearInterval(REC.tm);if(REC.mr.state!=="inactive")REC.mr.stop()}
+async function vDone(R){if(REC===R)REC=null;R.stream.getTracks().forEach(x=>x.stop());vShow(false);if(!R.send||!chatM)return;
+ const blob=new Blob(R.ch,{type:R.mime});if(blob.size<1500)return;if(blob.size>2000000)return alert(t("v_big"));
+ const ext=R.mime.includes("mp4")?"mp4":R.mime.includes("ogg")?"ogg":"webm",path=chatM+"/"+U.id+"-"+Date.now()+"."+ext;
+ const{error}=await sb.storage.from("voice").upload(path,blob,{contentType:R.mime});if(error)return alert(shopErr(error));
+ const{error:e2}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:"{{vn:"+path+"}}"});if(e2){try{await sb.storage.from("voice").remove([path])}catch(x){}return alert(shopErr(e2))}
+ refreshMsgs()}
+const vnp=b=>{const m=/^\{\{vn:(\d+\/[0-9a-f-]{36}-\d{10,14}\.(?:mp4|webm|ogg))\}\}$/.exec(b);return m?m[1]:""};
+async function hydrateVn(){const els=[...document.querySelectorAll("audio[data-vn]")].filter(e=>!e.getAttribute("src"));if(!els.length)return;
+ const need=[...new Set(els.map(e=>e.dataset.vn).filter(p=>!C[p]))];
+ if(need.length){const{data}=await sb.storage.from("voice").createSignedUrls(need,3600);(data||[]).forEach(d=>{if(d.signedUrl)C[d.path]=d.signedUrl})}
+ els.forEach(e=>{if(C[e.dataset.vn])e.src=C[e.dataset.vn]})}
 const CONTACTO="Salcedoanthony959@gmail.com";
 const NOTA='<p class="mu">Última actualización: 12 de octubre de 2026. Documento preparado con asistencia de IA a partir de normas públicas; no sustituye el consejo de un abogado.</p>';
 const LEGAL={
 t:`<h2>Términos de uso</h2>${NOTA}
 <h3>1. Qué es TrueMatch</h3><p>TrueMatch es un servicio para conocer personas con intereses y objetivos afines. Hoy es gratuito. Al crear una cuenta aceptas estos Términos, la Política de Privacidad y las Normas de la comunidad.</p>
 <h3>2. Edad mínima</h3><p>Solo pueden usar TrueMatch personas de 18 años o más. Si detectamos una cuenta de una persona menor de edad, la eliminamos. Si conoces un caso, repórtalo.</p>
-<h3>3. Tu cuenta</h3><p>Debes dar datos verdaderos, tener una sola cuenta, no hacerte pasar por otra persona y cuidar tu contraseña.</p>
+<h3>3. Tu cuenta</h3><p>Debes dar datos verdaderos, tener una sola cuenta, no hacerte pasar por otra persona y cuidar tu contraseña. Para ver a otras personas, dar Me gusta y chatear debes verificar tu identidad con una selfie, que revisa una persona; podemos rechazar o retirar la verificación si hay dudas. La verificación reduce el riesgo de perfiles falsos pero no lo elimina.</p>
 <h3>4. Conducta y moderación</h3><p>Debes cumplir las Normas de la comunidad. Los reportes se revisan manualmente. Podemos retirar contenido y suspender o eliminar cuentas que incumplan las normas o la ley.</p>
 <h3>5. Tu contenido</h3><p>Tus fotos y textos siguen siendo tuyos. Nos autorizas a mostrarlos a otros usuarios dentro del servicio mientras tu cuenta exista. No subas fotos de otras personas sin su permiso ni contenido ilegal.</p>
 <h3>6. Seguridad personal</h3><p>No podemos comprobar quién es cada persona: la insignia de verificado solo aparece si un administrador la otorga manualmente. La compatibilidad es una estimación, no una garantía. Si te reúnes con alguien, hazlo en un lugar público y avisa a alguien de confianza.</p>
@@ -179,10 +258,10 @@ t:`<h2>Términos de uso</h2>${NOTA}
 <h3>11. Cambios</h3><p>Si cambiamos estos términos de forma importante, te avisaremos en la app.</p>`,
 p:`<h2>Política de privacidad</h2>${NOTA}
 <h3>Responsable</h3><p>TrueMatch. Contacto para privacidad: ${CONTACTO}.</p>
-<h3>Datos que guardamos</h3><p>Correo y contraseña (la contraseña la protege el proveedor de autenticación; nosotros no la vemos); nombre, fecha de nacimiento, país (el que tú eliges), biografía, intereses, objetivo y fotos de perfil (hasta 6; se les quitan los datos de ubicación del archivo); si tú lo activas, una ubicación aproximada (redondeada a unos 1 km); tus Me gusta, matches, mensajes, bloqueos y reportes; la fecha en que aceptaste los términos. El proveedor puede registrar datos técnicos (como la dirección IP) por seguridad.</p>
-<h3>Datos que NO recolectamos</h3><p>Tu ubicación exacta (solo si activas «Personas cerca» guardamos una ubicación aproximada de unos 1 km; nunca se muestra a otros, solo una distancia aproximada, y puedes borrarla cuando quieras en Perfil), contactos del teléfono, documentos de identidad, reconocimiento facial ni datos biométricos. El país de tu perfil es un dato que tú declaras y puedes cambiar cuando quieras.</p>
+<h3>Datos que guardamos</h3><p>Correo y contraseña (la contraseña la protege el proveedor de autenticación; nosotros no la vemos); nombre, fecha de nacimiento, país (el que tú eliges), biografía, intereses, objetivo y fotos de perfil (hasta 6; se les quitan los datos de ubicación del archivo); si tú lo activas, una ubicación aproximada (redondeada a unos 1 km); tus Me gusta, matches, mensajes, bloqueos y reportes; la fecha en que aceptaste los términos; las notas de voz que envías en un chat; y, solo durante la verificación, una selfie con un código (la revisa una persona y se borra al terminar la revisión) junto con el resultado de la revisión. El proveedor puede registrar datos técnicos (como la dirección IP) por seguridad.</p>
+<h3>Datos que NO recolectamos</h3><p>Tu ubicación exacta (solo si activas «Personas cerca» guardamos una ubicación aproximada de unos 1 km; nunca se muestra a otros, solo una distancia aproximada, y puedes borrarla cuando quieras en Perfil), contactos del teléfono ni documentos de identidad. No usamos reconocimiento facial automático ni guardamos plantillas biométricas: la selfie de verificación la compara una persona con tus fotos de perfil y luego se borra. El país de tu perfil es un dato que tú declaras y puedes cambiar cuando quieras.</p>
 <h3>Para qué los usamos</h3><p>Para operar el servicio, mostrar perfiles, crear matches, permitir chats, calcular una compatibilidad estimada con una fórmula simple (sin inteligencia artificial externa) y mantener la seguridad y la moderación.</p>
-<h3>Quién ve qué</h3><p>Otros usuarios registrados ven tu nombre, edad (si no la ocultas), país, biografía, intereses, objetivo, fotos y, si activaste tu ubicación, la distancia aproximada que hay entre ustedes (nunca tus coordenadas). Tu correo nunca se muestra. Tus mensajes solo los ve la otra persona del chat. Los mensajes no están cifrados de extremo a extremo: el administrador del servicio puede acceder técnicamente a los datos para moderación y soporte. No vendemos tus datos ni los compartimos con anunciantes.</p>
+<h3>Quién ve qué</h3><p>Otros usuarios registrados ven tu nombre, edad (si no la ocultas), país, biografía, intereses, objetivo, fotos y, si activaste tu ubicación, la distancia aproximada que hay entre ustedes (nunca tus coordenadas). Tu correo nunca se muestra. Tus mensajes y notas de voz solo los ve la otra persona del chat. Tu selfie de verificación solo la ve quien modera TrueMatch. Los mensajes no están cifrados de extremo a extremo: el administrador del servicio puede acceder técnicamente a los datos para moderación y soporte. No vendemos tus datos ni los compartimos con anunciantes.</p>
 <h3>Proveedores</h3><p>Usamos Supabase (base de datos, autenticación y almacenamiento de fotos) y GitHub Pages (alojamiento de la página). Tus datos pueden procesarse en servidores fuera de tu país.</p>
 <h3>Cuánto tiempo los conservamos</h3><p>Mientras tu cuenta exista. Si la borras desde Perfil, se eliminan tu cuenta de acceso, perfil, foto, Me gusta, matches, mensajes y registros asociados. Las copias de seguridad del proveedor, si existen, se sobrescriben con el tiempo.</p>
 <h3>Tus derechos</h3><p>Puedes pedir acceso, corrección, eliminación, oposición o una copia de tus datos escribiendo a ${CONTACTO}; responderemos en un plazo razonable (objetivo: 30 días). La eliminación también puedes hacerla tú mismo en Perfil. Esto está pensado para respetar el artículo 28 de la Constitución de Venezuela (acceso, rectificación y supresión de datos) y normas como el RGPD europeo, la ley de California, la LGPD de Brasil y otras leyes de tu país.</p>
@@ -212,7 +291,7 @@ async function signup(){const pw=$("pw").value;if(!$("ok1").checked)return alert
 async function forgot(){const e=$("em").value.trim();if(!e)return alert(t("m_mail"));const{error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.origin+location.pathname});error?err(error):alert(t("m_rst"))}
 sb.auth.onAuthStateChange((ev,s)=>{U=s?s.user:null;setTimeout(()=>onAuth(ev),0)});
 async function onAuth(ev){if(ev==="PASSWORD_RECOVERY"){const p=prompt(t("m_np"));if(p&&p.length>=8){const{error}=await sb.auth.updateUser({password:p});error&&err(error)}}
- clearInterval(poll);LOC=undefined;WAL=0;OWN=new Set();if(!U){ME=null;for(const k in GAL)delete GAL[k];authView();return}
+ clearInterval(poll);LOC=undefined;WAL=0;OWN=new Set();ADM=undefined;if(!U){ME=null;for(const k in GAL)delete GAL[k];authView();return}
  const{data}=await sb.from("profiles").select("*").eq("id",U.id).maybeSingle();ME=data;ME?draw():setupView()}
 function setupView(){$("m").className="";$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card"><h3>${t("mk")}</h3><label>${t("name")}</label><input id="n" maxlength="40">
 <label>${t("dob")}</label><input id="dob" type="date"><label>${t("ctry")}</label><select id="cc"><option value="">${t("pick")}</option>${copts("")}</select>
@@ -227,7 +306,7 @@ async function mk(){const n=$("n").value.trim(),d=$("dob").value,cc=$("cc").valu
  if(error)return err(error);ME=data;draw()}
 const IC={d:'<path d="M12 2c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>',l:'<path d="M12 21C4 15 3 11 3 8.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 1.5C21 11 20 15 12 21z"/>',m:'<path d="M9 12a4 4 0 1 0 0-.01M15 12a4 4 0 1 0 0-.01"/>',c:'<path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/>',p:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',s:'<path d="M6 7h12l1 13H5L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/>'};
 const NV=["d","l","m","c","s","p"].map(k=>[k,`<svg viewBox="0 0 24 24">${IC[k]}</svg>`]);
-async function draw(){clearInterval(poll);BUSY=false;$("m").className=tab==="d"?"fill":"";$("nv").style.display="flex";
+async function draw(){clearInterval(poll);BUSY=false;if(REC)vStop(false);$("m").className=tab==="d"?"fill":"";$("nv").style.display="flex";
  $("nv").innerHTML=NV.map(n=>`<button class="${tab===n[0]?"on":""}" onclick="tab='${n[0]}';chatM=null;draw()"><b>${n[1]}</b>${t("n"+n[0])}</button>`).join("");
  $("m").innerHTML=`<p class="mu">…</p>`;
  try{$("m").innerHTML=await({d:disc,l:likes,m:matches,c:chat,s:shop,p:prof}[tab])();$("m").scrollTop=0;if(tab==="d")swipe();if(tab==="c"&&chatM)poll=setInterval(refreshMsgs,5000)}catch(e){$("m").innerHTML=`<div class="note">${esc(e.message||e)}</div>`}}
@@ -246,6 +325,7 @@ function setLoc(){if(!navigator.geolocation)return alert(t("e_loc"));
 async function delLoc(){const{error}=await sb.from("profile_locations").delete().eq("id",U.id);if(error)return err(error);LOC=false;DIST=0;try{localStorage.setItem("tm_dist","0")}catch(e){}draw()}
 const filters=()=>`<div class="top" style="margin-bottom:8px"><div class="brand">${LOGO(28)}<span class="wm" style="font-size:22px">true<b>match</b></span></div></div><div class="row" style="margin-bottom:8px"><select style="margin:0;padding:8px" onchange="setReg(this.value)"><option value="all" ${REG==="all"?"selected":""}>🌍 ${t("world")}</option><option value="mine" ${REG==="mine"?"selected":""}>${flag(ME.country)} ${t("mine")}</option>${copts(REG)}</select><select style="margin:0;padding:8px" onchange="setDist(this.value)">${[0,10,25,50,100].map(k=>`<option value="${k}" ${DIST===k?"selected":""}>📍 ${k?t("upto")+" "+k+" km":t("dany")}</option>`).join("")}</select></div>`;
 async function disc(){
+ if(!ME.verified)return head()+`<div class="card"><h3>${t("v_title")}</h3><p>${t("v_gate")}</p><button class="p" style="width:100%" onclick="verifView()">${t("v_start")}</button></div>`;
  let near=null;
  if(DIST>0){if(LOC===undefined)await loadLoc();
   if(LOC){const{data,error}=await sb.rpc("nearby_profiles",{max_km:DIST});if(error)throw error;near=new Map((data||[]).map(r=>[r.id,r.distance_km]))}}
@@ -296,23 +376,26 @@ async function matches(){const l=await myMatches();return `<h2>${t("nm")}</h2><p
 async function chat(){
  if(chatM){const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}await loadShop();
   return `<button onclick="chatM=null;draw()">${t("back")}</button><div class="top" style="margin-top:10px"><h3 style="margin:0">${flag(x.p.country)} ${esc(x.p.name)}</h3><span class="pill dm" id="wal">💎 ${WAL}</span></div><div class="row" style="margin:8px 0"><button onclick="rep('${x.p.id}')">${t("rep")}</button><button onclick="blk('${x.p.id}')">${t("blk")}</button></div>
-  <div class="note">${t("cnt")}</div><div id="ms"></div><div class="row" style="margin-top:10px"><input id="mi" placeholder="${t("wr")}" maxlength="2000" style="margin:0;flex:3"><button onclick="tsp()" style="flex:none;padding:12px">😊</button><button class="p" onclick="send()" style="flex:none">${t("snd")}</button></div><div class="card" id="stp" style="display:none;margin-top:8px">${stPanel()}</div><img src="data:," style="display:none" onerror="refreshMsgs()">`}
+  <div class="note">${t("cnt")}</div><div id="ms"></div><div class="card" id="vrec" style="display:none;margin-top:10px"><div class="rec"><i></i><b>${t("vn_rec")}</b><span id="vt">0:00</span><span style="flex:1"></span><button onclick="vStop(false)">${t("cx")}</button><button class="p" onclick="vStop(true)">${t("snd")}</button></div></div><div class="row" id="vbar" style="margin-top:10px"><input id="mi" placeholder="${t("wr")}" maxlength="2000" style="margin:0;flex:3"><button onclick="vStart()" style="flex:none;padding:12px" aria-label="mic">🎤</button><button onclick="tsp()" style="flex:none;padding:12px">😊</button><button class="p" onclick="send()" style="flex:none">${t("snd")}</button></div><div class="card" id="stp" style="display:none;margin-top:8px">${stPanel()}</div><img src="data:," style="display:none" onerror="refreshMsgs()">`}
  const l=await myMatches();return `<h2>${t("nc")}</h2>`+(l.length?l.map(x=>`<div class="card li" onclick="chatM=${x.id};draw()"><div class="mini${frc(x.p)}">${pic(x.p)}</div><b>${esc(x.p.name)}</b></div>`).join(""):`<p class="mu">${t("nochat")}</p>`)}
 async function refreshMsgs(){const el=$("ms");if(!el||!chatM)return;const{data,error}=await sb.from("messages").select("*").eq("match_id",chatM).order("created_at");if(error)return;
- el.innerHTML=(data||[]).map(x=>`<div class="msg ${x.sender===U.id?"me":"ot"}${stk(x.body)?" stk":""}">${stk(x.body)||esc(x.body)}<small>${new Date(x.created_at).toLocaleString(LANG)}</small></div>`).join("")}
+ const sg=(data||[]).map(x=>x.id).join(",");if(el.dataset.s===sg)return;el.dataset.s=sg;
+ el.innerHTML=(data||[]).map(x=>`<div class="msg ${x.sender===U.id?"me":"ot"}${stk(x.body)?" stk":""}">${vnp(x.body)?`<audio controls preload="none" data-vn="${vnp(x.body)}" style="width:220px;max-width:100%;height:38px"></audio>`:(stk(x.body)||esc(x.body))}<small>${new Date(x.created_at).toLocaleString(LANG)}</small></div>`).join("");hydrateVn()}
 const stk=b=>{const m=/^\{\{st:([a-z_]+):(\d{1,2})\}\}$/.exec(b);return m&&PK[m[1]]&&PK[m[1]].e[+m[2]]?`<span style="font-size:44px;line-height:1.1">${PK[m[1]].e[+m[2]]}</span>`:""};
 const stPanel=()=>{const o=Object.keys(PK).filter(id=>OWN.has(id));if(!o.length)return `<p class="mu" style="margin:0">${t("st_none")}</p>`;const li=L.indexOf(LANG);
  return o.map(id=>`<div class="pk">${PK[id].n[li]}</div><div class="stp">${PK[id].e.map((e,i)=>`<button onclick="sendSt('${id}',${i})">${e}</button>`).join("")}</div>`).join("")};
 function tsp(){const e=$("stp");if(e)e.style.display=e.style.display==="none"?"block":"none"}
 async function sendSt(id,i){const{error}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:`{{st:${id}:${i}}}`});if(error)return alert(shopErr(error));tsp();refreshMsgs()}
 async function send(){const v=$("mi").value.trim();if(!v)return;const{error}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:v});if(error)return alert(shopErr(error));$("mi").value="";refreshMsgs();updWal()}
-async function prof(){delete GAL[ME.id];await gal([ME]);await urls([ME]);try{await loadShop()}catch(e){}if(LOC===undefined)await loadLoc();const ph=GAL[ME.id]||[];
+async function prof(){delete GAL[ME.id];await gal([ME]);await urls([ME]);try{await loadShop()}catch(e){}if(LOC===undefined)await loadLoc();if(ADM===undefined){try{const{data}=await sb.rpc("is_admin");ADM=!!data}catch(e){ADM=false}}const ph=GAL[ME.id]||[];
  const g=ph.map((x,i)=>`<div class="gi"><img src="${C[x]||""}" alt="">${i===0?`<span class="cv">${t("cover")}</span>`:`<button class="st" onclick="mkCover(${i})">★</button>`}<button class="x" onclick="delPhoto(${i})">✕</button></div>`).join("")+(ph.length<6?`<label class="gi add">+<input type="file" accept="image/*" style="display:none" onchange="upPhoto(this)"></label>`:"");
- return `<div class="top"><h2 style="margin:0">${t("np")}</h2>${langSel()}</div><div class="card"><div class="li" style="cursor:default;margin-bottom:10px"><div class="mini${frc(ME)}">${pic(ME)}</div><span class="pill dm" style="margin:0" onclick="tab='s';draw()">💎 ${WAL}</span></div><label style="display:block;margin-bottom:6px">${t("gal")}</label><div class="gg">${g}</div><p class="mu" style="font-size:12px">${t("photo")}</p>
+ return `<div class="top"><h2 style="margin:0">${t("np")}</h2><div style="display:flex;gap:6px;align-items:center">${themeBtn()}${langSel()}</div></div><div class="card"><div class="li" style="cursor:default;margin-bottom:10px"><div class="mini${frc(ME)}">${pic(ME)}</div><span class="pill dm" style="margin:0" onclick="tab='s';draw()">💎 ${WAL}</span></div><label style="display:block;margin-bottom:6px">${t("gal")}</label><div class="gg">${g}</div><p class="mu" style="font-size:12px">${t("photo")}</p>
 <b>${esc(ME.name)}, ${age(ME.birth_date)}</b> <span class="badge ${ME.verified?"v":""}">${ME.verified?t("ver"):t("unv")}</span><p class="mu">${esc(ME.bio)}</p><p class="mu">${t("goal")}: ${esc(tg(ME.goal))}</p>${tags(ME.interests)}<button style="width:100%;margin-top:10px" onclick="editView()">${t("ed")}</button>
 <label style="display:block;margin-top:10px">${t("ctry")}</label><select onchange="setCountry(this.value)"><option value="">${t("pick")}</option>${copts(ME.country||"")}</select>
 <label style="display:block"><input type="checkbox" style="width:auto;margin-right:8px" ${ME.hide_age?"checked":""} onchange="hideAge(this.checked)">${t("hide")}</label><p class="mu" style="font-size:12px">${t("vnote")}</p></div>
 <div class="card"><h3>${t("locttl")}</h3><p class="mu" style="font-size:13px">${LOC?t("locok"):t("locno")}</p><div class="row"><button class="p" onclick="setLoc()">${LOC?t("locup"):t("locon")}</button>${LOC?`<button onclick="delLoc()">${t("locdel")}</button>`:""}</div></div>
+<div class="card" id="thseg"><label style="display:block;margin-bottom:6px">${t("th")}</label><div class="row">${["auto","light","dark"].map(v=>`<button class="${TH===v?"p":""}" onclick="setTheme('${v}')">${t("th_"+v[0])}</button>`).join("")}</div></div>
+<div class="card"><h3>${t("v_title")}</h3>${ME.verified?`<span class="badge v">${t("ver")}</span><p class="mu">${t("v_ok")}</p>`:`<p class="mu">${t("v_why")}</p><button class="p" style="width:100%" onclick="verifView()">${t("v_start")}</button>`}</div>${ADM?`<div class="card"><h3>${t("adm_t")}</h3><button style="width:100%" onclick="adminView()">${t("adm_open")}</button></div>`:""}
 <div class="card"><h3>${t("legal")}</h3><p><a href="#" onclick="return lg('t')">${t("lt")}</a><br><a href="#" onclick="return lg('p')">${t("lp")}</a><br><a href="#" onclick="return lg('n')">${t("ln")}</a><br><a href="#" onclick="return lg('i')">${t("li")}</a></p><p class="mu" style="font-size:12px">${CONTACTO}</p></div>
 <div class="card"><button onclick="sb.auth.signOut()">${t("out")}</button> <button style="margin-top:8px;color:#d33" onclick="del()">${t("del")}</button></div>`}
 function editView(){$("m").className="";$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card"><h3>${t("ed")}</h3><label>${t("name")}</label><input id="n" maxlength="40" value="${esc(ME.name)}">
@@ -337,6 +420,8 @@ async function delPhoto(i){const ph=GAL[ME.id]||[];if(!ph[i]||!confirm(t("delph"
  const rest=ph.filter((_,j)=>j!==i);await savePos(rest);await setCover(rest[0]||null);draw()}
 async function hideAge(v){const{error}=await sb.from("profiles").update({hide_age:v}).eq("id",U.id);error?err(error):ME.hide_age=v}
 async function del(){if(!confirm(t("m_del")))return;try{const{data:fl}=await sb.storage.from("avatars").list(U.id,{limit:100});if(fl&&fl.length)await sb.storage.from("avatars").remove(fl.map(x=>U.id+"/"+x.name))}catch(e){}
+ try{await sb.storage.from("verification").remove([U.id+"/selfie.jpg"])}catch(e){}
+ try{const{data:ms}=await sb.from("matches").select("id");for(const m of ms||[]){const{data:fs}=await sb.storage.from("voice").list(String(m.id),{limit:1000});const mine=(fs||[]).filter(f=>f.name.startsWith(U.id+"-")).map(f=>m.id+"/"+f.name);if(mine.length)await sb.storage.from("voice").remove(mine)}}catch(e){}
  const{error}=await sb.rpc("delete_my_account");if(error)return err(error);alert(t("m_delok"));await sb.auth.signOut()}
 document.documentElement.lang=LANG;
 </script></body></html>
