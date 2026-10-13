@@ -1,296 +1,305 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
+<html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ff5a3c">
 <title>TrueMatch</title>
 <style>
-:root{--bg:#fbf5ea;--card:#fff;--tx:#2b2220;--mu:#8a7b74;--co:#ff6b6b;--co2:#ff8e72;--ln:#eadfce;--gold:#e5a50a}
-@media (prefers-color-scheme:dark){:root{--bg:#1d1715;--card:#2a211e;--tx:#f6ece4;--mu:#b3a299;--ln:#3b2f2a}}
-*{box-sizing:border-box}html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--tx);font-family:Georgia,serif;display:flex;justify-content:center}
+:root{--bg:#fff7f1;--card:#fff;--tx:#2a1d1a;--mu:#9b857c;--ln:#f1e3da;--g:linear-gradient(135deg,#ff5a3c,#ff8a3d);--lk:linear-gradient(135deg,#ff3d6e,#ff5a3c);--a:#ff5a3c}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1412;--card:#2a1f1c;--tx:#fbefe8;--mu:#bba79d;--ln:#3b2c27}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,"Helvetica Neue",Arial,sans-serif;display:flex;justify-content:center}
 #app{width:100%;max-width:440px;height:100%;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
-main{flex:1;overflow-y:auto;padding:16px}
-h1,h2,h3{margin:0 0 8px;font-weight:600}h1{font-size:28px}
-.s,button,input,textarea,select,nav{font-family:-apple-system,"Helvetica Neue",Arial,sans-serif}
-.logo{color:var(--co);font-style:italic}.mu{color:var(--mu);font-size:14px}
-.card{background:var(--card);border:1px solid var(--ln);border-radius:22px;padding:16px;margin-bottom:12px;box-shadow:0 6px 20px rgba(120,70,50,.08);animation:in .3s ease}
+main{flex:1;overflow-y:auto;padding:14px 16px}
+h2,h3{margin:0 0 8px}.mu{color:var(--mu);font-size:14px}.wm{font-family:Georgia,serif;font-style:italic;font-size:26px;font-weight:700;letter-spacing:-.5px}.wm b{color:var(--a)}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.brand{display:flex;align-items:center;gap:8px}
+.card{background:var(--card);border-radius:20px;padding:16px;margin-bottom:12px;box-shadow:0 4px 18px rgba(255,94,98,.08);animation:in .3s ease}
 @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.av{height:190px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:80px;margin-bottom:12px;background:linear-gradient(135deg,#ffd6d6,#ffe3c2);color:var(--co);position:relative;overflow:hidden}
-.tag{display:inline-block;padding:4px 10px;border-radius:99px;background:var(--bg);border:1px solid var(--ln);font-size:13px;margin:2px 4px 2px 0}.tag.on{background:var(--co);color:#fff;border-color:var(--co)}
+.hero{position:relative;aspect-ratio:3/4;max-height:64vh;width:100%;border-radius:24px;overflow:hidden;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:96px;color:#fff;touch-action:pan-y;transition:transform .2s}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ov{position:absolute;left:0;right:0;bottom:0;padding:60px 16px 16px;background:linear-gradient(transparent,rgba(0,0,0,.72));color:#fff;font-size:15px}
+.ov h2{font-size:26px;margin:4px 0 0}.pill{display:inline-block;background:rgba(255,255,255,.22);backdrop-filter:blur(6px);border-radius:99px;padding:3px 10px;font-size:13px;margin-right:6px}
+.tag{display:inline-block;padding:4px 10px;border-radius:99px;background:var(--bg);font-size:13px;margin:2px 4px 2px 0}.tag.on{background:var(--g);color:#fff}
 .badge{font-size:12px;padding:3px 8px;border-radius:8px;background:var(--bg);color:var(--mu)}.badge.v{background:#d4f0dd;color:#14602a}
-.bar{height:8px;border-radius:9px;background:var(--ln);overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--co),var(--co2))}
+button,input,textarea,select{font-family:inherit}
 button{border-radius:14px;padding:12px 16px;font-size:16px;cursor:pointer;background:var(--card);color:var(--tx);border:1px solid var(--ln)}
-button.p{background:linear-gradient(135deg,var(--co),var(--co2));color:#fff;border:0}
-.row{display:flex;gap:10px}.row>*{flex:1}.act{justify-content:center}.act button{font-size:26px;border-radius:50%;height:62px;width:62px;flex:none;padding:0}
+button.p{background:var(--g);color:#fff;border:0;font-weight:600}
+.row{display:flex;gap:10px}.row>*{flex:1}.act{justify-content:center;align-items:center;margin:14px 0 6px}.act button.big{height:78px;width:78px;font-size:34px}.act button{border-radius:50%;height:64px;width:64px;flex:none;padding:0;font-size:28px;box-shadow:0 4px 14px rgba(0,0,0,.12);border:0}
 input,textarea,select{width:100%;padding:12px;border-radius:12px;border:1px solid var(--ln);background:var(--card);color:var(--tx);font-size:16px;margin:4px 0 10px}
 label{font-size:14px;color:var(--mu)}
-nav{display:flex;border-top:1px solid var(--ln);background:var(--card);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
-nav button{flex:1;border:0;background:none;font-size:10px;color:var(--mu);padding:6px 0}nav button b{display:block;font-size:18px;font-weight:400}nav button.on{color:var(--co)}
-.msg{max-width:78%;padding:9px 12px;border-radius:16px;margin:4px 0;font-size:15px}.me{background:var(--co);color:#fff;margin-left:auto}.ot{background:var(--card);border:1px solid var(--ln)}
+nav{display:flex;background:var(--card);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -2px 12px rgba(0,0,0,.05)}
+nav button{flex:1;border:0;background:none;font-size:11px;color:var(--mu);padding:6px 0}nav button b{display:flex;justify-content:center;height:24px;margin-bottom:2px}nav button svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}nav button.on{color:var(--a);font-weight:600}nav button.on svg{stroke:var(--a)}
+.msg{max-width:78%;padding:9px 12px;border-radius:18px;margin:4px 0;font-size:15px}.me{background:var(--g);color:#fff;margin-left:auto}.ot{background:var(--card)}
 .msg small{display:block;font-size:10px;opacity:.7;margin-top:2px}
-.li{display:flex;gap:12px;align-items:center;cursor:pointer}.mini{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:#ffe3c2;color:var(--co);flex:none;overflow:hidden}
-.note{font-size:13px;color:var(--mu);border:1px dashed var(--ln);padding:10px;border-radius:12px;margin:8px 0}
-.av img,.mini img{width:100%;height:100%;object-fit:cover}
-
-/* Marcos cosméticos */
-.frame-gold{box-shadow:inset 0 0 0 6px #ffd700, 0 0 14px rgba(255,215,0,0.7)}
-.frame-neon{box-shadow:inset 0 0 0 6px #00f0ff, 0 0 14px rgba(0,240,255,0.7)}
-.frame-fire{box-shadow:inset 0 0 0 6px #ff3b00, 0 0 14px rgba(255,59,0,0.8)}
-.dia-badge{display:inline-flex;align-items:center;gap:4px;background:#eef7ff;color:#0070f3;padding:4px 10px;border-radius:12px;font-weight:700;font-size:13px}
-.item-card{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--ln);padding:10px 0}
-.item-card:last-child{border-bottom:0}
-</style>
-</head>
-<body>
-<div id="app">
-  <main id="m"><p class="mu s">Cargando…</p></main>
-  <nav id="nv" style="display:none"></nav>
-</div>
-
+.li{display:flex;gap:12px;align-items:center;cursor:pointer}.mini{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--g);color:#fff;flex:none;overflow:hidden}.mini img{width:100%;height:100%;object-fit:cover}
+.note{font-size:13px;color:var(--mu);background:var(--card);padding:10px;border-radius:12px;margin:8px 0}
+main.fill{display:flex;flex-direction:column;padding:8px 12px 6px;overflow:hidden}main.fill>*{flex:none}main.fill>.dh{flex:1}
+.dh{position:relative;min-height:0;border-radius:26px;overflow:hidden;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:110px;color:#fff;touch-action:pan-y;user-select:none;-webkit-user-select:none;box-shadow:0 8px 28px rgba(255,90,60,.25)}
+.dh img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;-webkit-user-drag:none}
+.dots{position:absolute;top:8px;left:12px;right:12px;display:flex;gap:4px;z-index:2}.dots i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.4)}.dots i.on{background:#fff}
+.stamp{position:absolute;top:56px;padding:2px 12px;border:3px solid;border-radius:10px;font-size:26px;font-weight:800;opacity:0;z-index:2;letter-spacing:1px;background:rgba(0,0,0,.15)}.stamp.l{left:18px;color:#2ecc71;border-color:#2ecc71;transform:rotate(-12deg)}.stamp.n{right:18px;color:#ff3d6e;border-color:#ff3d6e;transform:rotate(12deg)}
+.mb{position:absolute;top:18px;right:12px;z-index:3;width:34px;height:34px;border-radius:50%;padding:0;background:rgba(0,0,0,.35);color:#fff;border:0;font-size:20px;line-height:1}
+.mnu{position:absolute;top:58px;right:12px;z-index:3;background:var(--card);border-radius:14px;padding:10px;width:230px;display:none;color:var(--tx)}
+.act button.big{height:78px;width:78px;font-size:34px}main.fill .act{margin:10px 0 4px}
+.gg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.gi{position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--mu);border:1px dashed var(--ln);cursor:pointer}.gi img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.gi button{position:absolute;padding:0;width:26px;height:26px;border-radius:50%;font-size:13px;border:0;background:rgba(0,0,0,.55);color:#fff;z-index:1}.gi .x{top:5px;right:5px}.gi .st{bottom:5px;left:5px}.gi .cv{position:absolute;bottom:5px;left:5px;font-size:11px;background:var(--g);color:#fff;border-radius:8px;padding:2px 7px;z-index:1}
+a{color:var(--a)}
+</style></head><body><div id="app"><main id="m"><p class="mu">…</p></main><nav id="nv" style="display:none"></nav></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
+window.onerror=m=>{document.getElementById("m").innerHTML='<div class="note">Error: '+m+'</div>'};
 const SB_URL="https://wuolzromjabdswklfnky.supabase.co",SB_KEY="sb_publishable_ufXIZPYH9h46I6bRgVk_gw_DucREjlY";
-const CONTACTO="holayt2025@gmail.com";
-
-const COUNTRIES = [
-  {c:"GLOBAL",n:"Todos los países 🌍"},{c:"ES",n:"España 🇪🇸"},{c:"MX",n:"México 🇲🇽"},{c:"AR",n:"Argentina 🇦🇷"},
-  {c:"CO",n:"Colombia 🇨🇴"},{c:"CL",n:"Chile 🇨🇱"},{c:"VE",n:"Venezuela 🇻🇪"},{c:"PE",n:"Perú 🇵🇪"},
-  {c:"US",n:"Estados Unidos 🇺🇸"},{c:"FR",n:"Francia 🇫🇷"},{c:"IT",n:"Italia 🇮🇹"},{c:"DE",n:"Alemania 🇩🇪"},
-  {c:"BR",n:"Brasil 🇧🇷"},{c:"GB",n:"Reino Unido 🇬🇧"},{c:"JP",n:"Japón 🇯🇵"}
-];
-
-const I18N = {
-  es: {disc:"Descubrir", likes:"Me gusta", matches:"Matches", chat:"Chat", shop:"Tienda", prof:"Perfil", filter:"Filtrar por país:", diamonds:"Diamantes"},
-  en: {disc:"Discover", likes:"Likes", matches:"Matches", chat:"Chat", shop:"Shop", prof:"Profile", filter:"Filter by country:", diamonds:"Diamonds"},
-  pt: {disc:"Descobrir", likes:"Curtidas", matches:"Matches", chat:"Chat", shop:"Loja", prof:"Perfil", filter:"Filtrar por país:", diamonds:"Diamantes"},
-  fr: {disc:"Découvrir", likes:"J'aime", matches:"Matchs", chat:"Chat", shop:"Boutique", prof:"Profil", filter:"Filtrer par pays:", diamonds:"Diamants"}
-};
-let lang = localStorage.getItem("tm_lang") || "es";
-const t = k => (I18N[lang] && I18N[lang][k]) || I18N.es[k] || k;
-
-const SHOP_ITEMS = [
-  {id:"frame_gold", name:"Marco Dorado 👑", cost:20, type:"frame", cls:"frame-gold"},
-  {id:"frame_neon", name:"Marco Neón ⚡", cost:35, type:"frame", cls:"frame-neon"},
-  {id:"frame_fire", name:"Marco Fuego 🔥", cost:50, type:"frame", cls:"frame-fire"},
-  {id:"pack_love", name:"Pack Emojis Amor 💖 (💐, 💌, 💍)", cost:15, type:"pack", emojis:["💐","💌","💍","🥰"]},
-  {id:"pack_party", name:"Pack Fiesta 🎉 (🥂, 🚀, 💎)", cost:15, type:"pack", emojis:["🥂","🚀","💎","✨"]}
-];
-
-const INT=["Viajar","Música","Cine","Cocinar","Senderismo","Lectura","Deporte","Arte","Mascotas","Videojuegos","Baile","Fotografía"];
-const GOALS=["Relación seria","Algo casual","Amistad primero","Aún no lo sé"];
-window.onerror=(m)=>{$("m").innerHTML='<div class="note s">Error: '+m+'</div>'};
 const sb=supabase.createClient(SB_URL,SB_KEY);
-let U=null,ME=null,tab="d",chatM=null,poll=null,pend=[],filterCountry="GLOBAL";
+const L=["es","en","pt","fr"],LN={es:"Español",en:"English",pt:"Português",fr:"Français"};
+let LANG=(()=>{try{const s=localStorage.getItem("tm_lang");if(L.includes(s))return s}catch(e){}const n=(navigator.language||"es").slice(0,2);return L.includes(n)?n:"es"})();
+const D={
+tag:["Conexiones reales. Personas auténticas.","Real connections. Authentic people.","Conexões reais. Pessoas autênticas.","De vraies connexions. De vraies personnes."],
+em:["Correo","Email","E-mail","E-mail"],pw:["Contraseña (mínimo 8 caracteres)","Password (at least 8 characters)","Senha (mínimo 8 caracteres)","Mot de passe (8 caractères min.)"],
+in:["Entrar","Log in","Entrar","Se connecter"],up:["Crear cuenta","Sign up","Criar conta","Créer un compte"],fg:["Olvidé mi contraseña","Forgot password","Esqueci a senha","Mot de passe oublié"],
+acc:["Tengo 18 años o más y acepto:","I am 18 or older and I accept:","Tenho 18 anos ou mais e aceito:","J'ai 18 ans ou plus et j'accepte :"],
+lt:["Términos de uso","Terms of use","Termos de uso","Conditions d'utilisation"],lp:["Política de privacidad","Privacy policy","Política de privacidade","Politique de confidentialité"],ln:["Normas de la comunidad","Community rules","Regras da comunidade","Règles de la communauté"],li:["Seguridad infantil","Child safety","Segurança infantil","Protection des mineurs"],
+nd:["Descubrir","Discover","Descobrir","Découvrir"],nl:["Me gusta","Likes","Curtidas","J'aime"],nm:["Matches","Matches","Matches","Matchs"],nc:["Chat","Chat","Chat","Chat"],np:["Perfil","Profile","Perfil","Profil"],
+mk:["Crea tu perfil","Create your profile","Crie seu perfil","Crée ton profil"],name:["Nombre","Name","Nome","Prénom"],
+dob:["Fecha de nacimiento (mínimo 18 años)","Date of birth (18+ only)","Data de nascimento (mín. 18 anos)","Date de naissance (18 ans min.)"],bio:["Biografía","Bio","Bio","Bio"],
+goal:["Busco","Looking for","Procuro","Je cherche"],ints:["Intereses","Interests","Interesses","Centres d'intérêt"],ctry:["País","Country","País","Pays"],pick:["Elige tu país","Choose your country","Escolha seu país","Choisis ton pays"],
+sv:["Guardar perfil","Save profile","Salvar perfil","Enregistrer"],out:["Cerrar sesión","Log out","Sair","Se déconnecter"],
+vis:["Tu nombre, edad (si no la ocultas), biografía, intereses, objetivo, país y foto serán visibles para otros usuarios registrados. Tu correo nunca se muestra.","Your name, age (unless hidden), bio, interests, goal, country and photo will be visible to other registered users. Your email is never shown.","Seu nome, idade (se não ocultar), bio, interesses, objetivo, país e foto ficam visíveis para outros usuários. Seu e-mail nunca é exibido.","Ton prénom, âge (sauf si masqué), bio, intérêts, objectif, pays et photo seront visibles par les autres membres. Ton e-mail n'est jamais affiché."],
+world:["Todo el mundo","Worldwide","Mundo todo","Monde entier"],mine:["Mi país","My country","Meu país","Mon pays"],
+none:["No hay más perfiles por ahora. Prueba otra región: TrueMatch solo muestra personas registradas de verdad.","No more profiles for now. Try another region: TrueMatch only shows real registered people.","Sem mais perfis por enquanto. Tente outra região: o TrueMatch só mostra pessoas realmente cadastradas.","Plus de profils pour l'instant. Essaie une autre région : TrueMatch n'affiche que de vraies personnes inscrites."],
+comp:["Compatibilidad estimada","Estimated compatibility","Compatibilidade estimada","Compatibilité estimée"],cnote:["Estimación simple por intereses y objetivo. No es una garantía.","Simple estimate from interests and goal. Not a guarantee.","Estimativa simples por interesses e objetivo. Não é garantia.","Estimation simple (intérêts et objectif). Aucune garantie."],
+unv:["Sin verificar","Not verified","Não verificado","Non vérifié"],ver:["Verificado","Verified","Verificado","Vérifié"],
+rep:["Reportar","Report","Denunciar","Signaler"],blk:["Bloquear","Block","Bloquear","Bloquer"],
+sent:["Enviado","Sent","Enviado","Envoyé"],nolk:["Aún no has dado Me gusta.","You haven't liked anyone yet.","Você ainda não curtiu ninguém.","Tu n'as encore aimé personne."],
+mint:["Solo hay match cuando ambas personas se dan Me gusta.","A match happens only when both people like each other.","Só há match quando as duas pessoas se curtem.","Il y a match seulement si vous vous aimez tous les deux."],
+nom:["Aún no tienes matches.","No matches yet.","Você ainda não tem matches.","Pas encore de matchs."],comp2:["compatible (estimado)","compatible (estimate)","compatível (estimativa)","compatible (estimation)"],
+back:["← Chats","← Chats","← Chats","← Chats"],cnt:["Los mensajes se guardan en el servidor de TrueMatch (Supabase) y solo los ven ustedes dos. No tienen cifrado de extremo a extremo.","Messages are stored on TrueMatch's server (Supabase) and only you two can see them. They are not end-to-end encrypted.","As mensagens ficam no servidor do TrueMatch (Supabase) e só vocês dois as veem. Não têm criptografia de ponta a ponta.","Les messages sont stockés sur le serveur de TrueMatch (Supabase) et vous seuls les voyez. Ils ne sont pas chiffrés de bout en bout."],
+wr:["Escribe un mensaje","Write a message","Escreva uma mensagem","Écris un message"],snd:["Enviar","Send","Enviar","Envoyer"],nochat:["Cuando tengas un match podrás chatear aquí.","When you get a match you can chat here.","Quando tiver um match, poderá conversar aqui.","Quand tu auras un match, tu pourras discuter ici."],
+hide:["Ocultar mi edad a otros","Hide my age from others","Ocultar minha idade","Masquer mon âge"],photo:["Las fotos se reducen y se les quitan los datos de ubicación. La ★ elige la foto principal.","Photos are resized and location data is removed. Use ★ to pick your main photo.","As fotos são reduzidas e sem dados de localização. Use ★ para escolher a principal.","Les photos sont réduites et sans données de localisation. Utilise ★ pour choisir la principale."],
+vnote:["La insignia de verificado solo aparece si un administrador verifica tu cuenta manualmente.","The verified badge only appears if an admin manually verifies your account.","O selo de verificado só aparece se um administrador verificar sua conta manualmente.","Le badge « vérifié » n'apparaît que si un administrateur vérifie ton compte manuellement."],
+legal:["Legal y seguridad","Legal & safety","Legal e segurança","Légal et sécurité"],lnote:["Los documentos legales están disponibles por ahora solo en español.","Legal documents are currently available in Spanish only.","Os documentos legais estão por enquanto só em espanhol.","Les documents légaux ne sont disponibles qu'en espagnol pour le moment."],
+del:["Eliminar mi cuenta y datos","Delete my account and data","Excluir minha conta e dados","Supprimer mon compte et mes données"],close:["← Cerrar","← Close","← Fechar","← Fermer"],
+e_fill:["Completa nombre, fecha de nacimiento y país.","Fill in name, date of birth and country.","Preencha nome, data de nascimento e país.","Renseigne prénom, date de naissance et pays."],
+e_18:["TrueMatch es solo para mayores de 18 años.","TrueMatch is for people 18 and older only.","O TrueMatch é só para maiores de 18 anos.","TrueMatch est réservé aux 18 ans et plus."],
+e_acc:["Confirma que tienes 18 años o más y aceptas los términos.","Confirm you are 18 or older and accept the terms.","Confirme que tem 18 anos ou mais e aceita os termos.","Confirme que tu as 18 ans ou plus et acceptes les conditions."],
+e_int:["Elige al menos un interés.","Pick at least one interest.","Escolha pelo menos um interesse.","Choisis au moins un centre d'intérêt."],e_pw:["La contraseña debe tener al menos 8 caracteres.","Password must be at least 8 characters.","A senha deve ter pelo menos 8 caracteres.","Le mot de passe doit contenir au moins 8 caractères."],
+m_conf:["Revisa tu correo y confirma tu cuenta. Luego entra.","Check your email to confirm your account, then log in.","Confira seu e-mail para confirmar a conta e depois entre.","Vérifie ton e-mail pour confirmer ton compte, puis connecte-toi."],
+m_rst:["Si el correo existe, recibirás un enlace para cambiar tu contraseña.","If the email exists, you'll get a link to reset your password.","Se o e-mail existir, você receberá um link para redefinir a senha.","Si l'e-mail existe, tu recevras un lien pour réinitialiser ton mot de passe."],
+m_mail:["Escribe tu correo arriba primero.","Enter your email above first.","Digite seu e-mail acima primeiro.","Saisis d'abord ton e-mail ci-dessus."],
+m_match:["¡Es un match! Ya pueden chatear.","It's a match! You can chat now.","É um match! Já podem conversar.","C'est un match ! Vous pouvez discuter."],
+m_rep:["¿Por qué reportas este perfil? (spam, perfil falso, acoso, otro)","Why are you reporting this profile? (spam, fake, harassment, other)","Por que você denuncia este perfil? (spam, falso, assédio, outro)","Pourquoi signales-tu ce profil ? (spam, faux, harcèlement, autre)"],
+m_repok:["Reporte enviado. Será revisado manualmente.","Report sent. It will be reviewed manually.","Denúncia enviada. Será revisada manualmente.","Signalement envoyé. Il sera examiné manuellement."],
+m_blk:["¿Bloquear a esta persona?","Block this person?","Bloquear esta pessoa?","Bloquer cette personne ?"],
+m_del:["Se borrarán tu cuenta, perfil, foto, Me gusta, matches y mensajes. No se puede deshacer. ¿Seguro?","Your account, profile, photo, likes, matches and messages will be deleted. This cannot be undone. Sure?","Sua conta, perfil, foto, curtidas, matches e mensagens serão apagados. Não dá para desfazer. Tem certeza?","Ton compte, profil, photo, likes, matchs et messages seront supprimés. Irréversible. Sûr ?"],
+m_delok:["Tu cuenta y tus datos fueron eliminados.","Your account and data were deleted.","Sua conta e seus dados foram excluídos.","Ton compte et tes données ont été supprimés."],
+ed:["Editar perfil","Edit profile","Editar perfil","Modifier le profil"],cx:["Cancelar","Cancel","Cancelar","Annuler"],saved:["Cambios guardados.","Changes saved.","Alterações salvas.","Modifications enregistrées."],
+upto:["Hasta","Up to","Até","Jusqu'à"],dany:["Cualquier distancia","Any distance","Qualquer distância","Toute distance"],more:["Más opciones","More","Mais","Plus"],st_l:["ME GUSTA","LIKE","CURTI","J'AIME"],st_n:["PASO","NOPE","PASSO","NON"],
+locttl:["Personas cerca","People nearby","Pessoas por perto","Personnes proches"],
+locneed:["Para ver personas cerca, activa tu ubicación aproximada. Se guarda redondeada a ~1 km y nadie la ve: solo se muestra la distancia.","To see people nearby, turn on your approximate location. It is stored rounded to ~1 km and nobody sees it: only the distance is shown.","Para ver pessoas por perto, ative sua localização aproximada. Ela é salva arredondada (~1 km) e ninguém a vê: só a distância é mostrada.","Pour voir des personnes proches, active ta position approximative. Elle est enregistrée arrondie (~1 km) et personne ne la voit : seule la distance s'affiche."],
+locon:["Activar mi ubicación aproximada","Turn on my approximate location","Ativar minha localização aproximada","Activer ma position approximative"],locup:["Actualizar ubicación","Update location","Atualizar localização","Mettre à jour la position"],locdel:["Borrar mi ubicación","Delete my location","Apagar minha localização","Supprimer ma position"],
+locok:["Ubicación aproximada guardada (~1 km). Los demás solo ven la distancia aproximada.","Approximate location saved (~1 km). Others only see the approximate distance.","Localização aproximada salva (~1 km). Os outros só veem a distância aproximada.","Position approximative enregistrée (~1 km). Les autres ne voient que la distance approximative."],
+locno:["Ubicación desactivada. Es opcional.","Location is off. It is optional.","Localização desativada. É opcional.","Position désactivée. C'est facultatif."],
+e_loc:["No pudimos obtener tu ubicación. Revisa el permiso de ubicación del navegador (en iPhone: Ajustes > Privacidad > Localización > Safari).","We couldn't get your location. Check the browser's location permission.","Não foi possível obter sua localização. Verifique a permissão de localização do navegador.","Impossible d'obtenir ta position. Vérifie l'autorisation de localisation du navigateur."],
+gal:["Mis fotos (hasta 6)","My photos (up to 6)","Minhas fotos (até 6)","Mes photos (jusqu'à 6)"],cover:["Principal","Main","Principal","Principale"],e_photos:["Máximo 6 fotos.","Maximum 6 photos.","Máximo 6 fotos.","6 photos maximum."],delph:["¿Borrar esta foto?","Delete this photo?","Apagar esta foto?","Supprimer cette photo ?"],
+m_np:["Escribe tu nueva contraseña (mínimo 8 caracteres):","Enter your new password (min. 8 characters):","Digite sua nova senha (mín. 8 caracteres):","Saisis ton nouveau mot de passe (8 caractères min.) :"]};
+const t=k=>D[k]?D[k][L.indexOf(LANG)]:k;
+const GOALS=["Relación seria","Algo casual","Amistad primero","Aún no lo sé"],INT=["Viajar","Música","Cine","Cocinar","Senderismo","Lectura","Deporte","Arte","Mascotas","Videojuegos","Baile","Fotografía"];
+const TR={en:{g:["Serious relationship","Something casual","Friendship first","Not sure yet"],i:["Travel","Music","Movies","Cooking","Hiking","Reading","Sports","Art","Pets","Video games","Dancing","Photography"]},
+pt:{g:["Relacionamento sério","Algo casual","Amizade primeiro","Ainda não sei"],i:["Viajar","Música","Cinema","Cozinhar","Trilhas","Leitura","Esporte","Arte","Animais","Videogames","Dança","Fotografia"]},
+fr:{g:["Relation sérieuse","Quelque chose de léger","D'abord l'amitié","Je ne sais pas encore"],i:["Voyager","Musique","Cinéma","Cuisine","Randonnée","Lecture","Sport","Art","Animaux","Jeux vidéo","Danse","Photographie"]}};
+const tg=v=>LANG==="es"?v:(TR[LANG].g[GOALS.indexOf(v)]||v),ti=v=>LANG==="es"?v:(TR[LANG].i[INT.indexOf(v)]||v);
+const CC="VE CO MX AR CL PE EC BO UY PY BR PA CR GT SV HN NI DO CU PR US CA ES PT FR IT DE GB IE NL BE CH AT SE NO DK FI PL RO GR TR RU UA CN JP KR IN PH ID TH VN AU NZ ZA NG EG MA IL AE SA".split(" ");
+const flag=c=>c?String.fromCodePoint(...[...c].map(x=>127397+x.charCodeAt(0))):"🌍";
+const cname=c=>{try{return new Intl.DisplayNames([LANG],{type:"region"}).of(c)}catch(e){return c}};
+const copts=(sel)=>[...CC].sort((a,b)=>cname(a).localeCompare(cname(b),LANG)).map(c=>`<option value="${c}" ${sel===c?"selected":""}>${flag(c)} ${esc(cname(c))}</option>`).join("");
+let U=null,ME=null,tab="d",chatM=null,poll=null,REG=(()=>{try{return localStorage.getItem("tm_reg")||"all"}catch(e){return"all"}})();
 const $=i=>document.getElementById(i);
-const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc=x=>String(x??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const age=d=>{const b=new Date(d),n=new Date();let a=n.getFullYear()-b.getFullYear();if(n<new Date(n.getFullYear(),b.getMonth(),b.getDate()))a--;return a};
 const passes=()=>{try{return JSON.parse(localStorage.getItem("tm_pass_"+U.id)||"[]")}catch(e){return[]}};
 const addPass=id=>{try{localStorage.setItem("tm_pass_"+U.id,JSON.stringify([...passes(),id]))}catch(e){}};
-const tags=(a,b)=>(a||[]).map(x=>`<span class="tag ${b&&b.includes(x)?"on":""}">${esc(x)}</span>`).join("");
+const tags=(a,b)=>(a||[]).map(x=>`<span class="tag ${b&&b.includes(x)?"on":""}">${esc(ti(x))}</span>`).join("");
+const err=e=>alert("Error: "+(e&&e.message?e.message:e));
 const C={};
 async function urls(ps){const need=[...new Set(ps.filter(p=>p&&p.photo_path&&!C[p.photo_path]).map(p=>p.photo_path))];
  if(need.length){const{data}=await sb.storage.from("avatars").createSignedUrls(need,3600);(data||[]).forEach(d=>{if(d.signedUrl)C[d.path]=d.signedUrl})}}
-const pic=p=>{const u=p.photo_path&&C[p.photo_path];return u?`<img src="${u}" alt="">`:esc(p.name?.[0]||"?")};
-const err=e=>alert("Error: "+(e&&e.message?e.message:e));
-
-function getFrameCls(item_id){
-  const found = SHOP_ITEMS.find(x=>x.id===item_id);
-  return found ? found.cls : "";
-}
-
+const pic=p=>{const u=p.photo_path&&C[p.photo_path];return u?`<img src="${u}" alt="">`:esc(p.name[0])};
+const ageTxt=p=>p.hide_age?"":", "+age(p.birth_date);
 function score(p){const A=ME.interests||[],B=p.interests||[],sh=A.filter(x=>B.includes(x)).length,un=new Set([...A,...B]).size||1;
  return Math.round(sh/un*70+(ME.goal===p.goal?30:(ME.goal==="Aún no lo sé"||p.goal==="Aún no lo sé")?12:0))}
-const ageTxt=p=>p.hide_age?"":", "+age(p.birth_date);
-function head(){return `<h1><span class="logo">TrueMatch</span></h1><p class="mu">Conexiones reales sin fronteras.</p>`}
-
-/* Legal Views */
+const LOGO=(s)=>`<svg width="${s}" height="${s}" viewBox="0 0 64 64"><defs><linearGradient id="lgx" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5a3c"/><stop offset="1" stop-color="#ff8a3d"/></linearGradient></defs><path d="M32 57C9 41 5 29 5 21a13 13 0 0 1 24-7l3 4 3-4a13 13 0 0 1 24 7c0 8-4 20-27 36z" fill="url(#lgx)"/><path d="M21 31l8 8 14-16" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const langSel=()=>`<select style="width:auto;margin:0;padding:6px 8px;font-size:14px" onchange="setLang(this.value)">${L.map(l=>`<option value="${l}" ${l===LANG?"selected":""}>${LN[l]}</option>`).join("")}</select>`;
+const head=()=>`<div class="top"><div class="brand">${LOGO(34)}<span class="wm">true<b>match</b></span></div>${langSel()}</div>`;
+function setLang(l){LANG=l;try{localStorage.setItem("tm_lang",l)}catch(e){}document.documentElement.lang=l;rerender()}
+function rerender(){if(!U)authView();else if(!ME)setupView();else draw()}
+const CONTACTO="(correo de contacto por definir)";
+const NOTA='<p class="mu">Última actualización: 12 de octubre de 2026. Documento preparado con asistencia de IA a partir de normas públicas; no sustituye el consejo de un abogado.</p>';
 const LEGAL={
-t:`<h2>Términos de uso</h2><p>TrueMatch es para mayores de 18 años. Contacto: ${CONTACTO}</p>`,
-p:`<h2>Política de privacidad</h2><p>Tus datos están protegidos. Contacto: ${CONTACTO}</p>`,
-n:`<h2>Normas de la comunidad</h2><p>Respeto y tolerancia cero al acoso. Contacto: ${CONTACTO}</p>`,
-i:`<h2>Seguridad infantil</h2><p>Tolerancia cero absoluta. Contacto: ${CONTACTO}</p>`};
+t:`<h2>Términos de uso</h2>${NOTA}
+<h3>1. Qué es TrueMatch</h3><p>TrueMatch es un servicio para conocer personas con intereses y objetivos afines. Hoy es gratuito. Al crear una cuenta aceptas estos Términos, la Política de Privacidad y las Normas de la comunidad.</p>
+<h3>2. Edad mínima</h3><p>Solo pueden usar TrueMatch personas de 18 años o más. Si detectamos una cuenta de una persona menor de edad, la eliminamos. Si conoces un caso, repórtalo.</p>
+<h3>3. Tu cuenta</h3><p>Debes dar datos verdaderos, tener una sola cuenta, no hacerte pasar por otra persona y cuidar tu contraseña.</p>
+<h3>4. Conducta y moderación</h3><p>Debes cumplir las Normas de la comunidad. Los reportes se revisan manualmente. Podemos retirar contenido y suspender o eliminar cuentas que incumplan las normas o la ley.</p>
+<h3>5. Tu contenido</h3><p>Tus fotos y textos siguen siendo tuyos. Nos autorizas a mostrarlos a otros usuarios dentro del servicio mientras tu cuenta exista. No subas fotos de otras personas sin su permiso ni contenido ilegal.</p>
+<h3>6. Seguridad personal</h3><p>No podemos comprobar quién es cada persona: la insignia de verificado solo aparece si un administrador la otorga manualmente. La compatibilidad es una estimación, no una garantía. Si te reúnes con alguien, hazlo en un lugar público y avisa a alguien de confianza.</p>
+<h3>7. Costos y publicidad</h3><p>El servicio es gratuito. Si en el futuro hubiera cobros, anuncios o patrocinios, se avisará con claridad y anticipación, y no se cobrará nada sin tu consentimiento.</p>
+<h3>8. Borrar tu cuenta</h3><p>Puedes borrar tu cuenta y tus datos cuando quieras desde Perfil.</p>
+<h3>9. Responsabilidad</h3><p>El servicio se ofrece "tal cual" y puede tener interrupciones. En la medida permitida por la ley, TrueMatch no responde por la conducta de otros usuarios. Esto no limita derechos que la ley de tu país no permita renunciar.</p>
+<h3>10. Ley aplicable y contacto</h3><p>Se aplican las leyes de la República Bolivariana de Venezuela, sin perjuicio de las normas obligatorias de protección al consumidor o de datos de tu país de residencia. Contacto: ${CONTACTO}.</p>
+<h3>11. Cambios</h3><p>Si cambiamos estos términos de forma importante, te avisaremos en la app.</p>`,
+p:`<h2>Política de privacidad</h2>${NOTA}
+<h3>Responsable</h3><p>TrueMatch. Contacto para privacidad: ${CONTACTO}.</p>
+<h3>Datos que guardamos</h3><p>Correo y contraseña (la contraseña la protege el proveedor de autenticación; nosotros no la vemos); nombre, fecha de nacimiento, país (el que tú eliges), biografía, intereses, objetivo y fotos de perfil (hasta 6; se les quitan los datos de ubicación del archivo); si tú lo activas, una ubicación aproximada (redondeada a unos 1 km); tus Me gusta, matches, mensajes, bloqueos y reportes; la fecha en que aceptaste los términos. El proveedor puede registrar datos técnicos (como la dirección IP) por seguridad.</p>
+<h3>Datos que NO recolectamos</h3><p>Tu ubicación exacta (solo si activas «Personas cerca» guardamos una ubicación aproximada de unos 1 km; nunca se muestra a otros, solo una distancia aproximada, y puedes borrarla cuando quieras en Perfil), contactos del teléfono, documentos de identidad, reconocimiento facial ni datos biométricos. El país de tu perfil es un dato que tú declaras y puedes cambiar cuando quieras.</p>
+<h3>Para qué los usamos</h3><p>Para operar el servicio, mostrar perfiles, crear matches, permitir chats, calcular una compatibilidad estimada con una fórmula simple (sin inteligencia artificial externa) y mantener la seguridad y la moderación.</p>
+<h3>Quién ve qué</h3><p>Otros usuarios registrados ven tu nombre, edad (si no la ocultas), país, biografía, intereses, objetivo, fotos y, si activaste tu ubicación, la distancia aproximada que hay entre ustedes (nunca tus coordenadas). Tu correo nunca se muestra. Tus mensajes solo los ve la otra persona del chat. Los mensajes no están cifrados de extremo a extremo: el administrador del servicio puede acceder técnicamente a los datos para moderación y soporte. No vendemos tus datos ni los compartimos con anunciantes.</p>
+<h3>Proveedores</h3><p>Usamos Supabase (base de datos, autenticación y almacenamiento de fotos) y GitHub Pages (alojamiento de la página). Tus datos pueden procesarse en servidores fuera de tu país.</p>
+<h3>Cuánto tiempo los conservamos</h3><p>Mientras tu cuenta exista. Si la borras desde Perfil, se eliminan tu cuenta de acceso, perfil, foto, Me gusta, matches, mensajes y registros asociados. Las copias de seguridad del proveedor, si existen, se sobrescriben con el tiempo.</p>
+<h3>Tus derechos</h3><p>Puedes pedir acceso, corrección, eliminación, oposición o una copia de tus datos escribiendo a ${CONTACTO}; responderemos en un plazo razonable (objetivo: 30 días). La eliminación también puedes hacerla tú mismo en Perfil. Esto está pensado para respetar el artículo 28 de la Constitución de Venezuela (acceso, rectificación y supresión de datos) y normas como el RGPD europeo, la ley de California, la LGPD de Brasil y otras leyes de tu país.</p>
+<h3>Menores</h3><p>TrueMatch es solo para mayores de 18 años y no recolecta datos de menores a sabiendas.</p>
+<h3>Seguridad</h3><p>Usamos conexión cifrada (HTTPS) y reglas de acceso que limitan qué datos puede leer cada persona. Ningún sistema es 100% seguro. Si ocurriera una brecha que te afecte, te avisaremos como lo exija la ley.</p>
+<h3>Cookies y almacenamiento local</h3><p>Usamos el almacenamiento del navegador solo para mantener tu sesión y recordar los perfiles que pasaste. No usamos cookies de publicidad ni rastreadores de terceros.</p>`,
+n:`<h2>Normas de la comunidad</h2>${NOTA}
+<p>TrueMatch es para conocer personas reales con respeto. Está prohibido:</p>
+<p>• Ser menor de 18 años o interactuar de forma sexual con menores.<br>• Perfiles falsos, suplantación de identidad o fotos de otras personas.<br>• Acoso, amenazas, discurso de odio o discriminación.<br>• Desnudos, contenido sexual explícito o violento.<br>• Estafas, pedir dinero, vender cosas, publicidad o spam.<br>• Compartir datos privados de otras personas.<br>• Cualquier actividad ilegal.</p>
+<h3>Qué hacemos si se incumplen</h3><p>Podemos retirar contenido, suspender o eliminar cuentas y, cuando la ley lo exija, avisar a las autoridades.</p>
+<h3>Cómo protegerte</h3><p>Usa <b>Reportar</b> y <b>Bloquear</b> en cualquier perfil o chat. No envíes dinero ni datos bancarios. Reúnete en lugares públicos y avisa a alguien de confianza.</p>`,
+i:`<h2>Seguridad infantil</h2>${NOTA}
+<p>TrueMatch tiene tolerancia cero con el abuso y la explotación sexual infantil. Solo se permite el uso a personas de 18 años o más.</p>
+<p>• Puedes reportar cualquier perfil o mensaje desde la app con el botón Reportar.<br>• Si recibimos un reporte de este tipo, retiramos el contenido, cerramos la cuenta y, cuando corresponda, lo informamos a las autoridades competentes.<br>• Persona de contacto para temas de seguridad infantil: ${CONTACTO}.</p>
+<p>Si sabes de un menor en peligro, avisa también a las autoridades de tu país o a la línea de ayuda local.</p>`};
 function lg(k){let o=$("lg");if(!o){o=document.createElement("div");o.id="lg";o.style.cssText="position:fixed;inset:0;background:var(--bg);overflow:auto;z-index:9;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 40px;max-width:440px;margin:0 auto";document.body.appendChild(o)}
- o.style.display="block";o.innerHTML=`<button class="s" onclick="$('lg').style.display='none'">← Cerrar</button><div class="s" style="line-height:1.5;font-size:15px;margin-top:10px">${LEGAL[k]}</div>`;return false}
-const LK='<a href="#" onclick="return lg(\'t\')">Términos</a>, <a href="#" onclick="return lg(\'p\')">Privacidad</a>';
+ o.style.display="block";o.innerHTML=`<button onclick="$('lg').style.display='none'">${t('close')}</button>${LANG!=='es'?`<div class="note">${t('lnote')}</div>`:''}<div style="line-height:1.5;font-size:15px;margin-top:10px">${LEGAL[k]}</div>`;o.scrollTop=0;return false}
+const LK=()=>`<a href="#" onclick="return lg('t')">${t('lt')}</a>, <a href="#" onclick="return lg('p')">${t('lp')}</a>, <a href="#" onclick="return lg('n')">${t('ln')}</a>`;
 
-/* Autenticación */
-function authView(){$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card s"><h3>Entrar o crear cuenta</h3>
-<label>Correo</label><input id="em" type="email" autocomplete="email"><label>Contraseña</label><input id="pw" type="password" autocomplete="current-password">
-<label style="display:block;margin-bottom:10px"><input type="checkbox" id="ok1" style="width:auto;margin-right:8px">Tengo 18 años o más y acepto los ${LK}.</label><div class="row"><button class="p" onclick="login()">Entrar</button><button onclick="signup()">Crear cuenta</button></div></div>`}
+function authView(){$("m").className="";$("nv").style.display="none";$("m").innerHTML=head()+`<p class="mu" style="margin:0 0 14px">${t("tag")}</p><div class="card"><label>${t("em")}</label><input id="em" type="email" autocomplete="email"><label>${t("pw")}</label><input id="pw" type="password" autocomplete="current-password">
+<label style="display:block;margin-bottom:10px"><input type="checkbox" id="ok1" style="width:auto;margin-right:8px">${t("acc")} ${LK()}</label>
+<div class="row"><button class="p" onclick="login()">${t("in")}</button><button onclick="signup()">${t("up")}</button></div>
+<p style="text-align:center"><button onclick="forgot()" style="border:0;background:none;font-size:14px;color:var(--a)">${t("fg")}</button></p></div>`}
 async function login(){const{error}=await sb.auth.signInWithPassword({email:$("em").value.trim(),password:$("pw").value});if(error)err(error)}
-async function signup(){const pw=$("pw").value;if(!$("ok1").checked)return alert("Acepta las condiciones.");if(pw.length<8)return alert("Mínimo 8 caracteres.");
- const{data,error}=await sb.auth.signUp({email:$("em").value.trim(),password:pw});if(error)return err(error);if(!data.session)alert("Verifica tu correo.")}
-
-sb.auth.onAuthStateChange((ev,s)=>{U=s?s.user:null;setTimeout(()=>onAuth(),0)});
-async function onAuth(){clearInterval(poll);if(!U){ME=null;authView();return}
- const{data}=await sb.from("profiles").select("*").eq("id",U.id).maybeSingle();ME=data;
- if(ME){ME.diamonds=ME.diamonds??10;ME.unlocked_items=ME.unlocked_items??[];ME.active_frame=ME.active_frame??"none";ME.country=ME.country??"ES";draw()}else setupView()}
-
-function setupView(){$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card s"><h3>Crea tu perfil</h3><label>Nombre</label><input id="n" maxlength="40">
-<label>País</label><select id="co_sel">${COUNTRIES.filter(c=>c.c!=="GLOBAL").map(c=>`<option value="${c.c}">${c.n}</option>`).join("")}</select>
-<label>Fecha de nacimiento</label><input id="dob" type="date"><label>Biografía</label><textarea id="bio" rows="3"></textarea>
-<label>Objetivo</label><select id="g">${GOALS.map(g=>`<option>${g}</option>`).join("")}</select><label>Intereses</label><div id="ints">${INT.map(x=>`<span class="tag" onclick="this.classList.toggle('on')">${x}</span>`).join("")}</div>
-<label><input type="checkbox" id="ok" style="width:auto;margin-right:8px">Confirmo 18 años y acepto las condiciones.</label>
-<button class="p" style="width:100%;margin-top:10px" onclick="mk()">Guardar perfil</button></div>`}
-
-async function mk(){const n=$("n").value.trim(),d=$("dob").value;if(!n\vert{}\vert{}!d\vert{}\vert{}age(d)<18\vert{}\vert{}!$("ok").checked)return alert("Verifica datos y edad (18+).");
- const i=[...document.querySelectorAll("#ints .on")].map(e=>e.textContent);
- const co=$("co_sel").value;
- const{data,error}=await sb.from("profiles").insert({id:U.id,name:n,birth_date:d,bio:$("bio").value,interests:i,goal:$("g").value,country:co,diamonds:10,unlocked_items:[],active_frame:"none"}).select().single();
+async function signup(){const pw=$("pw").value;if(!$("ok1").checked)return alert(t("e_acc"));if(pw.length<8)return alert(t("e_pw"));
+ const{data,error}=await sb.auth.signUp({email:$("em").value.trim(),password:pw,options:{emailRedirectTo:location.origin+location.pathname}});if(error)return err(error);if(!data.session)alert(t("m_conf"))}
+async function forgot(){const e=$("em").value.trim();if(!e)return alert(t("m_mail"));const{error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.origin+location.pathname});error?err(error):alert(t("m_rst"))}
+sb.auth.onAuthStateChange((ev,s)=>{U=s?s.user:null;setTimeout(()=>onAuth(ev),0)});
+async function onAuth(ev){if(ev==="PASSWORD_RECOVERY"){const p=prompt(t("m_np"));if(p&&p.length>=8){const{error}=await sb.auth.updateUser({password:p});error&&err(error)}}
+ clearInterval(poll);LOC=undefined;if(!U){ME=null;for(const k in GAL)delete GAL[k];authView();return}
+ const{data}=await sb.from("profiles").select("*").eq("id",U.id).maybeSingle();ME=data;ME?draw():setupView()}
+function setupView(){$("m").className="";$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card"><h3>${t("mk")}</h3><label>${t("name")}</label><input id="n" maxlength="40">
+<label>${t("dob")}</label><input id="dob" type="date"><label>${t("ctry")}</label><select id="cc"><option value="">${t("pick")}</option>${copts("")}</select>
+<label>${t("bio")}</label><textarea id="bio" rows="3" maxlength="300"></textarea><label>${t("goal")}</label><select id="g">${GOALS.map(g=>`<option value="${g}">${tg(g)}</option>`).join("")}</select>
+<label>${t("ints")}</label><div id="ints">${INT.map(x=>`<span class="tag" data-v="${x}" onclick="this.classList.toggle('on')">${ti(x)}</span>`).join("")}</div>
+<div class="note">${t("vis")}</div><label style="display:block"><input type="checkbox" id="ok" style="width:auto;margin-right:8px">${t("acc")} ${LK()}</label>
+<button class="p" style="width:100%;margin-top:12px" onclick="mk()">${t("sv")}</button><button style="width:100%;margin-top:8px" onclick="sb.auth.signOut()">${t("out")}</button></div>`}
+async function mk(){const n=$("n").value.trim(),d=$("dob").value,cc=$("cc").value;if(!n||!d||!cc)return alert(t("e_fill"));
+ if(age(d)<18)return alert(t("e_18"));if(!$("ok").checked)return alert(t("e_acc"));
+ const i=[...document.querySelectorAll("#ints .on")].map(e=>e.dataset.v);if(!i.length)return alert(t("e_int"));
+ const{data,error}=await sb.from("profiles").insert({id:U.id,name:n,birth_date:d,bio:$("bio").value,interests:i,goal:$("g").value,country:cc,terms_accepted_at:new Date().toISOString(),terms_version:"2026-10-12"}).select().single();
  if(error)return err(error);ME=data;draw()}
-
-/* Navegación */
-const T=()=>[["d","♡",t("disc")],["l","♥",t("likes")],["m","✦",t("matches")],["s","💎",t("shop")],["c","💬",t("chat")],["p","☺",t("prof")]];
-
-async function draw(){clearInterval(poll);$("nv").style.display="flex";
- $("nv").innerHTML=T().map(x=>`<button class="${tab===x[0]?"on":""}" onclick="tab='${x[0]}';chatM=null;draw()"><b>${x[1]}</b>${x[2]}</button>`).join("");
- $("m").innerHTML=`<p class="mu s">Cargando…</p>`;
- try{$("m").innerHTML=await({d:disc,l:likes,m:matches,s:shop,c:chat,p:prof}[tab])();$("m").scrollTop=0;if(tab==="c"&&chatM)poll=setInterval(refreshMsgs,3500)}catch(e){$("m").innerHTML=`<div class="note s">Error: ${esc(e.message||e)}</div>`}}
-
-/* Vista Descubrir con filtro de País */
+const IC={d:'<path d="M12 2c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>',l:'<path d="M12 21C4 15 3 11 3 8.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 1.5C21 11 20 15 12 21z"/>',m:'<path d="M9 12a4 4 0 1 0 0-.01M15 12a4 4 0 1 0 0-.01"/>',c:'<path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/>',p:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'};
+const NV=["d","l","m","c","p"].map(k=>[k,`<svg viewBox="0 0 24 24">${IC[k]}</svg>`]);
+async function draw(){clearInterval(poll);BUSY=false;$("m").className=tab==="d"?"fill":"";$("nv").style.display="flex";
+ $("nv").innerHTML=NV.map(n=>`<button class="${tab===n[0]?"on":""}" onclick="tab='${n[0]}';chatM=null;draw()"><b>${n[1]}</b>${t("n"+n[0])}</button>`).join("");
+ $("m").innerHTML=`<p class="mu">…</p>`;
+ try{$("m").innerHTML=await({d:disc,l:likes,m:matches,c:chat,p:prof}[tab])();$("m").scrollTop=0;if(tab==="d")swipe();if(tab==="c"&&chatM)poll=setInterval(refreshMsgs,5000)}catch(e){$("m").innerHTML=`<div class="note">${esc(e.message||e)}</div>`}}
+function setReg(v){REG=v;try{localStorage.setItem("tm_reg",v)}catch(e){}draw()}
+let LOC,CURP=[],PI=0,CURID=null,BUSY=false,DIST=(()=>{try{return +localStorage.getItem("tm_dist")||0}catch(e){return 0}})();
+const GAL={};
+async function gal(ps){const need=ps.filter(p=>p&&!GAL[p.id]);if(!need.length)return;
+ const{data}=await sb.from("profile_photos").select("user_id,path").in("user_id",need.map(p=>p.id)).order("position").order("id");
+ need.forEach(p=>{GAL[p.id]=(data||[]).filter(r=>r.user_id===p.id).map(r=>r.path);if(!GAL[p.id].length&&p.photo_path)GAL[p.id]=[p.photo_path]});
+ await urls(need.flatMap(p=>GAL[p.id].map(x=>({photo_path:x}))))}
+const pics=p=>(GAL[p.id]||[]).map(x=>C[x]).filter(Boolean);
+async function loadLoc(){const{data}=await sb.from("profile_locations").select("lat,lng").eq("id",U.id).maybeSingle();LOC=data||false}
+function setDist(v){DIST=+v;try{localStorage.setItem("tm_dist",v)}catch(e){}draw()}
+function setLoc(){if(!navigator.geolocation)return alert(t("e_loc"));
+ navigator.geolocation.getCurrentPosition(async pos=>{const{error}=await sb.from("profile_locations").upsert({id:U.id,lat:pos.coords.latitude,lng:pos.coords.longitude});if(error)return err(error);LOC={lat:pos.coords.latitude,lng:pos.coords.longitude};draw()},()=>alert(t("e_loc")),{enableHighAccuracy:false,timeout:15000,maximumAge:600000})}
+async function delLoc(){const{error}=await sb.from("profile_locations").delete().eq("id",U.id);if(error)return err(error);LOC=false;DIST=0;try{localStorage.setItem("tm_dist","0")}catch(e){}draw()}
+const filters=()=>`<div class="top" style="margin-bottom:8px"><div class="brand">${LOGO(28)}<span class="wm" style="font-size:22px">true<b>match</b></span></div></div><div class="row" style="margin-bottom:8px"><select style="margin:0;padding:8px" onchange="setReg(this.value)"><option value="all" ${REG==="all"?"selected":""}>🌍 ${t("world")}</option><option value="mine" ${REG==="mine"?"selected":""}>${flag(ME.country)} ${t("mine")}</option>${copts(REG)}</select><select style="margin:0;padding:8px" onchange="setDist(this.value)">${[0,10,25,50,100].map(k=>`<option value="${k}" ${DIST===k?"selected":""}>📍 ${k?t("upto")+" "+k+" km":t("dany")}</option>`).join("")}</select></div>`;
 async function disc(){
- let query = sb.from("profiles").select("*").neq("id",U.id);
- if(filterCountry!=="GLOBAL") query = query.eq("country",filterCountry);
- const[{data:ps,error:e1},{data:ls}]=await Promise.all([query.limit(40),sb.from("likes").select("to_user").eq("from_user",U.id)]);
- if(e1)throw e1;const seen=new Set([...(ls||[]).map(x=>x.to_user),...passes()]);const q=(ps||[]).filter(p=>!seen.has(p.id));pend=q;const p=q[0];
- 
- const filterHtml = `<div class="s" style="margin-bottom:12px"><label>${t("filter")}</label><select onchange="filterCountry=this.value;draw()">${COUNTRIES.map(c=>`<option value="${c.c}" ${filterCountry===c.c?"selected":""}>${c.n}</option>`).join("")}</select></div>`;
- if(!p)return `<h2>${t("disc")}</h2>${filterHtml}<div class="card s"><h3>No hay perfiles</h3><p class="mu">Prueba seleccionando otro país en el selector superior.</p></div>`;
- await urls([p]);const sc=score(p);const pFrame=getFrameCls(p.active_frame);
- return `<h2>${t("disc")}</h2>${filterHtml}<div class="card s"><div class="av ${pFrame}">${pic(p)}</div>
- <span class="badge ${p.verified?"v":""}">${p.verified?"Verificado":"Sin verificar"}</span> · <span class="badge">${p.country||"🌐"}</span>
- <h2 style="margin-top:8px">${esc(p.name)}${ageTxt(p)}</h2><p class="mu">${esc(p.bio)}</p><p class="mu">Busca: ${esc(p.goal)}</p>${tags(p.interests,ME.interests)}
- <p style="font-size:14px;margin:10px 0 0">Compatibilidad: <b>${sc}%</b></p><div class="bar"><i style="width:${sc}%"></i></div></div>
- <div class="row act s"><button onclick="pass('${p.id}')">✕</button><button onclick="like('${p.id}',true)" style="color:#2d8cff">★</button><button onclick="like('${p.id}',false)" style="color:var(--co)">♥</button></div>`}
-
+ let near=null;
+ if(DIST>0){if(LOC===undefined)await loadLoc();
+  if(LOC){const{data,error}=await sb.rpc("nearby_profiles",{max_km:DIST});if(error)throw error;near=new Map((data||[]).map(r=>[r.id,r.distance_km]))}}
+ const f=filters();
+ if(DIST>0&&!LOC)return f+`<div class="card"><h3>${t("locttl")}</h3><p class="mu">${t("locneed")}</p><button class="p" style="width:100%" onclick="setLoc()">${t("locon")}</button></div>`;
+ const base=sb.from("profiles").select("*").neq("id",U.id);
+ const[{data:ps,error:e1},{data:ls}]=await Promise.all([near?(near.size?base.in("id",[...near.keys()]).limit(200):Promise.resolve({data:[]})):base.limit(100),sb.from("likes").select("to_user").eq("from_user",U.id)]);
+ if(e1)throw e1;const seen=new Set([...(ls||[]).map(x=>x.to_user),...passes()]);
+ const q=(ps||[]).filter(p=>!seen.has(p.id)&&(REG==="all"||(REG==="mine"?(!ME.country||p.country===ME.country):p.country===REG)));
+ if(near)q.sort((a,b)=>near.get(a.id)-near.get(b.id));
+ const p=q[0];if(!p)return f+`<div class="card"><p class="mu">${t("none")}</p></div>`;
+ await gal([p]);const sc=score(p);CURP=pics(p);PI=0;CURID=p.id;const km=near?near.get(p.id):null;
+ const shared=ME.interests||[];
+ return f+`<div class="dh" id="hero">${CURP.length?`<img id="hi" src="${CURP[0]}" alt="">`:esc(p.name[0])}
+<div class="dots" id="dots">${CURP.length>1?CURP.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join(""):""}</div>
+<div class="stamp l" id="sl">${t("st_l")}</div><div class="stamp n" id="sn">${t("st_n")}</div>
+<button class="mb" onclick="tm()" aria-label="${t("more")}">⋯</button>
+<div class="mnu" id="mnu"><p class="mu" style="font-size:12px;margin:0 0 8px">${t("comp")}: ${sc}%. ${t("cnote")}</p><div class="row"><button style="font-size:13px;padding:8px" onclick="rep('${p.id}')">${t("rep")}</button><button style="font-size:13px;padding:8px" onclick="blk('${p.id}')">${t("blk")}</button></div></div>
+<div class="ov"><span class="pill">${flag(p.country)} ${p.country?esc(cname(p.country)):""}</span>${km?`<span class="pill">📍 ~${km} km</span>`:""}<span class="pill">${sc}%</span>
+<h2>${esc(p.name)}${ageTxt(p)}</h2><span class="badge ${p.verified?"v":""}">${p.verified?t("ver"):t("unv")}</span>
+<p style="margin:6px 0 4px;font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(p.bio)}</p>
+<div>${(p.interests||[]).slice(0,4).map(x=>`<span class="pill" ${shared.includes(x)?'style="background:rgba(255,255,255,.55);color:#000;font-weight:600"':""}>${esc(ti(x))}</span>`).join("")}</div></div></div>
+<div class="row act"><button onclick="go('p')" style="color:#9b857c">✕</button><button class="big" onclick="go('l')" style="background:var(--lk);color:#fff">♥</button><button onclick="go('s')" style="color:#2d8cff">★</button></div><span id="cur" data-id="${p.id}"></span>`}
+function tm(){const m=$("mnu");m.style.display=m.style.display==="block"?"none":"block"}
+function tapPh(x,w){if(CURP.length<2)return;PI=x<w*.4?Math.max(0,PI-1):Math.min(CURP.length-1,PI+1);$("hi").src=CURP[PI];[...$("dots").children].forEach((e,i)=>e.classList.toggle("on",i===PI))}
+function go(k){const h=$("hero");if(!h||!CURID||BUSY)return;BUSY=true;const id=CURID,w=h.offsetWidth,d=k==="p"?-1:1;h.style.transition="transform .28s,opacity .28s";
+ h.style.transform=k==="s"?`translateY(-${w}px)`:`translateX(${d*w*1.3}px) rotate(${d*18}deg)`;h.style.opacity=".2";
+ setTimeout(()=>k==="p"?pass(id):like(id,k==="s"),230)}
+function swipe(){const h=$("hero");if(!h)return;let x0=null,dx=0,mv=false;
+ const rs=()=>{h.style.transition="transform .2s";h.style.transform="";$("sl").style.opacity=0;$("sn").style.opacity=0};
+ h.onpointerdown=e=>{if(BUSY||e.target.closest("button,.mnu"))return;x0=e.clientX;dx=0;mv=false;try{h.setPointerCapture(e.pointerId)}catch(_){}h.style.transition="none"};
+ h.onpointermove=e=>{if(x0===null)return;dx=e.clientX-x0;if(Math.abs(dx)>8)mv=true;if(!mv)return;h.style.transform=`translateX(${dx}px) rotate(${dx/18}deg)`;const o=Math.min(1,Math.abs(dx)/(h.offsetWidth*.3));$("sl").style.opacity=dx>0?o:0;$("sn").style.opacity=dx<0?o:0};
+ h.onpointerup=e=>{if(x0===null)return;const w=h.offsetWidth,d=dx,m=mv;x0=null;if(d>w*.28)go("l");else if(d<-w*.28)go("p");else{rs();if(!m)tapPh(e.clientX-h.getBoundingClientRect().left,w)}};
+ h.onpointercancel=()=>{x0=null;rs()};
+ CURP.forEach(u=>{new Image().src=u})}
 function pass(id){addPass(id);draw()}
-async function like(id,sup){const{error}=await sb.from("likes").insert({from_user:U.id,to_user:id,is_super:sup});if(error)return err(error);draw()}
-
-/* Vista Tienda de Diamantes */
-async function shop(){
- return `<h2>${t("shop")}</h2>
- <div class="card s"><div class="row" style="align-items:center"><div><b>Tus Diamantes:</b><div class="mu">Gana +1 diamante por cada mensaje que envíes en el chat.</div></div><div class="dia-badge" style="font-size:18px">💎 ${ME.diamonds||0}</div></div></div>
- <div class="card s"><h3>Personalizaciones</h3>
- ${SHOP_ITEMS.map(it=>{
-   const bought = (ME.unlocked_items||[]).includes(it.id);
-   const active = ME.active_frame === it.id;
-   return `<div class="item-card">
-     <div><b>${it.name}</b><br><small class="mu">${it.type==='frame'?'Marco para foto':'Pack para chat'}</small></div>
-     <div>
-       ${bought 
-         ? (it.type==='frame' ? `<button onclick="setFrame('${active?'none':it.id}')" style="padding:6px 12px;font-size:13px">${active?'Quitar':'Usar'}</button>` : `<span class="badge v">Desbloqueado</span>`)
-         : `<button class="p" onclick="buyItem('${it.id}',${it.cost})" style="padding:6px 12px;font-size:13px">💎 ${it.cost}</button>`}
-     </div>
-   </div>`
- }).join("")}
- </div>`;
-}
-
-async function buyItem(id,cost){
- if((ME.diamonds||0) < cost) return alert("No tienes suficientes diamantes. ¡Chatea para ganar más!");
- const newDia = ME.diamonds - cost;
- const newItems = [...(ME.unlocked_items||[]), id];
- const{error}=await sb.from("profiles").update({diamonds:newDia, unlocked_items:newItems}).eq("id",U.id);
- if(error) return err(error);
- ME.diamonds = newDia; ME.unlocked_items = newItems;
- alert("¡Artículo desbloqueado!"); draw();
-}
-
-async function setFrame(id){
- const{error}=await sb.from("profiles").update({active_frame:id}).eq("id",U.id);
- if(error) return err(error);
- ME.active_frame = id; draw();
-}
-
-/* Likes & Matches */
-async function likes(){
- const{data}=await sb.from("likes").select("to_user,is_super").eq("from_user",U.id).order("created_at",{ascending:false});
- const ids=(data||[]).map(x=>x.to_user);if(!ids.length)return `<h2>${t("likes")}</h2><p class="mu s">Aún no diste likes.</p>`;
- const{data:ps}=await sb.from("profiles").select("id,name,birth_date,hide_age,photo_path,active_frame").in("id",ids);await urls(ps||[]);const m=Object.fromEntries((ps||[]).map(p=>[p.id,p]));
- return `<h2>${t("likes")}</h2>`+(data||[]).filter(x=>m[x.to_user]).map(x=>`<div class="card li s"><div class="mini ${getFrameCls(m[x.to_user].active_frame)}">${pic(m[x.to_user])}</div><div><b>${esc(m[x.to_user].name)}${ageTxt(m[x.to_user])}</b> ${x.is_super?"★":""}</div></div>`).join("");
-}
-
-async function myMatches(){
- const{data}=await sb.from("matches").select("*").order("created_at",{ascending:false});
- const o=(data||[]).map(m=>({id:m.id,o:m.user_a===U.id?m.user_b:m.user_a}));
- if(!o.length)return[];const{data:ps}=await sb.from("profiles").select("*").in("id",o.map(x=>x.o));await urls(ps||[]);const pm=Object.fromEntries((ps||[]).map(p=>[p.id,p]));
- return o.filter(x=>pm[x.o]).map(x=>({id:x.id,p:pm[x.o]}));
-}
-
-async function matches(){
- const l=await myMatches();
- return `<h2>${t("matches")}</h2>`+(l.length?l.map(x=>`<div class="card li s" onclick="tab='c';chatM=${x.id};draw()"><div class="mini ${getFrameCls(x.p.active_frame)}">${pic(x.p)}</div><div><b>${esc(x.p.name)}${ageTxt(x.p)}</b><div class="mu">${score(x.p)}% afinidad</div></div></div>`).join(""):`<p class="mu s">Sin matches aún.</p>`);
-}
-
-/* Chat con economía de Diamantes */
-function getUnlockedEmojis(){
-  let list = ["😊","❤️","👍","🔥"];
-  if(ME.unlocked_items?.includes("pack_love")) list.push("💐","💌","💍","🥰");
-  if(ME.unlocked_items?.includes("pack_party")) list.push("🥂","🚀","💎","✨");
-  return list;
-}
-
+async function like(id,sup){const{error}=await sb.from("likes").insert({from_user:U.id,to_user:id,is_super:sup});if(error){err(error);return draw()}
+ const a=[U.id,id].sort();const{data}=await sb.from("matches").select("id").eq("user_a",a[0]).eq("user_b",a[1]);if(data&&data.length)alert(t("m_match"));draw()}
+async function rep(id){const r=prompt(t("m_rep"));if(!r)return;const{error}=await sb.from("reports").insert({reporter:U.id,reported:id,reason:r.slice(0,500)});error?err(error):alert(t("m_repok"))}
+async function blk(id){if(!confirm(t("m_blk")))return;const{error}=await sb.from("blocks").insert({blocker:U.id,blocked:id});error?err(error):draw()}
+async function likes(){const{data}=await sb.from("likes").select("to_user,is_super").eq("from_user",U.id).order("created_at",{ascending:false});
+ const ids=(data||[]).map(x=>x.to_user);if(!ids.length)return `<h2>${t("nl")}</h2><p class="mu">${t("nolk")}</p>`;
+ const{data:ps}=await sb.from("profiles").select("id,name,birth_date,hide_age,photo_path,country").in("id",ids);await urls(ps||[]);const m=Object.fromEntries((ps||[]).map(p=>[p.id,p]));
+ return `<h2>${t("nl")}</h2>`+(data||[]).filter(x=>m[x.to_user]).map(x=>{const p=m[x.to_user];return `<div class="card li"><div class="mini">${pic(p)}</div><div><b>${esc(p.name)}${ageTxt(p)}</b> ${x.is_super?"★":""}<div class="mu">${flag(p.country)} ${t("sent")}</div></div></div>`}).join("")}
+async function myMatches(){const{data}=await sb.from("matches").select("*").order("created_at",{ascending:false});const o=(data||[]).map(m=>({id:m.id,o:m.user_a===U.id?m.user_b:m.user_a}));
+ if(!o.length)return[];const{data:ps}=await sb.from("profiles").select("*").in("id",o.map(x=>x.o));await urls(ps||[]);const pm=Object.fromEntries((ps||[]).map(p=>[p.id,p]));return o.filter(x=>pm[x.o]).map(x=>({id:x.id,p:pm[x.o]}))}
+async function matches(){const l=await myMatches();return `<h2>${t("nm")}</h2><p class="mu">${t("mint")}</p>`+(l.length?l.map(x=>`<div class="card li" onclick="tab='c';chatM=${x.id};draw()"><div class="mini">${pic(x.p)}</div><div><b>${esc(x.p.name)}${ageTxt(x.p)}</b><div class="mu">${flag(x.p.country)} ${score(x.p)}% ${t("comp2")}</div></div></div>`).join(""):`<p class="mu">${t("nom")}</p>`)}
 async function chat(){
- if(chatM){
-  const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}
-  const emBtns = getUnlockedEmojis().map(e=>`<button type="button" style="padding:4px 8px;font-size:16px;border-radius:8px" onclick="$('mi').value+='${e}'">${e}</button>`).join(" ");
-  return `<button class="s" onclick="chatM=null;draw()">← Matches</button><h3 style="margin-top:8px">${esc(x.p.name)}</h3>
-  <div id="ms" class="s" style="max-height:360px;overflow-y:auto;margin-bottom:8px"></div>
-  <div class="s" style="display:flex;gap:4px;overflow-x:auto;padding-bottom:6px">${emBtns}</div>
-  <div class="row s"><input id="mi" placeholder="Escribe..." maxlength="1000" style="margin:0"><button class="p" onclick="send()" style="flex:none">Enviar (+1💎)</button></div>`+`<img src="data:," style="display:none" onerror="refreshMsgs()">`;
- }
- const l=await myMatches();
- return `<h2>${t("chat")}</h2>`+(l.length?l.map(x=>`<div class="card li s" onclick="chatM=${x.id};draw()"><div class="mini ${getFrameCls(x.p.active_frame)}">${pic(x.p)}</div><b>${esc(x.p.name)}</b></div>`).join(""):`<p class="mu s">Haz match para chatear.</p>`);
-}
-
-async function refreshMsgs(){const el=$("ms");if(!el||!chatM)return;const{data}=await sb.from("messages").select("*").eq("match_id",chatM).order("created_at");
- el.innerHTML=(data||[]).map(x=>`<div class="msg ${x.sender===U.id?"me":"ot"}">${esc(x.body)}<small>${new Date(x.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</small></div>`).join("");el.scrollTop=el.scrollHeight}
-
-async function send(){
- const v=$("mi").value.trim();if(!v)return;
- const{error}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:v});
- if(error)return err(error);
- $("mi").value="";
- // Recompensa de 1 diamante por mensaje enviado
- const newD = (ME.diamonds||0) + 1;
- ME.diamonds = newD;
- await sb.from("profiles").update({diamonds:newD}).eq("id",U.id);
- refreshMsgs();
-}
-
-/* Vista Perfil */
-async function prof(){
- await urls([ME]);
- const myFrame = getFrameCls(ME.active_frame);
- return `<h2>${t("prof")}</h2>
- <div class="card s">
-   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-     <div class="dia-badge">💎 ${ME.diamonds||0} diamantes</div>
-     <div>
-       <select onchange="lang=this.value;localStorage.setItem('tm_lang',this.value);draw()" style="width:auto;margin:0;padding:4px 8px;font-size:12px">
-         <option value="es" ${lang==='es'?'selected':''}>Español</option>
-         <option value="en" ${lang==='en'?'selected':''}>English</option>
-         <option value="pt" ${lang==='pt'?'selected':''}>Português</option>
-         <option value="fr" ${lang==='fr'?'selected':''}>Français</option>
-       </select>
-     </div>
-   </div>
-   <div class="av ${myFrame}">${pic(ME)}</div>
-   <input type="file" accept="image/*" onchange="upPhoto(this)">
-   <b>${esc(ME.name)}${ageTxt(ME)}</b> <span class="badge">${ME.country||"ES"}</span>
-   <p class="mu">${esc(ME.bio)||"Sin biografía"}</p>
- </div>
- <div class="card s">
-   <button onclick="sb.auth.signOut()" style="width:100%">Cerrar sesión</button>
- </div>`;
-}
-
-async function upPhoto(inp){const f=inp.files[0];if(!f)return;
+ if(chatM){const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}
+  return `<button onclick="chatM=null;draw()">${t("back")}</button><h3 style="margin-top:10px">${flag(x.p.country)} ${esc(x.p.name)}</h3><div class="row" style="margin:8px 0"><button onclick="rep('${x.p.id}')">${t("rep")}</button><button onclick="blk('${x.p.id}')">${t("blk")}</button></div>
+  <div class="note">${t("cnt")}</div><div id="ms"></div><div class="row" style="margin-top:10px"><input id="mi" placeholder="${t("wr")}" maxlength="2000" style="margin:0;flex:3"><button class="p" onclick="send()">${t("snd")}</button></div><img src="data:," style="display:none" onerror="refreshMsgs()">`}
+ const l=await myMatches();return `<h2>${t("nc")}</h2>`+(l.length?l.map(x=>`<div class="card li" onclick="chatM=${x.id};draw()"><div class="mini">${pic(x.p)}</div><b>${esc(x.p.name)}</b></div>`).join(""):`<p class="mu">${t("nochat")}</p>`)}
+async function refreshMsgs(){const el=$("ms");if(!el||!chatM)return;const{data,error}=await sb.from("messages").select("*").eq("match_id",chatM).order("created_at");if(error)return;
+ el.innerHTML=(data||[]).map(x=>`<div class="msg ${x.sender===U.id?"me":"ot"}">${esc(x.body)}<small>${new Date(x.created_at).toLocaleString(LANG)}</small></div>`).join("")}
+async function send(){const v=$("mi").value.trim();if(!v)return;const{error}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:v});if(error)return err(error);$("mi").value="";refreshMsgs()}
+async function prof(){delete GAL[ME.id];await gal([ME]);if(LOC===undefined)await loadLoc();const ph=GAL[ME.id]||[];
+ const g=ph.map((x,i)=>`<div class="gi"><img src="${C[x]||""}" alt="">${i===0?`<span class="cv">${t("cover")}</span>`:`<button class="st" onclick="mkCover(${i})">★</button>`}<button class="x" onclick="delPhoto(${i})">✕</button></div>`).join("")+(ph.length<6?`<label class="gi add">+<input type="file" accept="image/*" style="display:none" onchange="upPhoto(this)"></label>`:"");
+ return `<div class="top"><h2 style="margin:0">${t("np")}</h2>${langSel()}</div><div class="card"><label style="display:block;margin-bottom:6px">${t("gal")}</label><div class="gg">${g}</div><p class="mu" style="font-size:12px">${t("photo")}</p>
+<b>${esc(ME.name)}, ${age(ME.birth_date)}</b> <span class="badge ${ME.verified?"v":""}">${ME.verified?t("ver"):t("unv")}</span><p class="mu">${esc(ME.bio)}</p><p class="mu">${t("goal")}: ${esc(tg(ME.goal))}</p>${tags(ME.interests)}<button style="width:100%;margin-top:10px" onclick="editView()">${t("ed")}</button>
+<label style="display:block;margin-top:10px">${t("ctry")}</label><select onchange="setCountry(this.value)"><option value="">${t("pick")}</option>${copts(ME.country||"")}</select>
+<label style="display:block"><input type="checkbox" style="width:auto;margin-right:8px" ${ME.hide_age?"checked":""} onchange="hideAge(this.checked)">${t("hide")}</label><p class="mu" style="font-size:12px">${t("vnote")}</p></div>
+<div class="card"><h3>${t("locttl")}</h3><p class="mu" style="font-size:13px">${LOC?t("locok"):t("locno")}</p><div class="row"><button class="p" onclick="setLoc()">${LOC?t("locup"):t("locon")}</button>${LOC?`<button onclick="delLoc()">${t("locdel")}</button>`:""}</div></div>
+<div class="card"><h3>${t("legal")}</h3><p><a href="#" onclick="return lg('t')">${t("lt")}</a><br><a href="#" onclick="return lg('p')">${t("lp")}</a><br><a href="#" onclick="return lg('n')">${t("ln")}</a><br><a href="#" onclick="return lg('i')">${t("li")}</a></p><p class="mu" style="font-size:12px">${CONTACTO}</p></div>
+<div class="card"><button onclick="sb.auth.signOut()">${t("out")}</button> <button style="margin-top:8px;color:#d33" onclick="del()">${t("del")}</button></div>`}
+function editView(){$("m").className="";$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card"><h3>${t("ed")}</h3><label>${t("name")}</label><input id="n" maxlength="40" value="${esc(ME.name)}">
+<label>${t("bio")}</label><textarea id="bio" rows="3" maxlength="300">${esc(ME.bio)}</textarea><label>${t("goal")}</label><select id="g">${GOALS.map(g=>`<option value="${g}" ${ME.goal===g?"selected":""}>${tg(g)}</option>`).join("")}</select>
+<label>${t("ints")}</label><div id="ints">${INT.map(x=>`<span class="tag ${(ME.interests||[]).includes(x)?"on":""}" data-v="${x}" onclick="this.classList.toggle('on')">${ti(x)}</span>`).join("")}</div>
+<div class="row" style="margin-top:12px"><button onclick="draw()">${t("cx")}</button><button class="p" onclick="saveEdit()">${t("sv")}</button></div></div>`}
+async function saveEdit(){const n=$("n").value.trim();if(!n)return alert(t("e_fill"));const i=[...document.querySelectorAll("#ints .on")].map(e=>e.dataset.v);if(!i.length)return alert(t("e_int"));
+ const{data,error}=await sb.from("profiles").update({name:n,bio:$("bio").value,goal:$("g").value,interests:i}).eq("id",U.id).select().single();if(error)return err(error);ME=data;alert(t("saved"));draw()}
+async function setCountry(v){if(!v)return;const{error}=await sb.from("profiles").update({country:v}).eq("id",U.id);error?err(error):(ME.country=v)}
+async function setCover(p){const{error}=await sb.from("profiles").update({photo_path:p}).eq("id",U.id);if(error)return err(error);ME.photo_path=p}
+async function savePos(a){for(let k=0;k<a.length;k++)await sb.from("profile_photos").update({position:k}).eq("user_id",U.id).eq("path",a[k])}
+async function upPhoto(inp){const f=inp.files[0];if(!f||!f.type.startsWith("image/"))return;const ph=GAL[ME.id]||[];if(ph.length>=6)return alert(t("e_photos"));
  try{const bm=await createImageBitmap(f);const k=Math.min(1,720/Math.max(bm.width,bm.height));const c=document.createElement("canvas");c.width=Math.round(bm.width*k);c.height=Math.round(bm.height*k);c.getContext("2d").drawImage(bm,0,0,c.width,c.height);
- const blob=await new Promise(r=>c.toBlob(r,"image/jpeg",0.85));const path=U.id+"/main.jpg";
- const{error}=await sb.storage.from("avatars").upload(path,blob,{upsert:true,contentType:"image/jpeg"});if(error)return err(error);
- await sb.from("profiles").update({photo_path:path}).eq("id",U.id);ME.photo_path=path;delete C[path];draw()}catch(e){err(e)}}
-</script>
-</body>
-</html>
+ const blob=await new Promise(r=>c.toBlob(r,"image/jpeg",0.85));const path=U.id+"/"+Date.now()+".jpg";
+ const{error}=await sb.storage.from("avatars").upload(path,blob,{contentType:"image/jpeg"});if(error)return err(error);
+ const{error:e2}=await sb.from("profile_photos").insert({user_id:U.id,path,position:ph.length});if(e2){await sb.storage.from("avatars").remove([path]);return err(e2)}
+ if(!ph.length)await setCover(path);draw()}catch(e){err(e)}}
+async function mkCover(i){const ph=GAL[ME.id]||[];if(!ph[i])return;const a=[ph[i],...ph.filter((_,j)=>j!==i)];await savePos(a);await setCover(a[0]);draw()}
+async function delPhoto(i){const ph=GAL[ME.id]||[];if(!ph[i]||!confirm(t("delph")))return;const p=ph[i];
+ try{await sb.storage.from("avatars").remove([p])}catch(e){}
+ const{error}=await sb.from("profile_photos").delete().eq("user_id",U.id).eq("path",p);if(error)return err(error);
+ const rest=ph.filter((_,j)=>j!==i);await savePos(rest);await setCover(rest[0]||null);draw()}
+async function hideAge(v){const{error}=await sb.from("profiles").update({hide_age:v}).eq("id",U.id);error?err(error):ME.hide_age=v}
+async function del(){if(!confirm(t("m_del")))return;try{const{data:fl}=await sb.storage.from("avatars").list(U.id,{limit:100});if(fl&&fl.length)await sb.storage.from("avatars").remove(fl.map(x=>U.id+"/"+x.name))}catch(e){}
+ const{error}=await sb.rpc("delete_my_account");if(error)return err(error);alert(t("m_delok"));await sb.auth.signOut()}
+document.documentElement.lang=LANG;
+</script></body></html>
