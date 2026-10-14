@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#ff5a3c">
+<meta name="theme-color" content="#ff5a3c"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="TrueMatch"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>TrueMatch</title>
 <script>try{var _t=localStorage.getItem("tm_theme");if(_t==="light"||_t==="dark")document.documentElement.setAttribute("data-theme",_t)}catch(e){}</script>
 <style>
@@ -219,6 +219,19 @@ er_perm:["No tienes permiso para esto. Si no estás verificado, verifica tu iden
 er_jwt:["Tu sesión caducó. Vuelve a entrar.","Your session expired. Please log in again.","Sua sessão expirou. Entre de novo.","Ta session a expiré. Reconnecte-toi."],
 er_pw:["La contraseña debe tener al menos 8 caracteres.","The password must be at least 8 characters.","A senha deve ter pelo menos 8 caracteres.","Le mot de passe doit contenir au moins 8 caractères."],
 er_gen:["Algo salió mal. Inténtalo de nuevo; si sigue, escríbenos.","Something went wrong. Try again; if it persists, contact us.","Algo deu errado. Tente de novo; se continuar, fale conosco.","Un problème est survenu. Réessaie ; si cela continue, contacte-nous."],
+pu_t:["Avisos con la app cerrada","Alerts when the app is closed","Avisos com o app fechado","Alertes quand l'app est fermée"],
+pu_why:["Recibe un aviso en tu teléfono cuando tengas un match o un mensaje, aunque la app esté cerrada.","Get a notification on your phone when you get a match or message, even if the app is closed.","Receba um aviso no celular quando tiver um match ou mensagem, mesmo com o app fechado.","Reçois une notification sur ton téléphone pour un match ou un message, même app fermée."],
+pu_on:["Activar avisos","Turn on alerts","Ativar avisos","Activer les alertes"],
+pu_off:["Desactivar avisos","Turn off alerts","Desativar avisos","Désactiver les alertes"],
+pu_ok:["Avisos activados ✓ en este dispositivo.","Alerts are on ✓ on this device.","Avisos ativados ✓ neste dispositivo.","Alertes activées ✓ sur cet appareil."],
+pu_ios:["En iPhone, primero instala la app: toca Compartir ⬆️ en Safari, elige «Añadir a pantalla de inicio» y ábrela desde ahí. Luego vuelve aquí a activar los avisos.","On iPhone, install the app first: tap Share ⬆️ in Safari, choose “Add to Home Screen” and open it from there. Then come back here to turn on alerts.","No iPhone, instale o app primeiro: toque em Compartilhar ⬆️ no Safari, escolha «Adicionar à Tela de Início» e abra por lá. Depois volte aqui para ativar os avisos.","Sur iPhone, installe d'abord l'app : touche Partager ⬆️ dans Safari, choisis « Sur l'écran d'accueil » et ouvre-la depuis là. Reviens ensuite ici pour activer les alertes."],
+pu_den:["Los avisos están bloqueados. Actívalos en Ajustes del teléfono > Notificaciones > TrueMatch.","Alerts are blocked. Turn them on in your phone's Settings > Notifications > TrueMatch.","Os avisos estão bloqueados. Ative em Ajustes do celular > Notificações > TrueMatch.","Les alertes sont bloquées. Active-les dans Réglages > Notifications > TrueMatch."],
+pu_uns:["Este navegador no permite avisos. Prueba con Safari (iPhone) o Chrome (Android).","This browser doesn't support alerts. Try Safari (iPhone) or Chrome (Android).","Este navegador não permite avisos. Tente o Safari (iPhone) ou o Chrome (Android).","Ce navigateur ne permet pas les alertes. Essaie Safari (iPhone) ou Chrome (Android)."],
+cm_ph:["Escribe un comentario…","Write a comment…","Escreva um comentário…","Écris un commentaire…"],
+cm_none:["Sé la primera persona en comentar.","Be the first to comment.","Seja a primeira pessoa a comentar.","Sois la première personne à commenter."],
+cm_del:["Borrar","Delete","Apagar","Supprimer"],
+cm_delq:["¿Borrar este comentario?","Delete this comment?","Apagar este comentário?","Supprimer ce commentaire ?"],
+po_more:["Cargar más publicaciones","Load more posts","Carregar mais publicações","Charger plus de publications"],
 av_dl:["Descargando el modelo de caras (solo la primera vez)…","Downloading the face model (first time only)…","Baixando o modelo de rostos (só na primeira vez)…","Téléchargement du modèle de visages (première fois seulement)…"],
 av_an:["Analizando tu foto de perfil…","Analyzing your profile photo…","Analisando sua foto de perfil…","Analyse de ta photo de profil…"],
 av_man:["Método manual (selfie con código)","Manual method (selfie with code)","Método manual (selfie com código)","Méthode manuelle (selfie avec code)"],
@@ -564,14 +577,14 @@ async function scPub(){const e=$("sct"),text=(e?e.value:SC.text||"").trim().slic
  scClose();draw()}
 
 const RXE={heart:"❤️",fire:"🔥",plane:"✈️",laugh:"😂"};
-let PSC=(()=>{try{return localStorage.getItem("tm_scope")==="mine"?"mine":"all"}catch(e){return"all"}})(),PD={text:"",blob:null,url:""},RX={};const P_URL={};
+let PSC=(()=>{try{return localStorage.getItem("tm_scope")==="mine"?"mine":"all"}catch(e){return"all"}})(),PD={text:"",blob:null,url:""},RX={};const P_URL={};let PLIM=50,CM={},CMO=new Set(),PU={};
 const LINKRE=/(https?:\/\/|www\.|t\.me\/|wa\.me\/|bit\.ly)/i;
 const rxHtml=id=>Object.keys(RXE).map(k=>{const r=(RX[id]||{})[k]||{n:0,mine:false};return `<button class="rx${r.mine?" on":""}" onclick="poRx(${id},'${k}')">${RXE[k]}${r.n>0?` <b>${r.n}</b>`:""}</button>`}).join("");
 const compHtml=()=>`<div class="card"><textarea id="pot" class="pot" rows="3" maxlength="250" placeholder="${t("po_ph")}" oninput="PD.text=this.value;poCnt()">${esc(PD.text)}</textarea>${PD.url?`<div style="position:relative;margin-bottom:8px"><img class="pimg" src="${PD.url}" alt="" style="max-height:200px"><button class="svx" style="position:absolute;top:6px;right:6px" onclick="poNoImg()">✕</button></div>`:""}
 <div style="display:flex;gap:10px;align-items:center"><label class="rx" style="cursor:pointer">${t("po_img")}<input type="file" accept="image/*" style="display:none" onchange="poImg(this)"></label><span class="mu" id="pocnt" style="flex:1">${PD.text.length}/250</span><button class="p" onclick="poPub()">${t("po_pub")}</button></div></div>`;
 function poCnt(){const e=$("pocnt");if(e)e.textContent=PD.text.length+"/250"}
 function poComp(){const e=$("pocomp");if(e)e.innerHTML=compHtml()}
-function poScope(v){PSC=v;try{localStorage.setItem("tm_scope",v)}catch(e){}draw()}
+function poScope(v){PSC=v;PLIM=50;try{localStorage.setItem("tm_scope",v)}catch(e){}draw()}
 function poNoImg(){if(PD.url)try{URL.revokeObjectURL(PD.url)}catch(e){}PD.blob=null;PD.url="";poComp()}
 async function poImg(inp){const f=inp.files[0];if(!f||!f.type.startsWith("image/"))return;
  try{const bm=await createImageBitmap(f),k=Math.min(1,1080/Math.max(bm.width,bm.height)),c=document.createElement("canvas");c.width=Math.round(bm.width*k);c.height=Math.round(bm.height*k);c.getContext("2d").drawImage(bm,0,0,c.width,c.height);
@@ -582,6 +595,31 @@ async function poPub(){const text=($("pot")?$("pot").value:PD.text).trim().slice
  const{error}=await sb.from("posts").insert({user_id:U.id,body:text,photo_path:path});
  if(error){if(path){try{await sb.storage.from("posts").remove([path])}catch(x){}}return alert(poErr(error))}
  if(PD.url)try{URL.revokeObjectURL(PD.url)}catch(x){}PD={text:"",blob:null,url:""};draw()}
+async function cmToggle(id){const box=$("cm"+id);if(!box)return;if(CMO.has(id)){CMO.delete(id);box.innerHTML="";return}CMO.add(id);box.innerHTML='<p class="mu">…</p>';await cmLoad(id)}
+async function cmLoad(id){const box=$("cm"+id);if(!box)return;const{data,error}=await sb.from("post_comments").select("*").eq("post_id",id).order("created_at").limit(100);if(error){box.innerHTML=`<div class="note">${esc(fe(error))}</div>`;return}
+ const rows=data||[],ids=[...new Set(rows.map(c=>c.user_id))];let pm={};if(ids.length){const{data:ps}=await sb.from("profiles_pub").select("id,name,verified").in("id",ids);pm=Object.fromEntries((ps||[]).map(p=>[p.id,p]))}
+ CM[id]=rows.length;const b=$("cmb"+id);if(b)b.textContent="💬 "+rows.length;
+ box.innerHTML=`<div style="margin-top:8px">${rows.length?rows.map(c=>{const p=pm[c.user_id]||{name:"…"},mine=c.user_id===U.id,own=PU[id]===U.id;return `<div class="note"><b>${esc(p.name)}</b>${vb(p)} <span class="mu" style="font-size:12px">${ago(c.created_at)}</span><br>${esc(c.body)}<div style="text-align:right;font-size:13px">${mine||own?`<a href="#" onclick="cmDel(${c.id},${id});return false">🗑 ${t("cm_del")}</a>`:""}${mine?"":` <a href="#" onclick="rep('${c.user_id}');return false">🚩</a>`}</div></div>`}).join(""):`<p class="mu">${t("cm_none")}</p>`}<div class="row"><input id="cmi${id}" maxlength="300" placeholder="${t("cm_ph")}" style="margin:0;flex:3"><button class="p" onclick="cmSend(${id})">${t("snd")}</button></div></div>`}
+async function cmSend(id){const e=$("cmi"+id),v=e?e.value.trim():"";if(!v)return;if(LINKRE.test(v))return alert(t("e_link"));const{error}=await sb.from("post_comments").insert({post_id:id,user_id:U.id,body:v.slice(0,300)});if(error)return err(error);await cmLoad(id)}
+async function cmDel(cid,id){if(!confirm(t("cm_delq")))return;const{error}=await sb.from("post_comments").delete().eq("id",cid);if(error)return err(error);await cmLoad(id)}
+const VAPID="BIddjDavbA-CMAukxLOj5pZYzmk2P4_67527YRAvyu1A2YDJa_2EnJ5QvBC0Rzjf5iZw5OgFsWARWpf1bmQmMq0";
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+const b64u=x=>{x=(x+"=".repeat((4-x.length%4)%4)).replace(/-/g,"+").replace(/_/g,"/");return Uint8Array.from(atob(x),c=>c.charCodeAt(0))};
+const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+const isPWA=()=>navigator.standalone===true||(window.matchMedia&&matchMedia("(display-mode: standalone)").matches);
+const pushOK=()=>"serviceWorker"in navigator&&"PushManager"in window&&"Notification"in window;
+const swr=()=>Promise.race([navigator.serviceWorker.ready,new Promise((_,j)=>setTimeout(j,4000))]);
+const pushCard=()=>`<div class="card" id="pshc"><h3>🔔 ${t("pu_t")}</h3><p class="mu" id="pshm">…</p><div id="pshb"></div></div><img src="data:," style="display:none" onerror="pushInit()">`;
+async function pushInit(){const m=$("pshm"),b=$("pshb");if(!m)return;
+ if(!pushOK()||(isIOS&&!isPWA())){m.textContent=t(isIOS?"pu_ios":"pu_uns");return}
+ if(Notification.permission==="denied"){m.textContent=t("pu_den");return}
+ let sub=null;try{sub=await(await swr()).pushManager.getSubscription()}catch(e){}
+ if(sub&&Notification.permission==="granted"){m.textContent=t("pu_ok");b.innerHTML=`<button onclick="pushOff()">${t("pu_off")}</button>`;sb.rpc("save_push",{sub:sub.toJSON(),lg:LANG}).then(()=>{},()=>{})}
+ else{m.textContent=t("pu_why");b.innerHTML=`<button class="p" style="width:100%" onclick="pushOn()">${t("pu_on")}</button>`}}
+async function pushOn(){try{if(await Notification.requestPermission()!=="granted")return pushInit();const r=await swr();let sub=await r.pushManager.getSubscription();if(!sub)sub=await r.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(VAPID)});const{error}=await sb.rpc("save_push",{sub:sub.toJSON(),lg:LANG});if(error)throw error;pushInit()}catch(e){alert(fe(e));pushInit()}}
+async function pushUnsub(){try{const sub=await(await swr()).pushManager.getSubscription();if(sub){try{await sb.rpc("del_push",{ep:sub.endpoint})}catch(e){}await sub.unsubscribe()}}catch(e){}}
+async function pushOff(){await pushUnsub();pushInit()}
+async function outNow(){await pushUnsub();sb.auth.signOut()}
 async function poRx(id,k){const m=RX[id]=RX[id]||{},r=m[k]=m[k]||{n:0,mine:false},was=r.mine;r.mine=!was;r.n+=was?-1:1;const el=$("rx"+id);if(el)el.innerHTML=rxHtml(id);
  const{error}=await(was?sb.from("post_reactions").delete().eq("post_id",id).eq("user_id",U.id).eq("emoji",k):sb.from("post_reactions").insert({post_id:id,user_id:U.id,emoji:k}));
  if(error){r.mine=was;r.n+=was?1:-1;if(el)el.innerHTML=rxHtml(id);alert(fe(error))}}
@@ -592,20 +630,21 @@ async function poDel(id,path){if(!confirm(t("po_delq")))return;try{if(path)await
  const{error}=await sb.from("posts").delete().eq("id",id);if(error)return err(error);draw()}
 async function postsSection(){
  const head=`<h3 style="font-size:15px;margin:6px 0 8px">${t("po_t")}</h3><div class="row" style="margin-bottom:10px"><button class="${PSC==="mine"?"p":""}" onclick="poScope('mine')">${t("po_mine")}</button><button class="${PSC==="all"?"p":""}" onclick="poScope('all')">${t("po_all")}</button></div><div id="pocomp">${compHtml()}</div>`;
- let q=sb.from("posts").select("*").order("created_at",{ascending:false}).limit(50);if(PSC==="mine"&&ME.country)q=q.eq("country",ME.country);
+ let q=sb.from("posts").select("*").order("created_at",{ascending:false}).limit(PLIM);if(PSC==="mine"&&ME.country)q=q.eq("country",ME.country);
  const{data:rows,error}=await q;if(error)return head+`<div class="note">${esc(error.message)}</div>`;
  const list=rows||[];if(!list.length)return head+emp("em_p","📝",0);
  const ids=[...new Set(list.map(x=>x.user_id))];
  const{data:ps}=await sb.from("profiles_pub").select("id,name,age_years,hide_age,verified,photo_path,country,frame").in("id",ids);await urls(ps||[]);const pm=Object.fromEntries((ps||[]).map(x=>[x.id,x]));
  const need=[...new Set(list.filter(x=>x.photo_path&&!P_URL[x.photo_path]).map(x=>x.photo_path))];
  if(need.length){const{data}=await sb.storage.from("posts").createSignedUrls(need,3600);(data||[]).forEach(d=>{if(d.signedUrl)P_URL[d.path]=d.signedUrl})}
+ CM={};try{const{data:cc}=await sb.from("post_comments").select("post_id").in("post_id",list.map(x=>x.id));(cc||[]).forEach(r=>CM[r.post_id]=(CM[r.post_id]||0)+1)}catch(e){}
  RX={};try{const{data}=await sb.rpc("post_reaction_counts",{ids:list.map(x=>x.id)});(data||[]).forEach(r=>{(RX[r.post_id]=RX[r.post_id]||{})[r.emoji]={n:r.n,mine:r.mine}})}catch(e){}
- const cards=list.filter(x=>pm[x.user_id]).map(x=>{const p=pm[x.user_id],mine=x.user_id===U.id,mt=MT[x.user_id];
+ const cards=list.filter(x=>pm[x.user_id]).map(x=>{const p=pm[x.user_id],mine=x.user_id===U.id,mt=MT[x.user_id];PU[x.id]=x.user_id;
   const act=mine?`<button onclick="poDel(${x.id},${x.photo_path?`'${esc(x.photo_path)}'`:"null"})">🗑 ${t("po_del")}</button>`:mt?`<button class="p" onclick="poReply('${x.user_id}')">💬 ${t("st_reply")}</button>`:LKS.has(x.user_id)?`<button disabled style="opacity:.7">✓ ${t("st_liked")}</button>`:`<button class="p" onclick="stLike('${x.user_id}')">💗 ${t("st_like")}</button>`;
   return `<div class="card"><div class="li" style="cursor:default"><div class="mini${frc(p)}">${pic(p)}</div><div style="flex:1;min-width:0"><b>${esc(p.name)}${ageTxt(p)}</b>${vb(p)} ${flag(p.country)}<div class="mu" style="font-size:12px">${ago(x.created_at)}${x.hidden?" · "+t("po_hid"):""}</div></div></div>
 <p class="pob">${esc(x.body)}</p>${x.photo_path&&P_URL[x.photo_path]?`<img class="pimg" src="${P_URL[x.photo_path]}" alt="">`:""}<div class="rxr" id="rx${x.id}">${rxHtml(x.id)}</div>
-<div class="row" style="margin-top:10px;align-items:stretch">${act}${mine?"":`<button onclick="poRep(${x.id})" style="flex:none" aria-label="report">🚩</button>`}</div></div>`}).join("");
- return head+(cards||emp("em_p","📝",0))}
+<div class="row" style="margin-top:10px;align-items:stretch">${act}${mine?"":`<button onclick="poRep(${x.id})" style="flex:none" aria-label="report">🚩</button>`}<button id="cmb${x.id}" onclick="cmToggle(${x.id})" style="flex:none">💬 ${CM[x.id]||0}</button></div><div id="cm${x.id}"></div></div>`}).join("");
+ return head+(cards||emp("em_p","📝",0))+(list.length>=PLIM?`<button style="width:100%;margin:6px 0 12px" onclick="PLIM+=50;draw()">${t("po_more")}</button>`:"")}
 const CONTACTO="Salcedoanthony959@gmail.com";
 const NOTA='<p class="mu">Última actualización: 13 de octubre de 2026. Documento preparado con asistencia de IA a partir de normas públicas; no sustituye el consejo de un abogado.</p>';
 const LEGAL={
@@ -673,7 +712,7 @@ function setupView(){$("m").className="";$("nv").style.display="none";$("m").inn
 <label>${t("bio")}</label><textarea id="bio" rows="3" maxlength="300"></textarea><label>${t("goal")}</label><select id="g">${GOALS.map(g=>`<option value="${g}">${tg(g)}</option>`).join("")}</select>
 <label>${t("ints")}</label><div id="ints">${INT.map(x=>`<span class="tag" data-v="${x}" onclick="this.classList.toggle('on')">${ti(x)}</span>`).join("")}</div>
 <div class="note">${t("vis")}</div><label style="display:block"><input type="checkbox" id="ok" style="width:auto;margin-right:8px">${t("acc")} ${LK()}</label>
-<button class="p" style="width:100%;margin-top:12px" onclick="mk()">${t("sv")}</button><button style="width:100%;margin-top:8px" onclick="sb.auth.signOut()">${t("out")}</button></div>`}
+<button class="p" style="width:100%;margin-top:12px" onclick="mk()">${t("sv")}</button><button style="width:100%;margin-top:8px" onclick="outNow()">${t("out")}</button></div>`}
 async function mk(){const n=$("n").value.trim(),d=$("dob").value,cc=$("cc").value;if(!n||!d||!cc)return alert(t("e_fill"));
  if(age(d)<18)return alert(t("e_18"));if(!$("ok").checked)return alert(t("e_acc"));
  const i=[...document.querySelectorAll("#ints .on")].map(e=>e.dataset.v);if(!i.length)return alert(t("e_int"));
@@ -789,9 +828,9 @@ async function prof(){const vr=NT.filter(n=>n.kind!=="match");markNotifs(["verif
 <div class="card"><h3>${t("locttl")}</h3><p class="mu" style="font-size:13px">${LOC?t("locok"):t("locno")}</p><div class="row"><button class="p" onclick="setLoc()">${LOC?t("locup"):t("locon")}</button>${LOC?`<button onclick="delLoc()">${t("locdel")}</button>`:""}</div></div>
 <div class="card" id="intro"><h3>${t("intro_t")}</h3><p class="mu" style="font-size:13px">${t("intro_h")}</p>${ME.voice_path&&C["vi:"+ME.voice_path]?`<audio controls src="${C["vi:"+ME.voice_path]}" style="width:100%;margin-bottom:8px"></audio>`:""}<div class="row"><button class="p" id="irb" onclick="introToggle()">🎤 ${t(ME.voice_path?"intro_redo":"intro_rec")}</button>${ME.voice_path?`<button onclick="introDel()">${t("intro_del")}</button>`:""}</div></div>
 <div class="card" id="thseg"><label style="display:block;margin-bottom:6px">${t("th")}</label><div class="row">${["auto","light","dark"].map(v=>`<button class="${TH===v?"p":""}" onclick="setTheme('${v}')">${t("th_"+v[0])}</button>`).join("")}</div></div>
-<div class="card"><h3>${t("v_title")}</h3>${ME.verified?`<span class="badge v">${t("ver")}</span><p class="mu">${t("v_ok")}</p>`:`<p class="mu">${t("v_why")}</p><button class="p" style="width:100%" onclick="verifView()">${t("v_start")}</button>`}</div>${ADM?`<div class="card"><h3>${t("adm_t")}</h3><button style="width:100%" onclick="adminView()">${t("adm_open")}</button></div>`:""}
+${pushCard()}<div class="card"><h3>${t("v_title")}</h3>${ME.verified?`<span class="badge v">${t("ver")}</span><p class="mu">${t("v_ok")}</p>`:`<p class="mu">${t("v_why")}</p><button class="p" style="width:100%" onclick="verifView()">${t("v_start")}</button>`}</div>${ADM?`<div class="card"><h3>${t("adm_t")}</h3><button style="width:100%" onclick="adminView()">${t("adm_open")}</button></div>`:""}
 <div class="card"><h3>${t("legal")}</h3><p><a href="#" onclick="return lg('t')">${t("lt")}</a><br><a href="#" onclick="return lg('p')">${t("lp")}</a><br><a href="#" onclick="return lg('n')">${t("ln")}</a><br><a href="#" onclick="return lg('i')">${t("li")}</a></p><p class="mu" style="font-size:12px">${CONTACTO}</p></div>
-<div class="card"><button onclick="sb.auth.signOut()">${t("out")}</button> <button style="margin-top:8px;color:#d33" onclick="del()">${t("del")}</button></div>`}
+<div class="card"><button onclick="outNow()">${t("out")}</button> <button style="margin-top:8px;color:#d33" onclick="del()">${t("del")}</button></div>`}
 function editView(){$("m").className="";$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card"><h3>${t("ed")}</h3><label>${t("name")}</label><input id="n" maxlength="40" value="${esc(ME.name)}">
 <label>${t("bio")}</label><textarea id="bio" rows="3" maxlength="300">${esc(ME.bio)}</textarea><label>${t("goal")}</label><select id="g">${GOALS.map(g=>`<option value="${g}" ${ME.goal===g?"selected":""}>${tg(g)}</option>`).join("")}</select>
 <label>${t("ints")}</label><div id="ints">${INT.map(x=>`<span class="tag ${(ME.interests||[]).includes(x)?"on":""}" data-v="${x}" onclick="this.classList.toggle('on')">${ti(x)}</span>`).join("")}</div>
@@ -820,7 +859,7 @@ async function del(){if(!confirm(t("m_del")))return;try{const{data:fl}=await sb.
  try{if(ME&&ME.voice_path)await sb.storage.from("voice_intro").remove([ME.voice_path])}catch(e){}
  try{const{data:sf}=await sb.storage.from("stories").list(U.id,{limit:200});if(sf&&sf.length)await sb.storage.from("stories").remove(sf.map(x=>U.id+"/"+x.name))}catch(e){}
  try{const{data:pf}=await sb.storage.from("posts").list(U.id,{limit:200});if(pf&&pf.length)await sb.storage.from("posts").remove(pf.map(x=>U.id+"/"+x.name))}catch(e){}
- try{localStorage.removeItem("tm_trc_"+U.id)}catch(e){}const{error}=await sb.rpc("delete_my_account");if(error)return err(error);alert(t("m_delok"));await sb.auth.signOut()}
+ try{localStorage.removeItem("tm_trc_"+U.id)}catch(e){}await pushUnsub();const{error}=await sb.rpc("delete_my_account");if(error)return err(error);alert(t("m_delok"));await sb.auth.signOut()}
 let NT=[],UNR={},RT=null,TY=null,TYR=false,TYT=null,TYL=0,TOT=null,LIKET=0;
 const bcount=k=>k==="c"?Object.values(UNR).reduce((a,b)=>a+b,0):k==="m"?NT.filter(n=>n.kind==="match").length:k==="p"?NT.filter(n=>n.kind!=="match").length:0;
 function renderNav(){const n=$("nv");n.innerHTML=NV.map(x=>{const c=bcount(x[0]);return `<button class="${tab===x[0]?"on":""}" onclick="tab='${x[0]}';chatM=null;draw()"><b>${x[1]}${c?`<i class="bdg">${c>9?"9+":c}</i>`:""}</b>${t("n"+x[0])}</button>`}).join("")}
