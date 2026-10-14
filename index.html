@@ -105,6 +105,10 @@ main.fill{padding:6px 10px 4px}
 .acts.lim .abw:nth-child(n+2){opacity:.4}
 #fpan select{font-size:13px;padding:8px 4px;text-overflow:ellipsis}
 .fbt{position:relative;padding:6px 10px;border-radius:12px;display:flex;align-items:center;line-height:1}.fbt svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}.fbt i{position:absolute;top:3px;right:3px;width:9px;height:9px;border-radius:50%;background:var(--a)}
+.trx{margin-top:6px;padding-top:4px;border-top:1px solid var(--ln)}
+.trb{border:0;background:none;color:var(--a);padding:2px 0;font-size:12px;font-weight:600;border-radius:0;text-align:left}
+.trt{font-size:15px;background:var(--bg);border-radius:10px;padding:6px 8px;margin:2px 0 2px;white-space:pre-wrap;word-break:break-word}
+.trl{font-size:12px;color:var(--mu)}
 </style></head><body><div id="app"><main id="m"><p class="mu">…</p></main><nav id="nv" style="display:none"></nav></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
@@ -251,6 +255,14 @@ seen:["Visto", "Seen", "Visto", "Vu"],
 b_pass:["Pasar", "Pass", "Passar", "Passer"],
 b_like:["Me gusta", "Like", "Curtir", "J'aime"],
 b_super:["Súper", "Super", "Super", "Super"],
+tr_btn:["Traducir","Translate","Traduzir","Traduire"],
+tr_orig:["Ocultar traducción","Hide translation","Ocultar tradução","Masquer la traduction"],
+tr_same:["Ya está en tu idioma","Already in your language","Já está no seu idioma","Déjà dans ta langue"],
+tr_quota:["Límite de traducciones de hoy alcanzado","Daily translation limit reached","Limite diário de traduções atingido","Limite de traductions du jour atteint"],
+tr_fail:["No se pudo traducir. Reintentar","Couldn't translate. Retry","Não foi possível traduzir. Tentar de novo","Traduction impossible. Réessayer"],
+tr_to:["Traducir a","Translate to","Traduzir para","Traduire vers"],
+tr_auto:["Traducir automáticamente los mensajes recibidos","Automatically translate received messages","Traduzir automaticamente as mensagens recebidas","Traduire automatiquement les messages reçus"],
+tr_note:["La traducción es automática y puede tener errores. Al traducir, el texto de ese mensaje se envía a MyMemory, un servicio externo.","Translation is automatic and may contain errors. When you translate, that message's text is sent to MyMemory, an external service.","A tradução é automática e pode ter erros. Ao traduzir, o texto dessa mensagem é enviado ao MyMemory, um serviço externo.","La traduction est automatique et peut contenir des erreurs. En traduisant, le texte de ce message est envoyé à MyMemory, un service externe."],
 typing:["escribiendo…", "typing…", "digitando…", "écrit…"],
 n_new:["Nuevo", "New", "Novo", "Nouveau"],
 n_match:["¡Nuevo match!", "New match!", "Novo match!", "Nouveau match !"],
@@ -509,7 +521,7 @@ async function postsSection(){
 <div class="row" style="margin-top:10px;align-items:stretch">${act}${mine?"":`<button onclick="poRep(${x.id})" style="flex:none" aria-label="report">🚩</button>`}</div></div>`}).join("");
  return head+(cards||`<div class="note">${t("po_none")}</div>`)}
 const CONTACTO="Salcedoanthony959@gmail.com";
-const NOTA='<p class="mu">Última actualización: 12 de octubre de 2026. Documento preparado con asistencia de IA a partir de normas públicas; no sustituye el consejo de un abogado.</p>';
+const NOTA='<p class="mu">Última actualización: 13 de octubre de 2026. Documento preparado con asistencia de IA a partir de normas públicas; no sustituye el consejo de un abogado.</p>';
 const LEGAL={
 t:`<h2>Términos de uso</h2>${NOTA}
 <h3>1. Qué es TrueMatch</h3><p>TrueMatch es un servicio para conocer personas con intereses y objetivos afines. Hoy es gratuito. Para favorecer conversaciones de calidad hay un máximo de 15 Me gusta cada 24 horas. Al crear una cuenta aceptas estos Términos, la Política de Privacidad y las Normas de la comunidad.</p>
@@ -529,7 +541,7 @@ p:`<h2>Política de privacidad</h2>${NOTA}
 <h3>Datos que NO recolectamos</h3><p>Tu ubicación exacta (solo si activas «Personas cerca» guardamos una ubicación aproximada de unos 1 km; nunca se muestra a otros, solo una distancia aproximada, y puedes borrarla cuando quieras en Perfil), contactos del teléfono ni documentos de identidad. No usamos reconocimiento facial automático ni guardamos plantillas biométricas: la selfie de verificación la compara una persona con tus fotos de perfil y luego se borra. El país de tu perfil es un dato que tú declaras y puedes cambiar cuando quieras.</p>
 <h3>Para qué los usamos</h3><p>Para operar el servicio, mostrar perfiles, crear matches, permitir chats, calcular una compatibilidad estimada con una fórmula simple (sin inteligencia artificial externa) y mantener la seguridad y la moderación.</p>
 <h3>Quién ve qué</h3><p>Otros usuarios registrados ven tu nombre, edad (si no la ocultas), país, biografía, intereses, objetivo, fotos, respuestas a preguntas, presentación en voz, historias (24 horas), publicaciones del muro y, si activaste tu ubicación, la distancia aproximada que hay entre ustedes (nunca tus coordenadas). Tu correo nunca se muestra. Tus mensajes y notas de voz solo los ve la otra persona del chat. Tu selfie de verificación solo la ve quien modera TrueMatch. Los mensajes no están cifrados de extremo a extremo: el administrador del servicio puede acceder técnicamente a los datos para moderación y soporte. No vendemos tus datos ni los compartimos con anunciantes.</p>
-<h3>Proveedores</h3><p>Usamos Supabase (base de datos, autenticación y almacenamiento de fotos) y GitHub Pages (alojamiento de la página). Tus datos pueden procesarse en servidores fuera de tu país.</p>
+<h3>Proveedores</h3><p>Usamos Supabase (base de datos, autenticación y almacenamiento de fotos) y GitHub Pages (alojamiento de la página). Si usas la traducción de mensajes (opcional), el texto del mensaje que decides traducir se envía a MyMemory (translated.net), un servicio externo de traducción automática, sin tu correo ni tu nombre; su tratamiento se rige por su propia política. Tus datos pueden procesarse en servidores fuera de tu país.</p>
 <h3>Cuánto tiempo los conservamos</h3><p>Mientras tu cuenta exista. Si la borras desde Perfil, se eliminan tu cuenta de acceso, perfil, foto, Me gusta, matches, mensajes y registros asociados. Las copias de seguridad del proveedor, si existen, se sobrescriben con el tiempo.</p>
 <h3>Tus derechos</h3><p>Puedes pedir acceso, corrección, eliminación, oposición o una copia de tus datos escribiendo a ${CONTACTO}; responderemos en un plazo razonable (objetivo: 30 días). La eliminación también puedes hacerla tú mismo en Perfil. Esto está pensado para respetar el artículo 28 de la Constitución de Venezuela (acceso, rectificación y supresión de datos) y normas como el RGPD europeo, la ley de California, la LGPD de Brasil y otras leyes de tu país.</p>
 <h3>Menores</h3><p>TrueMatch es solo para mayores de 18 años y no recolecta datos de menores a sabiendas.</p>
@@ -650,7 +662,7 @@ async function matches(){const l=await myMatches(),newM=new Set(NT.filter(n=>n.k
 async function chat(){
  if(chatM){const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}await loadShop();if(x.p.voice_path)await introUrl(x.p.voice_path);
   return `<button onclick="chatM=null;draw()">${t("back")}</button><div class="top" style="margin-top:10px"><h3 style="margin:0">${flag(x.p.country)} ${esc(x.p.name)}${vb(x.p)}</h3><span class="pill dm" id="wal">💎 ${WAL}</span></div><div class="row" style="margin:8px 0"><button onclick="rep('${x.p.id}')">${t("rep")}</button><button onclick="blk('${x.p.id}')">${t("blk")}</button></div>
-  <div class="note">${t("cnt")}</div>${iceCard(x.p)}<div id="ms"></div><div class="typ" id="typ"></div><div class="card" id="vrec" style="display:none;margin-top:10px"><div class="rec"><i></i><b>${t("vn_rec")}</b><span id="vt">0:00</span><span style="flex:1"></span><button onclick="vStop(false)">${t("cx")}</button><button class="p" onclick="vStop(true)">${t("snd")}</button></div></div><div class="row" id="vbar" style="margin-top:10px"><input id="mi" placeholder="${t("wr")}" maxlength="2000" style="margin:0;flex:3" oninput="typSend()"><button onclick="vStart()" style="flex:none;padding:12px" aria-label="mic">🎤</button><button onclick="tsp()" style="flex:none;padding:12px">😊</button><button class="p" onclick="send()" style="flex:none">${t("snd")}</button></div><div class="card" id="stp" style="display:none;margin-top:8px">${stPanel()}</div><img src="data:," style="display:none" onerror="refreshMsgs()">`}
+  <div class="note">${t("cnt")}</div>${trCard()}${iceCard(x.p)}<div id="ms"></div><div class="typ" id="typ"></div><div class="card" id="vrec" style="display:none;margin-top:10px"><div class="rec"><i></i><b>${t("vn_rec")}</b><span id="vt">0:00</span><span style="flex:1"></span><button onclick="vStop(false)">${t("cx")}</button><button class="p" onclick="vStop(true)">${t("snd")}</button></div></div><div class="row" id="vbar" style="margin-top:10px"><input id="mi" placeholder="${t("wr")}" maxlength="2000" style="margin:0;flex:3" oninput="typSend()"><button onclick="vStart()" style="flex:none;padding:12px" aria-label="mic">🎤</button><button onclick="tsp()" style="flex:none;padding:12px">😊</button><button class="p" onclick="send()" style="flex:none">${t("snd")}</button></div><div class="card" id="stp" style="display:none;margin-top:8px">${stPanel()}</div><img src="data:," style="display:none" onerror="refreshMsgs()">`}
  const l=await myMatches();return `<h2>${t("nc")}</h2>`+(l.length?l.map(x=>`<div class="card li" onclick="chatM=${x.id};draw()"><div class="mini${frc(x.p)}">${pic(x.p)}</div><b>${esc(x.p.name)}</b>${vb(x.p)}${UNR[x.id]?`<span class="unr">${UNR[x.id]}</span>`:""}</div>`).join(""):`<p class="mu">${t("nochat")}</p>`)}
 const hm=d=>new Date(d).toLocaleTimeString(LANG,{hour:"2-digit",minute:"2-digit"});
 const dlb=d=>new Date(d).toLocaleDateString(LANG,{weekday:"short",day:"numeric",month:"short"});
@@ -659,8 +671,8 @@ async function refreshMsgs(){const el=$("ms");if(!el||!chatM)return;const mid=ch
  if(rows.some(x=>x.sender!==U.id&&!x.read_at)&&!document.hidden){sb.rpc("mark_read",{mid}).then(()=>{},()=>{});if(UNR[mid]){delete UNR[mid];updBadges()}}
  if(el.dataset.s===sg)return;el.dataset.s=sg;let last="";
  el.innerHTML=rows.map(x=>{const mine=x.sender===U.id,dk=new Date(x.created_at).toDateString(),sep=dk!==last?`<div class="dsep">${dlb(x.created_at)}</div>`:"";last=dk;
-  return sep+`<div class="msg ${mine?"me":"ot"}${stk(x.body)?" stk":""}">${vnp(x.body)?`<audio controls preload="none" data-vn="${vnp(x.body)}" style="width:220px;max-width:100%;height:38px"></audio>`:(stk(x.body)||esc(x.body))}<small>${hm(x.created_at)}${mine?" · "+(x.read_at?"✓✓ "+t("seen"):"✓"):""}</small></div>`}).join("");
- hydrateVn();const mm=$("m");mm.scrollTop=mm.scrollHeight}
+  return sep+`<div class="msg ${mine?"me":"ot"}${stk(x.body)?" stk":""}">${vnp(x.body)?`<audio controls preload="none" data-vn="${vnp(x.body)}" style="width:220px;max-width:100%;height:38px"></audio>`:(stk(x.body)||esc(x.body))}${trBox(x,mine)}<small>${hm(x.created_at)}${mine?" · "+(x.read_at?"✓✓ "+t("seen"):"✓"):""}</small></div>`}).join("");
+ hydrateVn();trAuto(rows);const mm=$("m");mm.scrollTop=mm.scrollHeight}
 const stk=b=>{const m=/^\{\{st:([a-z_]+):(\d{1,2})\}\}$/.exec(b);return m&&PK[m[1]]&&PK[m[1]].e[+m[2]]?`<span style="font-size:44px;line-height:1.1">${PK[m[1]].e[+m[2]]}</span>`:""};
 const stPanel=()=>{const o=Object.keys(PK).filter(id=>OWN.has(id));if(!o.length)return `<p class="mu" style="margin:0">${t("st_none")}</p>`;const li=L.indexOf(LANG);
  return o.map(id=>`<div class="pk">${PK[id].n[li]}</div><div class="stp">${PK[id].e.map((e,i)=>`<button onclick="sendSt('${id}',${i})">${e}</button>`).join("")}</div>`).join("")};
@@ -707,7 +719,7 @@ async function del(){if(!confirm(t("m_del")))return;try{const{data:fl}=await sb.
  try{if(ME&&ME.voice_path)await sb.storage.from("voice_intro").remove([ME.voice_path])}catch(e){}
  try{const{data:sf}=await sb.storage.from("stories").list(U.id,{limit:200});if(sf&&sf.length)await sb.storage.from("stories").remove(sf.map(x=>U.id+"/"+x.name))}catch(e){}
  try{const{data:pf}=await sb.storage.from("posts").list(U.id,{limit:200});if(pf&&pf.length)await sb.storage.from("posts").remove(pf.map(x=>U.id+"/"+x.name))}catch(e){}
- const{error}=await sb.rpc("delete_my_account");if(error)return err(error);alert(t("m_delok"));await sb.auth.signOut()}
+ try{localStorage.removeItem("tm_trc_"+U.id)}catch(e){}const{error}=await sb.rpc("delete_my_account");if(error)return err(error);alert(t("m_delok"));await sb.auth.signOut()}
 let NT=[],UNR={},RT=null,TY=null,TYR=false,TYT=null,TYL=0,TOT=null,LIKET=0;
 const bcount=k=>k==="c"?Object.values(UNR).reduce((a,b)=>a+b,0):k==="m"?NT.filter(n=>n.kind==="match").length:k==="p"?NT.filter(n=>n.kind!=="match").length:0;
 function renderNav(){const n=$("nv");n.innerHTML=NV.map(x=>{const c=bcount(x[0]);return `<button class="${tab===x[0]?"on":""}" onclick="tab='${x[0]}';chatM=null;draw()"><b>${x[1]}${c?`<i class="bdg">${c>9?"9+":c}</i>`:""}</b>${t("n"+x[0])}</button>`}).join("")}
@@ -726,7 +738,7 @@ function startRT(){stopRT();if(!U)return;const uid=U.id;
   .on("postgres_changes",{event:"INSERT",schema:"public",table:"messages"},p=>onMsgIn(p.new))
   .on("postgres_changes",{event:"UPDATE",schema:"public",table:"messages"},p=>{if(p.new&&tab==="c"&&chatM&&p.new.match_id===chatM)refreshMsgs()})
   .subscribe()}catch(e){}
- loadNotifs().then(summary)}
+ trLoad();loadNotifs().then(summary)}
 async function onMsgIn(m){if(!m||m.sender===U.id)return;
  if(tab==="c"&&chatM===m.match_id&&!document.hidden){const e=$("typ");if(e)e.textContent="";refreshMsgs();return}
  UNR[m.match_id]=(UNR[m.match_id]||0)+1;updBadges();let nm="";
@@ -743,5 +755,43 @@ function openTy(){closeTy();if(!chatM)return;const mid=chatM;
  try{TY=sb.channel("ty:"+mid,{config:{broadcast:{self:false}}}).on("broadcast",{event:"typing"},pl=>{if(!pl||!pl.payload||pl.payload.u===U.id||mid!==chatM)return;const e=$("typ");if(e)e.textContent=t("typing");clearTimeout(TYT);TYT=setTimeout(()=>{const x=$("typ");if(x)x.textContent=""},3500)}).subscribe(st=>{TYR=st==="SUBSCRIBED"})}catch(e){}}
 function typSend(){const n=Date.now();if(!TY||!TYR||n-TYL<2000)return;TYL=n;try{TY.send({type:"broadcast",event:"typing",payload:{u:U.id}})}catch(e){}}
 document.addEventListener("visibilitychange",()=>{if(document.hidden||!U||!ME)return;loadNotifs();if(tab==="c"&&chatM)refreshMsgs()});
+const TL_LIST="es en pt fr de it ru zh-CN ja ko ar hi tr nl pl uk sv ro el he id vi th cs hu fi da ca fa ms bn sw".split(" ");
+let TL=(()=>{try{return localStorage.getItem("tm_tl")||LANG}catch(e){return LANG}})(),TAUTO=(()=>{try{return localStorage.getItem("tm_tauto")==="1"}catch(e){return false}})();
+let TRC={},TRS=new Set(),TRH=new Set(),TRB=new Set(),TRE={},MSGB={},TRQ=Promise.resolve();
+const trName=c=>{try{return new Intl.DisplayNames([LANG],{type:"language"}).of(c)||c}catch(e){return c}};
+const tlOpts=()=>{const l=TL_LIST.includes(TL)?TL_LIST:[TL,...TL_LIST];return [...l].sort((a,b)=>trName(a).localeCompare(trName(b),LANG)).map(c=>`<option value="${c}" ${c===TL?"selected":""}>${esc(trName(c))}</option>`).join("")};
+const trCard=()=>`<div class="card" style="padding:10px 12px"><div class="row" style="align-items:center"><label style="margin:0;flex:none;font-size:14px">🌐 ${t("tr_to")}</label><select id="tls" onchange="setTL(this.value)" style="margin:0;padding:8px">${tlOpts()}</select></div><label style="display:flex;align-items:center;gap:8px;margin-top:8px;font-size:14px;color:var(--tx)"><input type="checkbox" style="width:auto;margin:0" ${TAUTO?"checked":""} onchange="setAuto(this.checked)">${t("tr_auto")}</label><p class="mu" style="font-size:11px;margin:6px 0 0">${t("tr_note")}</p></div>`;
+function trLoad(){try{TRC=JSON.parse(localStorage.getItem("tm_trc_"+U.id)||"{}")||{}}catch(e){TRC={}}}
+function trSave(){try{const k=Object.keys(TRC);if(k.length>300)k.slice(0,k.length-300).forEach(x=>delete TRC[x]);localStorage.setItem("tm_trc_"+U.id,JSON.stringify(TRC))}catch(e){}}
+const trBytes=x=>new TextEncoder().encode(x).length;
+function trChunks(tx){const parts=tx.match(/[^.!?\n]+[.!?\n]*\s*/g)||[tx],out=[];let cur="";
+ for(let p of parts){while(trBytes(p)>450){let n=p.length;while(n>1&&trBytes(p.slice(0,n))>450)n=Math.floor(n*0.8);if(cur){out.push(cur);cur=""}out.push(p.slice(0,n));p=p.slice(n)}
+  if(trBytes(cur+p)>450){if(cur)out.push(cur);cur=p}else cur+=p}
+ if(cur.trim())out.push(cur);return out}
+const trDec=x=>{const e=document.createElement("textarea");e.innerHTML=x;return e.value};
+async function trOne(q,tl){const r=await fetch("https://api.mymemory.translated.net/get?q="+encodeURIComponent(q)+"&langpair=Autodetect%7C"+encodeURIComponent(tl));if(!r.ok)throw new Error("fail");
+ const j=await r.json(),tx=(j.responseData&&j.responseData.translatedText)||"",st=String(j.responseStatus);
+ if(/DISTINCT LANGUAGES/i.test(tx))return null;
+ if(/MYMEMORY WARNING/i.test(tx)||st==="429")throw new Error("quota");
+ if(st!=="200"||!tx)throw new Error("fail");return tx}
+function trInner(id){const c=TRC[id+"|"+TL];
+ if(TRB.has(id))return `<span class="trl">🌐 …</span>`;
+ if(c&&c.same)return `<span class="trl">🌐 ${t("tr_same")}</span>`;
+ if(c&&c.t&&TRS.has(id))return `<div class="trt">${esc(c.t)}</div><button class="trb" onclick="trHide(${id})">${t("tr_orig")}</button>`;
+ if(TRE[id])return `<button class="trb" onclick="trMsg(${id})">🌐 ${t(TRE[id]==="quota"?"tr_quota":"tr_fail")}</button>`;
+ return `<button class="trb" onclick="trMsg(${id})">🌐 ${t("tr_btn")}</button>`}
+function trBox(x,mine){if(mine||!x.body||stk(x.body)||vnp(x.body))return "";MSGB[x.id]=x.body;return `<div class="trx" id="tr${x.id}">${trInner(x.id)}</div>`}
+function trUpd(id){const e=$("tr"+id);if(e)e.innerHTML=trInner(id)}
+function trHide(id){TRS.delete(id);TRH.add(id);delete TRE[id];const e=$("tr"+id);if(e)e.innerHTML=`<button class="trb" onclick="trMsg(${id})">🌐 ${t("tr_btn")}</button>`}
+function trMsg(id){if(TRB.has(id))return;const k=id+"|"+TL;TRH.delete(id);delete TRE[id];
+ if(TRC[k]){if(TRC[k].t)TRS.add(id);trUpd(id);return}
+ const body=MSGB[id];if(!body)return;TRB.add(id);trUpd(id);
+ TRQ=TRQ.then(async()=>{try{const outs=[];let same=false;for(const c of trChunks(body)){const r=await trOne(c,TL);if(r===null){same=true;break}outs.push(trDec(r))}
+   TRC[k]=same?{same:1}:{t:outs.join(" ")};if(!same)TRS.add(id);trSave()}catch(e){TRE[id]=e.message==="quota"?"quota":"fail"}
+  TRB.delete(id);trUpd(id)})}
+function trAuto(rows){if(!TAUTO)return;(rows||[]).forEach(x=>{if(x.sender!==U.id&&x.body&&!stk(x.body)&&!vnp(x.body)&&!TRH.has(x.id)&&!TRE[x.id]&&!TRS.has(x.id)&&!TRB.has(x.id)&&!(TRC[x.id+"|"+TL]&&TRC[x.id+"|"+TL].same))trMsg(x.id)})}
+function trRefresh(){TRS.clear();TRH.clear();TRE={};const el=$("ms");if(el)delete el.dataset.s;refreshMsgs()}
+function setTL(v){TL=v;try{localStorage.setItem("tm_tl",v)}catch(e){}trRefresh()}
+function setAuto(v){TAUTO=!!v;try{localStorage.setItem("tm_tauto",v?"1":"0")}catch(e){}trRefresh()}
 document.documentElement.lang=LANG;
 </script></body></html>
