@@ -266,7 +266,12 @@ tr_note:["La traducción es automática y puede tener errores. Al traducir, el t
 typing:["escribiendo…", "typing…", "digitando…", "écrit…"],
 n_new:["Nuevo", "New", "Novo", "Nouveau"],
 n_match:["¡Nuevo match!", "New match!", "Novo match!", "Nouveau match !"],
-n_unread:["Mensajes sin leer", "Unread messages", "Mensagens não lidas", "Messages non lus"]};
+n_unread:["Mensajes sin leer", "Unread messages", "Mensagens não lidas", "Messages non lus"],
+w_h:["Conoce personas de verdad","Meet real people","Conheça pessoas de verdade","Rencontre de vraies personnes"],
+w_1:["Personas verificadas: cada perfil pasa por una selfie que revisa una persona.","Verified people: every profile goes through a selfie reviewed by a person.","Pessoas verificadas: cada perfil passa por uma selfie revisada por uma pessoa.","Des personnes vérifiées : chaque profil passe par un selfie examiné par une personne."],
+w_2:["Conversaciones con calidad: máximo 15 Me gusta al día, para que cada uno cuente.","Quality conversations: at most 15 likes a day, so each one counts.","Conversas de qualidade: no máximo 15 curtidas por dia, para que cada uma conte.","Des conversations de qualité : 15 J'aime par jour maximum, pour que chacun compte."],
+w_3:["Gratis y privado: tu correo nunca se muestra y puedes borrar tu cuenta cuando quieras.","Free and private: your email is never shown and you can delete your account anytime.","Grátis e privado: seu e-mail nunca é exibido e você pode apagar sua conta quando quiser.","Gratuit et privé : ton e-mail n'est jamais affiché et tu peux supprimer ton compte à tout moment."],
+w_go:["Empezar","Get started","Começar","Commencer"],w_have:["Ya tengo cuenta","I already have an account","Já tenho conta","J'ai déjà un compte"]};
 const t=k=>D[k]?D[k][L.indexOf(LANG)]:k;
 const GOALS=["Relación seria","Algo casual","Amistad primero","Aún no lo sé"],INT=["Viajar","Música","Cine","Cocinar","Senderismo","Lectura","Deporte","Arte","Mascotas","Videojuegos","Baile","Fotografía"];
 const TR={en:{g:["Serious relationship","Something casual","Friendship first","Not sure yet"],i:["Travel","Music","Movies","Cooking","Hiking","Reading","Sports","Art","Pets","Video games","Dancing","Photography"]},
@@ -297,7 +302,7 @@ const LOGO=(s)=>`<svg width="${s}" height="${s}" viewBox="0 0 64 64"><defs><line
 const langSel=()=>`<select style="width:auto;margin:0;padding:6px 8px;font-size:14px" onchange="setLang(this.value)">${L.map(l=>`<option value="${l}" ${l===LANG?"selected":""}>${LN[l]}</option>`).join("")}</select>`;
 const head=()=>`<div class="top"><div class="brand">${LOGO(34)}<span class="wm">true<b>match</b></span></div><div style="display:flex;gap:6px;align-items:center">${themeBtn()}${langSel()}</div></div>`;
 function setLang(l){LANG=l;try{localStorage.setItem("tm_lang",l)}catch(e){}document.documentElement.lang=l;rerender()}
-function rerender(){if(!U)authView();else if(!ME)setupView();else draw()}
+function rerender(){if(!U)entry();else if(!ME)setupView();else draw()}
 const PK={pk_love:{n:["Amor","Love","Amor","Amour"],e:["❤️","😍","😘","💌","💕","💘","🥰","💋","💞","🌹","💝","😻"]},pk_party:{n:["Fiesta","Party","Festa","Fête"],e:["🎉","🥳","🍾","🎂","🎈","🎊","🪩","🎁","🕺","💃","🍰","🥂"]},pk_animals:{n:["Animales","Animals","Animais","Animaux"],e:["🐶","🐱","🐼","🦊","🐨","🐯","🦁","🐸","🐧","🦄","🐢","🐙"]},pk_food:{n:["Comida","Food","Comida","Cuisine"],e:["🍕","🍔","🌮","🍣","🍩","🍦","🍓","🥑","🍫","☕","🍿","🍷"]}};
 const FRN={fr_gold:["Dorado","Gold","Dourado","Doré"],fr_neon:["Neón","Neon","Neon","Néon"],fr_rose:["Rosa","Rose","Rosa","Rose"],fr_aurora:["Aurora","Aurora","Aurora","Aurore"]};
 const FR=Object.keys(FRN),frc=p=>p&&FR.includes(p.frame)?" fx "+p.frame:"";
@@ -560,6 +565,16 @@ function lg(k){let o=$("lg");if(!o){o=document.createElement("div");o.id="lg";o.
  o.style.display="block";o.innerHTML=`<button onclick="$('lg').style.display='none'">${t('close')}</button>${LANG!=='es'?`<div class="note">${t('lnote')}</div>`:''}<div style="line-height:1.5;font-size:15px;margin-top:10px">${LEGAL[k]}</div>`;o.scrollTop=0;return false}
 const LK=()=>`<a href="#" onclick="return lg('t')">${t('lt')}</a>, <a href="#" onclick="return lg('p')">${t('lp')}</a>, <a href="#" onclick="return lg('n')">${t('ln')}</a>`;
 
+const wSeen=()=>{try{return localStorage.getItem("tm_welcome")==="1"}catch(e){return false}};
+function entry(){wSeen()?authView():welcomeView()}
+function welcomeView(){$("m").className="";$("nv").style.display="none";
+ const it=(ic,k)=>`<div style="display:flex;gap:12px;align-items:flex-start;margin:0 0 14px"><span style="font-size:24px;flex:none;width:34px;text-align:center">${ic}</span><span style="font-size:15px;line-height:1.4">${t(k)}</span></div>`;
+ $("m").innerHTML=`<div class="top" style="justify-content:flex-end"><div style="display:flex;gap:6px;align-items:center">${themeBtn()}${langSel()}</div></div>
+<div style="text-align:center;margin:6px 0 18px">${LOGO(88)}<div class="wm" style="font-size:38px;margin-top:6px">true<b>match</b></div><p class="mu" style="margin:6px 0 0;font-size:15px">${t("tag")}</p></div>
+<div class="card"><h3 style="font-size:19px;margin-bottom:14px">${t("w_h")}</h3>${it("✅","w_1")}${it("💬","w_2")}${it("🔒","w_3")}</div>
+<button class="p" style="width:100%;margin-top:4px" onclick="wGo(true)">${t("w_go")}</button>
+<button style="width:100%;margin-top:10px;border:0;background:none;color:var(--a);font-size:15px" onclick="wGo(false)">${t("w_have")}</button>`}
+function wGo(isNew){try{localStorage.setItem("tm_welcome","1")}catch(e){}authView();if(isNew){const e=$("em");if(e)e.focus()}}
 function authView(){$("m").className="";$("nv").style.display="none";$("m").innerHTML=head()+`<p class="mu" style="margin:0 0 14px">${t("tag")}</p><div class="card"><label>${t("em")}</label><input id="em" type="email" autocomplete="email"><label>${t("pw")}</label><input id="pw" type="password" autocomplete="current-password">
 <label style="display:block;margin-bottom:10px"><input type="checkbox" id="ok1" style="width:auto;margin-right:8px">${t("acc")} ${LK()}</label>
 <div class="row"><button class="p" onclick="login()">${t("in")}</button><button onclick="signup()">${t("up")}</button></div>
@@ -570,7 +585,7 @@ async function signup(){const pw=$("pw").value;if(!$("ok1").checked)return alert
 async function forgot(){const e=$("em").value.trim();if(!e)return alert(t("m_mail"));const{error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.origin+location.pathname});error?err(error):alert(t("m_rst"))}
 sb.auth.onAuthStateChange((ev,s)=>{const same=s&&U&&ME&&s.user.id===U.id&&(ev==="SIGNED_IN"||ev==="TOKEN_REFRESHED");U=s?s.user:null;if(same)return;setTimeout(()=>onAuth(ev),0)});
 async function onAuth(ev){if(ev==="PASSWORD_RECOVERY"){const p=prompt(t("m_np"));if(p&&p.length>=8){const{error}=await sb.auth.updateUser({password:p});error&&err(error)}}
- clearInterval(poll);stopRT();closeTy();NT=[];UNR={};LOC=undefined;WAL=0;OWN=new Set();ADM=undefined;if(!U){ME=null;for(const k in GAL)delete GAL[k];authView();return}
+ clearInterval(poll);stopRT();closeTy();NT=[];UNR={};LOC=undefined;WAL=0;OWN=new Set();ADM=undefined;if(!U){ME=null;for(const k in GAL)delete GAL[k];entry();return}
  const{data}=await sb.from("profiles").select("*").eq("id",U.id).maybeSingle();ME=data;if(ME){startRT();draw()}else setupView()}
 function setupView(){$("m").className="";$("nv").style.display="none";$("m").innerHTML=head()+`<div class="card"><h3>${t("mk")}</h3><label>${t("name")}</label><input id="n" maxlength="40">
 <label>${t("dob")}</label><input id="dob" type="date"><label>${t("ctry")}</label><select id="cc"><option value="">${t("pick")}</option>${copts("")}</select>
