@@ -232,6 +232,8 @@ cm_none:["Sé la primera persona en comentar.","Be the first to comment.","Seja 
 cm_del:["Borrar","Delete","Apagar","Supprimer"],
 cm_delq:["¿Borrar este comentario?","Delete this comment?","Apagar este comentário?","Supprimer ce commentaire ?"],
 po_more:["Cargar más publicaciones","Load more posts","Carregar mais publicações","Charger plus de publications"],
+er_foto:["Primero sube una foto de perfil de frente y vuelve a verificar.","First upload a front-facing profile photo, then verify again.","Primeiro envie uma foto de perfil de frente e verifique de novo.","Ajoute d'abord une photo de profil de face, puis vérifie à nouveau."],
+er_selfie:["Tu selfie caducó. Vuelve a intentarlo.","Your selfie expired. Please try again.","Sua selfie expirou. Tente de novo.","Ton selfie a expiré. Réessaie."],
 av_dl:["Descargando el modelo de caras (solo la primera vez)…","Downloading the face model (first time only)…","Baixando o modelo de rostos (só na primeira vez)…","Téléchargement du modèle de visages (première fois seulement)…"],
 av_an:["Analizando tu foto de perfil…","Analyzing your profile photo…","Analisando sua foto de perfil…","Analyse de ta photo de profil…"],
 av_man:["Método manual (selfie con código)","Manual method (selfie with code)","Método manual (selfie com código)","Méthode manuelle (selfie avec code)"],
@@ -348,7 +350,7 @@ const age=d=>{const b=new Date(d),n=new Date();let a=n.getFullYear()-b.getFullYe
 const passes=()=>{try{return JSON.parse(localStorage.getItem("tm_pass_"+U.id)||"[]")}catch(e){return[]}};
 const addPass=id=>{try{localStorage.setItem("tm_pass_"+U.id,JSON.stringify([...passes(),id]))}catch(e){}};
 const tags=(a,b)=>(a||[]).map(x=>`<span class="tag ${b&&b.includes(x)?"on":""}">${esc(ti(x))}</span>`).join("");
-const fe=e=>{const m=String((e&&e.message)||e||"");for(const[p,k]of [["Failed to fetch|NetworkError|Load failed|network","er_net"],["Invalid login","er_login"],["not confirmed","er_conf"],["already registered|already been registered","er_dup"],["rate limit|too many|over_email","er_rate"],["row-level security|permission denied|violates row","er_perm"],["JWT|expired","er_jwt"],["at least 8|Password should","er_pw"]])if(new RegExp(p,"i").test(m))return t(k);return t("er_gen")+" ("+m.slice(0,100)+")"};
+const fe=e=>{const m=String((e&&e.message)||e||"");for(const[p,k]of [["Failed to fetch|NetworkError|Load failed|network","er_net"],["Invalid login","er_login"],["not confirmed","er_conf"],["already registered|already been registered","er_dup"],["rate limit|too many|over_email","er_rate"],["row-level security|permission denied|violates row","er_perm"],["JWT|expired","er_jwt"],["at least 8|Password should","er_pw"],["sin_foto_perfil","er_foto"],["sin_selfie","er_selfie"]])if(new RegExp(p,"i").test(m))return t(k);return t("er_gen")+" ("+m.slice(0,100)+")"};
 const err=e=>alert(fe(e));
 const C={};
 async function urls(ps){const need=[...new Set(ps.filter(p=>p&&p.photo_path&&!C[p.photo_path]).map(p=>p.photo_path))];
@@ -370,7 +372,7 @@ async function loadShop(){const[a,b,c]=await Promise.all([sb.from("user_wallet")
  WAL=a.data?a.data.diamonds:0;OWN=new Set((b.data||[]).map(x=>x.item_id));PRICE=Object.fromEntries((c.data||[]).map(x=>[x.id,x.price]))}
 async function updWal(){try{await loadShop()}catch(e){}const e=$("wal");if(e)e.textContent="💎 "+WAL}
 const shopErr=e=>{const m=(e&&e.message)||"";return m.includes("sin_diamantes")?t("e_dm"):(m.includes("sticker_bloqueado")||m.includes("marco_bloqueado"))?t("e_own"):m.includes("ya_lo_tienes")?"✓":fe(e)};
-async function shop(){await loadShop();await urls([ME]);const li=L.indexOf(LANG);
+async function shop(){await Promise.all([loadShop(),urls([ME])]);const li=L.indexOf(LANG);
  return `<div class="top"><h2 style="margin:0">${t("ns")}</h2><span class="pill dm" id="wal">💎 ${WAL}</span></div><div class="note">${t("sh_how")}</div>
 <h3>${t("sh_st")}</h3>`+Object.keys(PK).map(id=>`<div class="card li" style="cursor:default"><div class="mini" style="border-radius:14px;font-size:24px;background:var(--bg)">${PK[id].e[0]}</div><div style="flex:1"><b>${PK[id].n[li]}</b><div class="mu" style="font-size:16px">${PK[id].e.slice(0,6).join(" ")}</div></div>${OWN.has(id)?`<span class="badge v">${t("sh_own")}</span>`:`<button class="p" onclick="buyIt('${id}')">💎 ${PRICE[id]??"?"}</button>`}</div>`).join("")+
 `<h3 style="margin-top:14px">${t("sh_fr")}</h3>`+FR.map(id=>`<div class="card li" style="cursor:default"><div class="mini${frc({frame:id})}">${pic(ME)}</div><div style="flex:1"><b>${FRN[id][li]}</b></div>${!OWN.has(id)?`<button class="p" onclick="buyIt('${id}')">💎 ${PRICE[id]??"?"}</button>`:ME.frame===id?`<span class="badge v">${t("sh_on")}</span>`:`<button onclick="equip('${id}')">${t("sh_eq")}</button>`}</div>`).join("")+(ME.frame?`<button style="width:100%" onclick="equip(null)">${t("sh_off")}</button>`:"")}
@@ -516,7 +518,7 @@ async function stClean(){try{const cut=new Date(Date.now()-864e5).toISOString();
 const bub=(uid,p,n,un,oc)=>`<div class="sb" onclick="${oc}"><div class="sr ${un?"un":""}"><div class="sa">${pic(p)}</div><span class="sf">${flag(p.country)}</span></div><span class="n">${esc(n)}</span></div>`;
 async function wall(){
  if(!ME.verified)return head()+`<div class="card"><h3>${t("v_title")}</h3><p>${t("v_gate")}</p><button class="p" style="width:100%" onclick="verifView()">${t("v_start")}</button></div>`;
- await stClean();const cut=new Date(Date.now()-864e5).toISOString();
+ Promise.resolve(stClean()).catch(()=>{});const cut=new Date(Date.now()-864e5).toISOString();
  const[a,b,c]=await Promise.all([sb.from("stories").select("*").gt("created_at",cut).order("created_at",{ascending:false}).limit(200),sb.from("matches").select("id,user_a,user_b"),sb.from("likes").select("to_user").eq("from_user",U.id)]);
  if(a.error)throw a.error;MT={};(b.data||[]).forEach(m=>{MT[m.user_a===U.id?m.user_b:m.user_a]=m.id});LKS=new Set((c.data||[]).map(x=>x.to_user));
  const rows=(a.data||[]).filter(x=>new Date(x.created_at)>new Date(cut));const ids=[...new Set(rows.map(x=>x.user_id))];
@@ -720,10 +722,12 @@ async function mk(){const n=$("n").value.trim(),d=$("dob").value,cc=$("cc").valu
  if(error)return err(error);ME=data;startRT();draw()}
 const IC={d:'<path d="M12 2c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>',l:'<path d="M12 21C4 15 3 11 3 8.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 1.5C21 11 20 15 12 21z"/>',m:'<path d="M9 12a4 4 0 1 0 0-.01M15 12a4 4 0 1 0 0-.01"/>',c:'<path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/>',p:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',s:'<path d="M6 7h12l1 13H5L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/>',w:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/>'};
 const NV=["d","m","c","w","s","p"].map(k=>[k,`<svg viewBox="0 0 24 24">${IC[k==="m"?"l":k]}</svg>`]);
-async function draw(){clearInterval(poll);closeTy();BUSY=false;if(REC)vStop(false);if(IR)introStop(false);$("m").className=tab==="d"?"fill":"";$("nv").style.display="flex";
+let DRW=0;const TABC={};
+async function draw(){const my=++DRW;clearInterval(poll);closeTy();BUSY=false;if(REC)vStop(false);if(IR)introStop(false);$("m").className=tab==="d"?"fill":"";$("nv").style.display="flex";
  renderNav();
- $("m").innerHTML=`<p class="mu">…</p>`;
- try{$("m").innerHTML=await({d:disc,m:matches,c:chat,w:wall,s:shop,p:prof}[tab])();$("m").scrollTop=0;if(tab==="d")swipe();if(tab==="c"&&chatM){poll=setInterval(refreshMsgs,12000);openTy()}}catch(e){$("m").innerHTML=`<div class="note">${esc(e.message||e)}</div>`}}
+ const ck=(U?U.id:"")+LANG+tab,cac=!chatM&&"mcws".includes(tab);
+ $("m").innerHTML=cac&&TABC[ck]?TABC[ck]:`<p class="mu">…</p>`;
+ try{const h=await({d:disc,m:matches,c:chat,w:wall,s:shop,p:prof}[tab])();if(my!==DRW)return;$("m").innerHTML=h;if(cac)TABC[ck]=h;$("m").scrollTop=0;if(tab==="d")swipe();if(tab==="c"&&chatM){poll=setInterval(refreshMsgs,12000);openTy()}}catch(e){if(my===DRW)$("m").innerHTML=`<div class="note">${esc(e.message||e)}</div>`}}
 function setReg(v){REG=v;try{localStorage.setItem("tm_reg",v)}catch(e){}draw()}
 let LOC,CURP=[],PI=0,CURID=null,BUSY=false,DIST=(()=>{try{return +localStorage.getItem("tm_dist")||0}catch(e){return 0}})();
 const GAL={};
@@ -741,7 +745,7 @@ const filters=(open)=>`<div class="top" style="margin-bottom:6px"><div class="br
 function tf(){const e=$("fpan");if(e)e.style.display=e.style.display==="none"?"flex":"none"}
 async function disc(){
  if(!ME.verified)return head()+`<div class="card"><h3>${t("v_title")}</h3><p>${t("v_gate")}</p><button class="p" style="width:100%" onclick="verifView()">${t("v_start")}</button></div>`;
- await loadLL();
+ const llP=loadLL();
  let near=null;
  if(DIST>0){if(LOC===undefined)await loadLoc();
   if(LOC){const{data,error}=await sb.rpc("nearby_profiles",{max_km:DIST});if(error)throw error;near=new Map((data||[]).map(r=>[r.id,r.distance_km]))}}
@@ -749,7 +753,7 @@ async function disc(){
  if(DIST>0&&!LOC)return fo+`<div class="card"><h3>${t("locttl")}</h3><p class="mu">${t("locneed")}</p><button class="p" style="width:100%" onclick="setLoc()">${t("locon")}</button></div>`;
  const base=sb.from("profiles_pub").select("*").neq("id",U.id);
  const[{data:ps,error:e1},{data:ls}]=await Promise.all([near?(near.size?base.in("id",[...near.keys()]).limit(200):Promise.resolve({data:[]})):base.limit(100),sb.from("likes").select("to_user").eq("from_user",U.id)]);
- if(e1)throw e1;const seen=new Set([...(ls||[]).map(x=>x.to_user),...passes()]);
+ if(e1)throw e1;await llP;const seen=new Set([...(ls||[]).map(x=>x.to_user),...passes()]);
  const q=(ps||[]).filter(p=>!seen.has(p.id)&&(REG==="all"||(REG==="mine"?(!ME.country||p.country===ME.country):p.country===REG)));
  if(near)q.sort((a,b)=>near.get(a.id)-near.get(b.id));
  const p=q[0];if(!p)return fo+`<div class="card"><p class="mu">${t("none")}</p></div>`;
@@ -787,7 +791,7 @@ function repMenu(id,k){const o=document.createElement("div");o.id="rpm";o.style.
 async function repGo(id,i,other){const o=$("rpm");if(o)o.remove();const{error}=await sb.from("reports").insert({reporter:U.id,reported:id,reason:t("rp_"+i)});if(error)return err(error);if(!other&&chatM&&confirm(t("rp_blk")))return blkDo(id);toast("✅ "+t("m_repok"))}
 function blk(id){if(confirm(t("m_blk2")))blkDo(id)}
 async function blkDo(id){const{error}=await sb.from("blocks").insert({blocker:U.id,blocked:id});if(error)return err(error);chatM=null;draw();toast("🚫 "+t("blk_ok"))}
-async function likesBlock(ms){const{data}=await sb.from("likes").select("to_user,is_super").eq("from_user",U.id).order("created_at",{ascending:false});
+async function likesBlock(ms,pre){const{data}=pre||await sb.from("likes").select("to_user,is_super").eq("from_user",U.id).order("created_at",{ascending:false});
  const hd=`<h3 style="margin:18px 0 8px">${t("nl")}</h3>`;const ids=[...new Set((data||[]).map(x=>x.to_user))].filter(i=>!ms.has(i));
  if(!ids.length)return hd+`<p class="mu">${t("nolk")}</p>`;
  const{data:ps}=await sb.from("profiles_pub").select("id,name,age_years,hide_age,verified,photo_path,country,frame").in("id",ids);await urls(ps||[]);const m=Object.fromEntries((ps||[]).map(p=>[p.id,p]));
@@ -795,11 +799,11 @@ async function likesBlock(ms){const{data}=await sb.from("likes").select("to_user
  return hd+(rows.length?rows.map(x=>{const p=m[x.to_user];return `<div class="card li"><div class="mini${frc(p)}">${pic(p)}</div><div><b>${esc(p.name)}${ageTxt(p)}</b>${vb(p)} ${x.is_super?"★":""}<div class="mu">${flag(p.country)} ${t("sent")}</div></div></div>`}).join(""):`<p class="mu">${t("nolk")}</p>`)}
 async function myMatches(){const{data}=await sb.from("matches").select("*").order("created_at",{ascending:false});const o=(data||[]).map(m=>({id:m.id,o:m.user_a===U.id?m.user_b:m.user_a}));
  if(!o.length)return[];const{data:ps}=await sb.from("profiles_pub").select("*").in("id",o.map(x=>x.o));await urls(ps||[]);const pm=Object.fromEntries((ps||[]).map(p=>[p.id,p]));return o.filter(x=>pm[x.o]).map(x=>({id:x.id,p:pm[x.o]}))}
-async function matches(){const l=await myMatches(),newM=new Set(NT.filter(n=>n.kind==="match").map(n=>n.ref_id)),ms=new Set(l.map(x=>x.p.id));
- const out=`<h2>${t("nm")}</h2><p class="mu">${t("mint")}</p>`+(l.length?l.map(x=>`<div class="card li" onclick="tab='c';chatM=${x.id};draw()"><div class="mini${frc(x.p)}">${pic(x.p)}</div><div><b>${esc(x.p.name)}${ageTxt(x.p)}</b>${vb(x.p)} ${newM.has(x.id)?`<span class="badge new">🎉 ${t("n_new")}</span>`:""}<div class="mu">${flag(x.p.country)} ${score(x.p)}% ${t("comp2")}</div></div>${UNR[x.id]?`<span class="unr">${UNR[x.id]}</span>`:""}</div>`).join(""):emp("em_m","💞",1))+await likesBlock(ms);
+async function matches(){const[l,pre]=await Promise.all([myMatches(),sb.from("likes").select("to_user,is_super").eq("from_user",U.id).order("created_at",{ascending:false})]),newM=new Set(NT.filter(n=>n.kind==="match").map(n=>n.ref_id)),ms=new Set(l.map(x=>x.p.id));
+ const out=`<h2>${t("nm")}</h2><p class="mu">${t("mint")}</p>`+(l.length?l.map(x=>`<div class="card li" onclick="tab='c';chatM=${x.id};draw()"><div class="mini${frc(x.p)}">${pic(x.p)}</div><div><b>${esc(x.p.name)}${ageTxt(x.p)}</b>${vb(x.p)} ${newM.has(x.id)?`<span class="badge new">🎉 ${t("n_new")}</span>`:""}<div class="mu">${flag(x.p.country)} ${score(x.p)}% ${t("comp2")}</div></div>${UNR[x.id]?`<span class="unr">${UNR[x.id]}</span>`:""}</div>`).join(""):emp("em_m","💞",1))+await likesBlock(ms,pre);
  markNotifs(["match"]);return out}
 async function chat(){
- if(chatM){const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}await loadShop();if(x.p.voice_path)await introUrl(x.p.voice_path);
+ if(chatM){const l=await myMatches(),x=l.find(y=>y.id===chatM);if(!x){chatM=null;return chat()}await Promise.all([loadShop(),x.p.voice_path?introUrl(x.p.voice_path):0]);
   return `<button onclick="chatM=null;draw()">${t("back")}</button><div class="top" style="margin-top:10px"><h3 style="margin:0">${flag(x.p.country)} ${esc(x.p.name)}${vb(x.p)}</h3><span class="pill dm" id="wal">💎 ${WAL}</span></div><div class="row" style="margin:8px 0"><button onclick="rep('${x.p.id}')">${t("rep")}</button><button onclick="blk('${x.p.id}')">${t("blk")}</button></div>
   <div class="note">${t("cnt")}</div>${trCard()}${iceCard(x.p)}${sgCard(x.p)}<div id="ms"></div><div class="typ" id="typ"></div><div class="card" id="vrec" style="display:none;margin-top:10px"><div class="rec"><i></i><b>${t("vn_rec")}</b><span id="vt">0:00</span><span style="flex:1"></span><button onclick="vStop(false)">${t("cx")}</button><button class="p" onclick="vStop(true)">${t("snd")}</button></div></div><div class="row" id="vbar" style="margin-top:10px"><input id="mi" placeholder="${t("wr")}" maxlength="2000" style="margin:0;flex:3" oninput="typSend()"><button onclick="vStart()" style="flex:none;padding:12px" aria-label="mic">🎤</button><button onclick="tsp()" style="flex:none;padding:12px">😊</button><button class="p" onclick="send()" style="flex:none">${t("snd")}</button></div><div class="card" id="stp" style="display:none;margin-top:8px">${stPanel()}</div><img src="data:," style="display:none" onerror="refreshMsgs()">`}
  const l=await myMatches();return `<h2>${t("nc")}</h2>`+(l.length?l.map(x=>`<div class="card li" onclick="chatM=${x.id};draw()"><div class="mini${frc(x.p)}">${pic(x.p)}</div><b>${esc(x.p.name)}</b>${vb(x.p)}${UNR[x.id]?`<span class="unr">${UNR[x.id]}</span>`:""}</div>`).join(""):emp("em_c","💬",1))}
@@ -819,7 +823,7 @@ const stPanel=()=>{const o=Object.keys(PK).filter(id=>OWN.has(id));if(!o.length)
 function tsp(){const e=$("stp");if(e)e.style.display=e.style.display==="none"?"block":"none"}
 async function sendSt(id,i){const{error}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:`{{st:${id}:${i}}}`});if(error)return alert(shopErr(error));tsp();refreshMsgs()}
 async function send(){const v=$("mi").value.trim();if(!v)return;const{error}=await sb.from("messages").insert({match_id:chatM,sender:U.id,body:v});if(error)return alert(shopErr(error));$("mi").value="";refreshMsgs();updWal()}
-async function prof(){const vr=NT.filter(n=>n.kind!=="match");markNotifs(["verif_ok","verif_no"]);delete GAL[ME.id];await gal([ME]);await urls([ME]);try{await loadShop()}catch(e){}if(ME.voice_path)await introUrl(ME.voice_path);if(LOC===undefined)await loadLoc();if(ADM===undefined){try{const{data}=await sb.rpc("is_admin");ADM=!!data}catch(e){ADM=false}}const ph=GAL[ME.id]||[];
+async function prof(){const vr=NT.filter(n=>n.kind!=="match");markNotifs(["verif_ok","verif_no"]);delete GAL[ME.id];await Promise.all([gal([ME]),urls([ME]),(async()=>{try{await loadShop()}catch(e){}})(),ME.voice_path?introUrl(ME.voice_path):0,LOC===undefined?loadLoc():0,ADM===undefined?(async()=>{try{const{data}=await sb.rpc("is_admin");ADM=!!data}catch(e){ADM=false}})():0]);const ph=GAL[ME.id]||[];
  const g=ph.map((x,i)=>`<div class="gi"><img src="${C[x]||""}" alt="">${i===0?`<span class="cv">${t("cover")}</span>`:`<button class="st" onclick="mkCover(${i})">★</button>`}<button class="x" onclick="delPhoto(${i})">✕</button></div>`).join("")+(ph.length<6?`<label class="gi add">+<input type="file" accept="image/*" style="display:none" onchange="upPhoto(this)"></label>`:"");
  return `<div class="top"><h2 style="margin:0">${t("np")}</h2><div style="display:flex;gap:6px;align-items:center">${themeBtn()}${langSel()}</div></div>${vr.length?`<div class="note" style="font-weight:600;color:${vr[0].kind==="verif_ok"?"#14602a":"#d33"}">${vr[0].kind==="verif_ok"?"✅ "+t("v_ok"):"❌ "+t("v_rej")}</div>`:""}<div class="card"><div class="li" style="cursor:default;margin-bottom:10px"><div class="mini${frc(ME)}">${pic(ME)}</div><span class="pill dm" style="margin:0" onclick="tab='s';draw()">💎 ${WAL}</span></div><label style="display:block;margin-bottom:6px">${t("gal")}</label><div class="gg">${g}</div><p class="mu" style="font-size:12px">${t("photo")}</p>
 <b>${esc(ME.name)}, ${age(ME.birth_date)}</b>${vb(ME)} <span class="badge ${ME.verified?"v":""}">${ME.verified?t("ver"):t("unv")}</span><p class="mu">${esc(ME.bio)}</p><p class="mu">${t("goal")}: ${esc(tg(ME.goal))}</p>${tags(ME.interests)}<button style="width:100%;margin-top:10px" onclick="editView()">${t("ed")}</button>
